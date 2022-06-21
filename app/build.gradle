@@ -38,4 +38,7 @@ dependencies {
 
     //FOR: jitpack
     implementation "com.github.parse-community.Parse-SDK-Android:parse:3.0.1"
+
+    //FOR: Material Design
+    implementation 'com.google.android.material:material:1.6.1'
 }
