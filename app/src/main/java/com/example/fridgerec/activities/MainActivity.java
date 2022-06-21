@@ -1,8 +1,10 @@
-package com.example.fridgerec;
+package com.example.fridgerec.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.fridgerec.R;
 
 public class MainActivity extends AppCompatActivity {
 
