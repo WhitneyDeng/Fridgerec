@@ -28,23 +28,19 @@ public class LoginActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
 
-//     if user already logged in, start on MainActivity (instead of LoginActivity)
     if (ParseUser.getCurrentUser() != null) {
       goMainActivity();
     }
 
-    // set up view
     etUsername = findViewById(R.id.etUsername);
     etPassword = findViewById(R.id.etPassword);
     btnLogin = findViewById(R.id.btnLogin);
     btnSignup = findViewById(R.id.btnSignup);
 
-    // hide action bar
     if (getSupportActionBar() != null) {
       getSupportActionBar().hide();
     }
 
-    // set up login & signup listeners
     btnLogin.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -66,7 +62,6 @@ public class LoginActivity extends AppCompatActivity {
     });
   }
 
-  // src: https://guides.codepath.org/android/Building-Data-driven-Apps-with-Parse#user-signup
   private void signupUser(String username, String password) {
     Log.i(TAG, "Attempting to signup user" + username);
     ParseUser user = new ParseUser();
@@ -91,8 +86,6 @@ public class LoginActivity extends AppCompatActivity {
 
   private void loginUser(String username, String password) {
     Log.i(TAG, "Attempting to login user " + username);
-    //todo: navigate to main activity if signed in properly
-    // why in background? don't want this to run in main thread to cause bad user experience
     ParseUser.logInInBackground(username, password, new LogInCallback() {
       @Override
       public void done(ParseUser user, ParseException e) {
@@ -108,13 +101,9 @@ public class LoginActivity extends AppCompatActivity {
     });
   }
 
-  // navigate to MainActivity
   private void goMainActivity() {
     Intent i = new Intent(this, MainActivity.class);
     startActivity(i);
-
-    // remove LoginActivity from back stack
-    // user should be unable to return to login screen through back button
     finish();
   }
 }
