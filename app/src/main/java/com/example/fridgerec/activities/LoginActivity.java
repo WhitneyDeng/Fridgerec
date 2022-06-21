@@ -11,6 +11,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.fridgerec.R;
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 public class LoginActivity extends AppCompatActivity {
   public static final String TAG = "LoginActivity";
@@ -25,9 +29,9 @@ public class LoginActivity extends AppCompatActivity {
     setContentView(R.layout.activity_login);
 
     // if user already logged in, start on MainActivity (instead of LoginActivity)
-    if (ParseUser.getCurrentUser() != null) {
-      goMainActivity();
-    }
+//    if (ParseUser.getCurrentUser() != null) {
+//      goMainActivity();
+//    }
 
     // set up view
     etUsername = findViewById(R.id.etUsername);

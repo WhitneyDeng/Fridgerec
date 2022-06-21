@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Fridgerec</string>
+    <string name="back4app_server_url">https://parseapi.back4app.com/</string>
+
+    <!-- Paste BOTH strings as required -->
+    <string name="back4app_app_id">BrHwJkyQyRDdqqWE75lse3vMeOrwuZHHkzhfTqqr</string>
+    <string name="back4app_client_key">ei7qiwp7FDZ6EtbJSvdSQlN9U70L5rcWCMO0PrWU</string>
+
 </resources>
