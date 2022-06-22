@@ -6,19 +6,25 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.fridgerec.R;
 import com.example.fridgerec.activities.fragments.InventoryFragment;
 import com.example.fridgerec.activities.fragments.SettingsFragment;
 import com.example.fridgerec.activities.fragments.ShoppingFragment;
+import com.example.fridgerec.model.Food;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
   public static final String TAG = "MainActivity";
-
 
   private BottomNavigationView bottomNavigationView;
 
@@ -26,8 +32,6 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-
-
 
     bottomNavigationView = findViewById(R.id.bottomNavigation);
 
@@ -56,7 +60,25 @@ public class MainActivity extends AppCompatActivity {
     // default bottom nav selection
     bottomNavigationView.setSelectedItemId(R.id.action_inventory);
 
+    query();
+  }
 
+  private void query() {
+    ParseQuery<Food> query = ParseQuery.getQuery(Food.class);
+    query.findInBackground(new FindCallback<Food>() {
+      @Override
+      public void done(List<Food> foods, ParseException e) {
+        if (e != null)
+        {
+          Log.e(TAG, "Issue with getting posts", e);
+          return;
+        }
+        for (Food food : foods)
+        {
+          Log.i(TAG, "Food: " + food.getItemName());
+        }
+      }
+    });
   }
 
 //  // Menu icons are inflated just as they were with actionbar
