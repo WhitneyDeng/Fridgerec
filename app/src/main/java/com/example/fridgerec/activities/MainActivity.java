@@ -12,6 +12,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.fridgerec.R;
+import com.example.fridgerec.fragments.InventoryFragment;
+import com.example.fridgerec.fragments.SettingsFragment;
+import com.example.fridgerec.fragments.ShoppingFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.parse.ParseUser;
@@ -31,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     bottomNavigationView = findViewById(R.id.bottomNavigation);
 
     final FragmentManager fragmentManager = getSupportFragmentManager();
-    //todo: hide option menu
 
     bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
       @Override
@@ -39,16 +41,17 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment;
         switch (item.getItemId()) {
           case R.id.action_inventory:
+            fragment = new InventoryFragment();
             break;
           case R.id.action_shopping:
+            fragment = new ShoppingFragment();
             break;
           case R.id.action_settings:
           default:
+            fragment = new SettingsFragment();
             break;
         }
-//        fragmentManager.beginTransaction()
-//                .replace(R.id.flContainer, fragment)  //replace FrameLayout with fragment
-//                .commit();                            //make the change immediately
+        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
         return true;
       }
     });
