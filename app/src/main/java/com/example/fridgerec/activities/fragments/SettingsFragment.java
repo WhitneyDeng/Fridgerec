@@ -1,4 +1,4 @@
-package com.example.fridgerec.fragments;
+package com.example.fridgerec.activities.fragments;
 
 import android.os.Bundle;
 
@@ -12,19 +12,16 @@ import com.example.fridgerec.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ShoppingFragment} factory method to
+ * Use the {@link SettingsFragment} factory method to
  * create an instance of this fragment.
  */
-public class ShoppingFragment extends Fragment {
-
-  public ShoppingFragment() {
-    // Required empty public constructor
-  }
+public class SettingsFragment extends Fragment {
+  public SettingsFragment(){ }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     // Inflate the layout for this fragment
-    return inflater.inflate(R.layout.fragment_shopping, container, false);
+    return inflater.inflate(R.layout.fragment_settings, container, false);
   }
 }

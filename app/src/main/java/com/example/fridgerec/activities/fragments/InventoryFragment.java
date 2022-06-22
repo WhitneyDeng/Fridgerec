@@ -1,4 +1,4 @@
-package com.example.fridgerec.fragments;
+package com.example.fridgerec.activities.fragments;
 
 import android.os.Bundle;
 

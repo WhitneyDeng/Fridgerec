@@ -5,19 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.fridgerec.R;
-import com.example.fridgerec.fragments.InventoryFragment;
-import com.example.fridgerec.fragments.SettingsFragment;
-import com.example.fridgerec.fragments.ShoppingFragment;
+import com.example.fridgerec.activities.fragments.InventoryFragment;
+import com.example.fridgerec.activities.fragments.SettingsFragment;
+import com.example.fridgerec.activities.fragments.ShoppingFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
+
 
     bottomNavigationView = findViewById(R.id.bottomNavigation);
 
@@ -57,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
     });
     // default bottom nav selection
     bottomNavigationView.setSelectedItemId(R.id.action_inventory);
+
+
   }
 
 //  // Menu icons are inflated just as they were with actionbar
