@@ -16,16 +16,12 @@ import com.example.fridgerec.activities.fragments.SettingsFragment;
 import com.example.fridgerec.activities.fragments.ShoppingFragment;
 import com.example.fridgerec.model.Food;
 import com.example.fridgerec.model.ShoppingItem;
-import com.example.fridgerec.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -89,38 +85,40 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void query() {
+    Log.i(TAG, "User Notification time:" + ParseUser.getCurrentUser().getInt("notificationTime"));
+
 //    ParseQuery<User> query = ParseQuery.getQuery(User.class);
 //    query.findInBackground(new FindCallback<User>() {
 //      @Override
 //      public void done(List<User> users, ParseException e) {
 //        if (e != null)
 //        {
-//          Log.e(TAG, "Issue with getting posts", e);
+//          Log.e(TAG, "Issue with getting users", e);
 //          return;
 //        }
 //        for (User user : users)
 //        {
-//          Log.i(TAG, "User: " + user.getItemName());
+//          Log.i(TAG, "User notification time: " + user.getNotificationTime());
 //        }
 //      }
 //    });
 
-    ParseQuery<Food> query = ParseQuery.getQuery(Food.class);
-    query.findInBackground(new FindCallback<Food>() {
-      @Override
-      public void done(List<Food> foods, ParseException e) {
-        if (e != null)
-        {
-          Log.e(TAG, "Issue with getting posts", e);
-          return;
-        }
-        for (Food food : foods)
-        {
-          Log.i(TAG, "Food: " + food.getItemName());
-        }
-        saveShoppingItem(foods);
-      }
-    });
+//    ParseQuery<Food> query = ParseQuery.getQuery(Food.class);
+//    query.findInBackground(new FindCallback<Food>() {
+//      @Override
+//      public void done(List<Food> foods, ParseException e) {
+//        if (e != null)
+//        {
+//          Log.e(TAG, "Issue with getting posts", e);
+//          return;
+//        }
+//        for (Food food : foods)
+//        {
+//          Log.i(TAG, "Food: " + food.getItemName());
+//        }
+//        saveShoppingItem(foods);
+//      }
+//    });
   }
 
 //  // Menu icons are inflated just as they were with actionbar
