@@ -4,7 +4,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 
-@ParseClassName("Food ")
+@ParseClassName("Food")
 public class Food extends ParseObject {
   public static final String KEY_ITEM_NAME = "itemName";
   public static final String KEY_FOOD_CATEGORY = "foodCategory";

@@ -8,18 +8,24 @@ import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.fridgerec.R;
 import com.example.fridgerec.activities.fragments.InventoryFragment;
 import com.example.fridgerec.activities.fragments.SettingsFragment;
 import com.example.fridgerec.activities.fragments.ShoppingFragment;
 import com.example.fridgerec.model.Food;
+import com.example.fridgerec.model.ShoppingItem;
+import com.example.fridgerec.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -63,7 +69,42 @@ public class MainActivity extends AppCompatActivity {
     query();
   }
 
+  private void saveShoppingItem(List<Food> foods) {
+
+    ShoppingItem shoppingItem = new ShoppingItem();
+    shoppingItem.setFood(foods.get(0));
+    shoppingItem.setUser(ParseUser.getCurrentUser());
+
+    shoppingItem.saveInBackground(new SaveCallback() {
+      @Override
+      public void done(ParseException e) {
+        if (e != null) {
+          Log.e(TAG, "error while saving shopping item", e);
+          Toast.makeText(MainActivity.this, "error while saving shopping item", Toast.LENGTH_SHORT).show();
+          return; //note: not in tutorial (remove this line to clear interface even on failure to save post)
+        }
+        Log.i(TAG, "shopping item saved successfully");
+      }
+    });
+  }
+
   private void query() {
+//    ParseQuery<User> query = ParseQuery.getQuery(User.class);
+//    query.findInBackground(new FindCallback<User>() {
+//      @Override
+//      public void done(List<User> users, ParseException e) {
+//        if (e != null)
+//        {
+//          Log.e(TAG, "Issue with getting posts", e);
+//          return;
+//        }
+//        for (User user : users)
+//        {
+//          Log.i(TAG, "User: " + user.getItemName());
+//        }
+//      }
+//    });
+
     ParseQuery<Food> query = ParseQuery.getQuery(Food.class);
     query.findInBackground(new FindCallback<Food>() {
       @Override
@@ -77,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         {
           Log.i(TAG, "Food: " + food.getItemName());
         }
+        saveShoppingItem(foods);
       }
     });
   }

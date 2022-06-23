@@ -78,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
           Toast.makeText(LoginActivity.this, "Issue with Signup: " + e.getMessage(), Toast.LENGTH_SHORT).show(); //todo: change to Snackbar
           return;
         }
+        //todo: create Settings object for new user
         goMainActivity();
         Toast.makeText(LoginActivity.this, "Signup Success", Toast.LENGTH_SHORT).show(); //todo: change to Snackbar
       }
