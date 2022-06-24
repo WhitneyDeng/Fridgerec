@@ -15,10 +15,12 @@ import com.example.fridgerec.activities.fragments.InventoryFragment;
 import com.example.fridgerec.activities.fragments.SettingsFragment;
 import com.example.fridgerec.activities.fragments.ShoppingFragment;
 import com.example.fridgerec.model.Food;
-import com.example.fridgerec.model.ShoppingItem;
+import com.example.fridgerec.model.EntryItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
   private void saveShoppingItem(List<Food> foods) {
 
-    ShoppingItem shoppingItem = new ShoppingItem();
+    EntryItem shoppingItem = new EntryItem();
     shoppingItem.setFood(foods.get(0));
     shoppingItem.setUser(ParseUser.getCurrentUser());
 
@@ -85,23 +87,23 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void query() {
-    Log.i(TAG, "User Notification time:" + ParseUser.getCurrentUser().getInt("notificationTime"));
+//    Log.i(TAG, "User Notification time:" + ParseUser.getCurrentUser().getInt("notificationTime"));
 
-//    ParseQuery<User> query = ParseQuery.getQuery(User.class);
-//    query.findInBackground(new FindCallback<User>() {
-//      @Override
-//      public void done(List<User> users, ParseException e) {
-//        if (e != null)
-//        {
-//          Log.e(TAG, "Issue with getting users", e);
-//          return;
-//        }
-//        for (User user : users)
-//        {
-//          Log.i(TAG, "User notification time: " + user.getNotificationTime());
-//        }
-//      }
-//    });
+    ParseQuery<EntryItem> query = ParseQuery.getQuery(EntryItem.class);
+    query.findInBackground(new FindCallback<EntryItem>() {
+      @Override
+      public void done(List<EntryItem> entryItems, ParseException e) {
+        if (e != null)
+        {
+          Log.e(TAG, "Issue with getting users", e);
+          return;
+        }
+        for (EntryItem entryItem : entryItems)
+        {
+          Log.i(TAG, "entry Item expiration date: " + entryItem.getExpireDate());
+        }
+      }
+    });
 
 //    ParseQuery<Food> query = ParseQuery.getQuery(Food.class);
 //    query.findInBackground(new FindCallback<Food>() {

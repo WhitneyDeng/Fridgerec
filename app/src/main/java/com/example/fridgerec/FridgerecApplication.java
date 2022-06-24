@@ -3,20 +3,18 @@ package com.example.fridgerec;
 import android.app.Application;
 
 import com.example.fridgerec.model.Food;
-import com.example.fridgerec.model.InventoryItem;
-import com.example.fridgerec.model.ShoppingItem;
+import com.example.fridgerec.model.EntryItem;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
-public class ParseApplication extends Application {
+public class FridgerecApplication extends Application {
 
   @Override
   public void onCreate() {
     super.onCreate();
 
     ParseObject.registerSubclass(Food.class);
-    ParseObject.registerSubclass(ShoppingItem.class);
-    ParseObject.registerSubclass(InventoryItem.class);
+    ParseObject.registerSubclass(EntryItem.class);
 
     Parse.initialize(new Parse.Configuration.Builder(this)
             .applicationId(getString(R.string.back4app_app_id))
