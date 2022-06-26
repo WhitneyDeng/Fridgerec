@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:title="inventory"
-        android:id="@+id/action_inventory"
+        android:id="@+id/inventoryFragment"
         android:enabled="true">
     </item>
     <item
         android:title="shopping"
-        android:id="@+id/action_shopping"
+        android:id="@+id/shoppingFragment"
         android:enabled="true">
     </item>
     <item
         android:title="settings"
-        android:id="@+id/action_settings"
+        android:id="@+id/settingsFragment"
         android:enabled="true">
     </item>
 </menu>

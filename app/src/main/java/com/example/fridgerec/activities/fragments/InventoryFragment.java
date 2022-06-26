@@ -1,11 +1,11 @@
 package com.example.fridgerec.activities.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.fridgerec.R;
-import com.example.fridgerec.activities.InventoryItemCreationActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
@@ -46,8 +45,7 @@ public class InventoryFragment extends Fragment {
     fab.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Intent intent = new Intent(getContext(), InventoryItemCreationActivity.class);
-        getContext().startActivity(intent);
+        Navigation.findNavController(view).navigate(R.id.action_inventoryFragment_to_inventoryCreationFragment);
       }
     });
   }

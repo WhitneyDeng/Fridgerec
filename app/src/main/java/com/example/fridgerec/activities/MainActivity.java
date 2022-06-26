@@ -1,13 +1,21 @@
 package com.example.fridgerec.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.fridgerec.R;
@@ -18,6 +26,7 @@ import com.example.fridgerec.model.Food;
 import com.example.fridgerec.model.EntryItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -30,41 +39,67 @@ public class MainActivity extends AppCompatActivity {
 
   public static final String TAG = "MainActivity";
 
-  private BottomNavigationView bottomNavigationView;
+  private NavHostFragment navHostFragment;
+  private NavController navController;
+
+  private BottomNavigationView bottomNavigationBar;
+  private AppBarConfiguration appBarConfiguration;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    bottomNavigationView = findViewById(R.id.bottomNavigation);
+    setupBottomNav();
 
-    final FragmentManager fragmentManager = getSupportFragmentManager();
-
-    bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+    navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
       @Override
-      public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Fragment fragment;
-        switch (item.getItemId()) {
-          case R.id.action_inventory:
-            fragment = new InventoryFragment();
-            break;
-          case R.id.action_shopping:
-            fragment = new ShoppingFragment();
-            break;
-          case R.id.action_settings:
+      public void onDestinationChanged(@NonNull NavController navController, @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
+        switch (navDestination.getId()) {
+          //todo: if login, or creation pages, gone
           default:
-            fragment = new SettingsFragment();
-            break;
+            bottomNavigationBar.setVisibility(View.VISIBLE);
         }
-        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
-        return true;
       }
     });
-    // default bottom nav selection
-    bottomNavigationView.setSelectedItemId(R.id.action_inventory);
+
+//    appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
+//    NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+
+
+//    final FragmentManager fragmentManager = getSupportFragmentManager();
+//
+//    bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+//      @Override
+//      public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//        Fragment fragment;
+//        switch (item.getItemId()) {
+//          case R.id.action_inventory:
+//            fragment = new InventoryFragment();
+//            break;
+//          case R.id.action_shopping:
+//            fragment = new ShoppingFragment();
+//            break;
+//          case R.id.action_settings:
+//          default:
+//            fragment = new SettingsFragment();
+//            break;
+//        }
+////        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+//        return true;
+//      }
+//    });
+//    // default bottom nav selection
+//    bottomNavigationView.setSelectedItemId(R.id.action_inventory);
 
     query();
+  }
+
+  private void setupBottomNav() {
+    bottomNavigationBar = findViewById(R.id.bottomNavigationBar);
+    navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+    navController = navHostFragment.getNavController();
+    NavigationUI.setupWithNavController(bottomNavigationBar, navController);
   }
 
   private void saveShoppingItem(List<Food> foods) {

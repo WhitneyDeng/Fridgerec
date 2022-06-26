@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/inventoryFragment">
+
+    <fragment
+        android:id="@+id/inventoryFragment"
+        android:name="com.example.fridgerec.activities.fragments.InventoryFragment"
+        android:label="Inventory List"
+        tools:layout="@layout/fragment_inventory" >
+        <action
+            android:id="@+id/action_inventoryFragment_to_inventoryCreationFragment"
+            app:destination="@id/inventoryCreationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.fridgerec.activities.fragments.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/shoppingFragment"
+        android:name="com.example.fridgerec.activities.fragments.ShoppingFragment"
+        android:label="Shopping List"
+        tools:layout="@layout/fragment_shopping" />
+    <fragment
+        android:id="@+id/inventoryCreationFragment"
+        android:name="com.example.fridgerec.activities.fragments.InventoryCreationFragment"
+        android:label="fragment_inventory_creation"
+        tools:layout="@layout/fragment_inventory_creation" />
+</navigation>
