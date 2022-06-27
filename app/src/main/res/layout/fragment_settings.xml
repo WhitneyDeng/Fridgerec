@@ -16,8 +16,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/settings_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/menu_settings">
+            android:layout_height="?attr/actionBarSize">
 
         </androidx.appcompat.widget.Toolbar>
 

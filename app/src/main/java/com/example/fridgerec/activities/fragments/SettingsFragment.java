@@ -49,23 +49,27 @@ public class SettingsFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     navController = Navigation.findNavController(view);
-
-    appBarConfiguration = new AppBarConfiguration.Builder(R.id.inventoryFragment, R.id.shoppingFragment, R.id.settingsFragment).build();
-    toolbar = view.findViewById(R.id.settings_toolbar);
-    NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
-
     btnLogout = view.findViewById(R.id.btnLogout);
+    toolbar = view.findViewById(R.id.settings_toolbar);
+
+    setupToolbar(toolbar);
+
     btnLogout.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         logout();
+        navController.navigate(R.id.action_settingsFragment_to_loginFragment);
       }
     });
+  }
+
+  private void setupToolbar(Toolbar toolbar) {
+    appBarConfiguration = new AppBarConfiguration.Builder(R.id.inventoryFragment, R.id.shoppingFragment, R.id.settingsFragment).build();
+    NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
   }
 
   private void logout() {
     ParseUser.logOut();
     Toast.makeText(getActivity(), "logout success", Toast.LENGTH_SHORT).show();
-    navController.navigate(R.id.action_settingsFragment_to_loginFragment);
   }
 }
