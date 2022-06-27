@@ -42,7 +42,7 @@
     <fragment
         android:id="@+id/inventoryCreationFragment"
         android:name="com.example.fridgerec.activities.fragments.InventoryCreationFragment"
-        android:label="Create New Inventory Item"
+        android:label="Inventory Item"
         tools:layout="@layout/fragment_inventory_creation" >
         <action
             android:id="@+id/action_inventoryCreationFragment_to_inventoryFragment"
@@ -62,7 +62,7 @@
     <fragment
         android:id="@+id/shoppingCreationFragment"
         android:name="com.example.fridgerec.activities.fragments.ShoppingCreationFragment"
-        android:label="fragment_shopping_creation"
+        android:label="Shopping Item"
         tools:layout="@layout/fragment_shopping_creation" >
         <action
             android:id="@+id/action_shoppingCreationFragment_to_shoppingFragment"

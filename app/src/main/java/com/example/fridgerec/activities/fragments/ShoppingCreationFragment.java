@@ -8,6 +8,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,7 @@ import com.example.fridgerec.R;
 public class ShoppingCreationFragment extends Fragment {
   private Toolbar toolbar;
   private NavController navController;
+  private AppBarConfiguration appBarConfiguration;
 
   public ShoppingCreationFragment() {
     // Required empty public constructor
@@ -42,6 +45,17 @@ public class ShoppingCreationFragment extends Fragment {
 
     toolbar = view.findViewById(R.id.toolbar);
 
+    setupToolbar();
+    onClickToolbarItem();
+
+  }
+
+  private void setupToolbar() {
+    appBarConfiguration = new AppBarConfiguration.Builder(R.id.inventoryFragment, R.id.shoppingFragment, R.id.settingsFragment).build();
+    NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
+  }
+
+  private void onClickToolbarItem() {
     toolbar.setOnMenuItemClickListener(item -> {
       switch (item.getItemId()) {
         case R.id.miSave:

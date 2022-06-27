@@ -4,8 +4,12 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +24,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
  * create an instance of this fragment.
  */
 public class ShoppingFragment extends Fragment {
+  private AppBarConfiguration appBarConfiguration;
+  private NavController navController;
+
+  private Toolbar toolbar;
   private FloatingActionButton fab;
 
   public ShoppingFragment() {
@@ -38,6 +46,11 @@ public class ShoppingFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
 
     fab = view.findViewById(R.id.fab);
+    toolbar = view.findViewById(R.id.toolbar);
+
+    navController = Navigation.findNavController(view);
+
+    setupToolbar();
 
     fab.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -45,5 +58,10 @@ public class ShoppingFragment extends Fragment {
         Navigation.findNavController(view).navigate(R.id.action_shoppingFragment_to_shoppingCreationFragment);
       }
     });
+  }
+
+  private void setupToolbar() {
+    appBarConfiguration = new AppBarConfiguration.Builder(R.id.inventoryFragment, R.id.shoppingFragment, R.id.settingsFragment).build();
+    NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
   }
 }
