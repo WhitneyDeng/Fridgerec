@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.fridgerec.R;
+import com.parse.ParseUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,6 +49,7 @@ public class SettingsFragment extends Fragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     navController = Navigation.findNavController(view);
+
     appBarConfiguration = new AppBarConfiguration.Builder(R.id.inventoryFragment, R.id.shoppingFragment, R.id.settingsFragment).build();
     toolbar = view.findViewById(R.id.settings_toolbar);
     NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
@@ -56,21 +58,14 @@ public class SettingsFragment extends Fragment {
     btnLogout.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Toast.makeText(getActivity(), "logout success", Toast.LENGTH_SHORT).show();
-        navController.navigate(R.id.action_settingsFragment_to_loginFragment);
+        logout();
       }
     });
   }
 
-//  @Override
-//  public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-//    inflater.inflate(R.menu.menu_settings, menu);
-//  }
-//
-//  @Override
-//  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//    Toast.makeText(getActivity(), "logout success", Toast.LENGTH_SHORT).show();
-//    return NavigationUI.onNavDestinationSelected(item, navController)
-//            || super.onOptionsItemSelected(item);
-//  }
+  private void logout() {
+    ParseUser.logOut();
+    Toast.makeText(getActivity(), "logout success", Toast.LENGTH_SHORT).show();
+    navController.navigate(R.id.action_settingsFragment_to_loginFragment);
+  }
 }
