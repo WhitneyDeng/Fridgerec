@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
       @Override
       public void onDestinationChanged(@NonNull NavController navController, @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
         switch (navDestination.getId()) {
-          case R.id.loginFragment:
+          case R.id.loginFragment: case R.id.inventoryCreationFragment: case R.id.shoppingCreationFragment:
             bottomNavigationBar.setVisibility(View.GONE);
             break;
           default:
