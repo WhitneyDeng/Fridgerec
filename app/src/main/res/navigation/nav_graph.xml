@@ -3,7 +3,7 @@
              xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/inventoryFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/inventoryFragment"
@@ -13,6 +13,11 @@
         <action
             android:id="@+id/action_inventoryFragment_to_inventoryCreationFragment"
             app:destination="@id/inventoryCreationFragment" />
+        <action
+            android:id="@+id/action_inventoryFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -46,7 +51,9 @@
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_inventoryFragment"
-            app:destination="@id/inventoryFragment" />
+            app:destination="@id/inventoryFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/shoppingCreationFragment"
