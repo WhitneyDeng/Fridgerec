@@ -1,6 +1,5 @@
 package com.example.fridgerec.activities.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,8 +17,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.fridgerec.R;
-import com.example.fridgerec.activities.LoginActivity;
-import com.example.fridgerec.activities.MainActivity;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
