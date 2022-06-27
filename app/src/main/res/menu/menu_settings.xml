@@ -3,9 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/miLogout"
+        android:id="@+id/loginFragment"
         android:icon="@android:drawable/ic_menu_set_as"
         android:title="logout"
-        app:showAsAction="always"
-        android:contentDescription="logout "/>
+        app:showAsAction="always"/>
 </menu>

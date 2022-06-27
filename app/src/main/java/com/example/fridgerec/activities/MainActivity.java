@@ -56,7 +56,9 @@ public class MainActivity extends AppCompatActivity {
       @Override
       public void onDestinationChanged(@NonNull NavController navController, @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
         switch (navDestination.getId()) {
-          //todo: if login, or creation pages, gone
+          case R.id.loginFragment:
+            bottomNavigationBar.setVisibility(View.GONE);
+            break;
           default:
             bottomNavigationBar.setVisibility(View.VISIBLE);
         }

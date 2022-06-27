@@ -11,10 +11,15 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.fridgerec.R;
 
@@ -24,14 +29,18 @@ import com.example.fridgerec.R;
  * create an instance of this fragment.
  */
 public class SettingsFragment extends Fragment {
-  public SettingsFragment(){ }
-
+  public static final String TAG = "SettingsFragment";
   private NavController navController;
-  AppBarConfiguration appBarConfiguration;
+  private AppBarConfiguration appBarConfiguration;
+  private Toolbar toolbar;
+  private Button btnLogout;
+
+  public SettingsFragment(){ }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
+    setHasOptionsMenu(true);
     // Inflate the layout for this fragment
     return inflater.inflate(R.layout.fragment_settings, container, false);
   }
@@ -40,18 +49,28 @@ public class SettingsFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     navController = Navigation.findNavController(view);
     appBarConfiguration = new AppBarConfiguration.Builder(R.id.inventoryFragment, R.id.shoppingFragment, R.id.settingsFragment).build();
-    Toolbar toolbar = view.findViewById(R.id.settings_toolbar);
+    toolbar = view.findViewById(R.id.settings_toolbar);
     NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
+
+    btnLogout = view.findViewById(R.id.btnLogout);
+    btnLogout.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Toast.makeText(getActivity(), "logout success", Toast.LENGTH_SHORT).show();
+        navController.navigate(R.id.action_settingsFragment_to_loginFragment);
+      }
+    });
   }
 
-  @Override
-  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-    switch (item.getItemId()) {
-      case R.id.miLogout:
-        //todo: navigate away
-        return true;
-      default:
-        return super.onOptionsItemSelected(item);
-    }
-  }
+//  @Override
+//  public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+//    inflater.inflate(R.menu.menu_settings, menu);
+//  }
+//
+//  @Override
+//  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//    Toast.makeText(getActivity(), "logout success", Toast.LENGTH_SHORT).show();
+//    return NavigationUI.onNavDestinationSelected(item, navController)
+//            || super.onOptionsItemSelected(item);
+//  }
 }
