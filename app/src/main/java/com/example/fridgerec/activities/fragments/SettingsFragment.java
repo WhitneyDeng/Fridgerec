@@ -48,11 +48,12 @@ public class SettingsFragment extends Fragment {
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-    navController = Navigation.findNavController(view);
     btnLogout = view.findViewById(R.id.btnLogout);
-    toolbar = view.findViewById(R.id.settings_toolbar);
+    toolbar = view.findViewById(R.id.toolbar);
 
-    setupToolbar(toolbar);
+    navController = Navigation.findNavController(view);
+
+    setupToolbar();
 
     btnLogout.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -63,7 +64,7 @@ public class SettingsFragment extends Fragment {
     });
   }
 
-  private void setupToolbar(Toolbar toolbar) {
+  private void setupToolbar() {
     appBarConfiguration = new AppBarConfiguration.Builder(R.id.inventoryFragment, R.id.shoppingFragment, R.id.settingsFragment).build();
     NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
   }
