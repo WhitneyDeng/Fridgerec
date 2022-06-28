@@ -3,7 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/switchMode"
+        android:id="@+id/miFilter"
+        android:title="Filter"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/miSort"
+        android:title="Sort"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/miSwitchMode"
         android:title="shopping mode"
         app:actionLayout="@layout/switch_item"
         app:showAsAction="always"></item>

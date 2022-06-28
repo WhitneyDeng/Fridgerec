@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/byFoodGroup"
+        android:title="by Food Group" />
+    <item
+        android:id="@+id/byExpirationDate"
+        android:title="by Expiration Date" />
+    <item
+        android:id="@+id/bySourceDate"
+        android:title="by Source Date" />
+</menu>
