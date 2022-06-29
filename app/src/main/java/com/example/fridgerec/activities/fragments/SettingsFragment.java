@@ -73,4 +73,16 @@ public class SettingsFragment extends Fragment {
     ParseUser.logOut();
     Toast.makeText(getActivity(), "logout success", Toast.LENGTH_SHORT).show();
   }
+
+  private void onClickToolbarItem() {
+    toolbar.setOnMenuItemClickListener(item -> {
+      switch (item.getItemId()) {
+        case R.id.miSave:
+          //todo: save preferences
+          return true;
+        default:
+          return false;
+      }
+    });
+  }
 }
