@@ -24,6 +24,7 @@ import com.example.fridgerec.activities.fragments.SettingsFragment;
 import com.example.fridgerec.activities.fragments.ShoppingFragment;
 import com.example.fridgerec.model.Food;
 import com.example.fridgerec.model.EntryItem;
+import com.facebook.soloader.SoLoader;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    SoLoader.init(this, false);
     setContentView(R.layout.activity_main);
 
     setupBottomNav();
