@@ -1,5 +1,6 @@
 package com.example.fridgerec.activities.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.MenuRes;
@@ -22,6 +23,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.fridgerec.R;
+import com.example.fridgerec.activities.MainActivity;
+import com.facebook.litho.ComponentContext;
+import com.facebook.litho.ComponentTree;
+import com.facebook.litho.LithoView;
+import com.facebook.litho.sections.widget.RecyclerCollectionComponent;
+import com.facebook.litho.widget.Text;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
@@ -33,10 +40,13 @@ public class InventoryFragment extends Fragment {
   private AppBarConfiguration appBarConfiguration;
   private NavController navController;
 
-  private RecyclerView rvInventoryList;
+//  private RecyclerView rvInventoryList;
+  private LithoView lvInventoryList;
   private Toolbar toolbar;
   private FloatingActionButton fab;
   private PopupMenu popup;
+
+  private ComponentTree componentTree;
 
   public InventoryFragment() {
     // Required empty public constructor
@@ -54,10 +64,13 @@ public class InventoryFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
     navController = Navigation.findNavController(view);
 
-    rvInventoryList = view.findViewById(R.id.rvInventoryList);
+
+//    rvInventoryList = view.findViewById(R.id.rvInventoryList);
+    lvInventoryList = view.findViewById(R.id.lvInventoryList);
     fab = view.findViewById(R.id.fab);
     toolbar = view.findViewById(R.id.toolbar);
 
+    setupLithoView(view);
     setupToolbar();
     onClickToolbarItem(view);
 
@@ -67,6 +80,17 @@ public class InventoryFragment extends Fragment {
         Navigation.findNavController(view).navigate(R.id.action_inventoryFragment_to_inventoryCreationFragment);
       }
     });
+  }
+
+  private void setupLithoView(View view) {
+    lvInventoryList.setComponent(
+            Text.create(new ComponentContext(view.getContext()))
+                    .text("Hello World")
+                    .build()
+    );
+//            RecyclerCollectionComponent.create(lvInventoryList.getComponentContext())
+//            .section());
+
   }
 
   private void setupToolbar() {

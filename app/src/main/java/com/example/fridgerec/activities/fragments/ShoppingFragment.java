@@ -2,8 +2,10 @@ package com.example.fridgerec.activities.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -12,6 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -28,6 +31,7 @@ public class ShoppingFragment extends Fragment {
   private NavController navController;
 
   private Toolbar toolbar;
+  private PopupMenu popupMenu;
   private FloatingActionButton fab;
 
   public ShoppingFragment() {
@@ -51,6 +55,7 @@ public class ShoppingFragment extends Fragment {
     navController = Navigation.findNavController(view);
 
     setupToolbar();
+    onClickToolbarItem(view);
 
     fab.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -63,5 +68,27 @@ public class ShoppingFragment extends Fragment {
   private void setupToolbar() {
     appBarConfiguration = new AppBarConfiguration.Builder(R.id.inventoryFragment, R.id.shoppingFragment, R.id.settingsFragment).build();
     NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
+  }
+
+  private void onClickToolbarItem(View view) {
+    toolbar.setOnMenuItemClickListener(item -> {
+      switch (item.getItemId()) {
+        case R.id.miFilter:
+          showPopup(view.findViewById(R.id.miFilter), R.menu.menu_popup_filter);
+          return true;
+        case R.id.miSort:
+          showPopup(view.findViewById(R.id.miSort), R.menu.menu_popup_sort);
+          return true;
+        default:
+          return false;
+      }
+    });
+  }
+
+  private void showPopup(View view, @MenuRes int menu_popup) {
+    popupMenu = new PopupMenu(getActivity(), view);
+    MenuInflater inflater = popupMenu.getMenuInflater();
+    inflater.inflate(menu_popup, popupMenu.getMenu());
+    popupMenu.show();
   }
 }

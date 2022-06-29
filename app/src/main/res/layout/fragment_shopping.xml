@@ -20,13 +20,13 @@
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvShoppingList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/appBarLayout"
-        android:layout_marginTop="0dp"
-        android:padding="8dp" />
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/rvShoppingList"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_below="@+id/appBarLayout"-->
+<!--        android:layout_marginTop="0dp"-->
+<!--        android:padding="8dp" />-->
 
     <FrameLayout
         android:layout_width="wrap_content"
