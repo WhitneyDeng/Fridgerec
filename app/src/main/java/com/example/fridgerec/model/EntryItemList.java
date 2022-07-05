@@ -24,16 +24,13 @@ public class EntryItemList {
   public EntryItemList() {
   }
 
-  /**
-   * @return returns HashMap<String, List<EntryItem>> when sortFilterParam = FILTER_FOOD_GROUP, else returns List<EntryItems>
-   */
   public void queryEntryItems(SortFilter sortFilterParam, String containerList, LithoUIChangeHandler lithoUIChangeHandler) {
     makeQuery(sortFilterParam,
-        getParseQuery(sortFilterParam, containerList),
+        configParseQuery(sortFilterParam, containerList),
         lithoUIChangeHandler);
   }
 
-  private ParseQuery<EntryItem> getParseQuery(SortFilter sortFilterParam, String containerList) {
+  private ParseQuery<EntryItem> configParseQuery(SortFilter sortFilterParam, String containerList) {
     ParseQuery<EntryItem> query = new ParseQuery<EntryItem>(EntryItem.class);
 
     query.whereEqualTo(EntryItem.KEY_USER, ParseUser.getCurrentUser());
@@ -44,8 +41,6 @@ public class EntryItemList {
     switch (sortFilterParam)
     {
       case SORT_FOOD_GROUP:
-//        makeQuery(query);
-//        return filterFoodGroup(entryItems);
       case SORT_FOOD_NAME:
         break;
       case SORT_EXPIRE_DATE:
@@ -65,7 +60,6 @@ public class EntryItemList {
   }
 
   private void makeQuery(SortFilter sortFilterParam, ParseQuery<EntryItem> query, LithoUIChangeHandler lithoUIChangeHandler) {
-//    ArrayList<EntryItem> entryItems = new ArrayList<>();
     query.findInBackground(new FindCallback<EntryItem>() {
       @Override
       public void done(List<EntryItem> queryResult, ParseException e) {

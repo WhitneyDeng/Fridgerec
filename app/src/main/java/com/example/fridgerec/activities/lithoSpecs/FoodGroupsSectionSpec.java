@@ -25,8 +25,6 @@ public class FoodGroupsSectionSpec {
               .foodCategoryHeaderTitle(entry.getKey())
               .entryItems(entry.getValue()));
     }
-
     return builder.build();
-
   }
 }

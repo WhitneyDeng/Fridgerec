@@ -85,10 +85,7 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
 
     entryItemList = new EntryItemList();
 
-//    testQuery();
-
     entryItemList.queryEntryItems(EntryItemList.SortFilter.NONE, EntryItem.CONTAINER_LIST_INVENTORY, InventoryFragment.this);
-//    setupLithoView(view, EntryItemList.SortFilter.NONE);
     setupToolbar();
     onClickToolbarItem(view);
 
@@ -99,13 +96,6 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
       }
     });
   }
-
-  // todo: makeQuery in onViewCreated
-  // todo: this takes in Object data
-  // todo:
-//  private void setupLithoView(View view, EntryItemList.SortFilter sortFilterParam) {
-//
-//  }
 
   @Override
   public void setupLithoView(EntryItemList.SortFilter sortFilterParam, List<EntryItem> entryItems) {
