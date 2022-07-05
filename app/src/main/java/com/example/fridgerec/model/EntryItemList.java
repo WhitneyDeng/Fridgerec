@@ -2,6 +2,7 @@ package com.example.fridgerec.model;
 
 import android.util.Log;
 
+import com.example.fridgerec.interfaces.LithoUIChangeHandler;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -26,19 +27,25 @@ public class EntryItemList {
   /**
    * @return returns HashMap<String, List<EntryItem>> when sortFilterParam = FILTER_FOOD_GROUP, else returns List<EntryItems>
    */
-  public Object queryEntryItems(SortFilter sortFilterParam, String containerList) {
-    ParseQuery<EntryItem> query = ParseQuery.getQuery(EntryItem.class);
+  public void queryEntryItems(SortFilter sortFilterParam, String containerList, LithoUIChangeHandler lithoUIChangeHandler) {
+    makeQuery(sortFilterParam,
+        getParseQuery(sortFilterParam, containerList),
+        lithoUIChangeHandler);
+  }
 
-    ArrayList<EntryItem> entryItems = new ArrayList<>();
+  private ParseQuery<EntryItem> getParseQuery(SortFilter sortFilterParam, String containerList) {
+    ParseQuery<EntryItem> query = new ParseQuery<EntryItem>(EntryItem.class);
+
     query.whereEqualTo(EntryItem.KEY_USER, ParseUser.getCurrentUser());
     query.whereEqualTo(EntryItem.KEY_CONTAINER_LIST, containerList);
     query.include(EntryItem.KEY_FOOD);   // include User data of each Post class in response
 
+    //todo: chain query param
     switch (sortFilterParam)
     {
       case SORT_FOOD_GROUP:
-        makeQuery(query, entryItems);
-        return filterFoodGroup(entryItems);
+//        makeQuery(query);
+//        return filterFoodGroup(entryItems);
       case SORT_FOOD_NAME:
         break;
       case SORT_EXPIRE_DATE:
@@ -54,12 +61,11 @@ public class EntryItemList {
       case NONE:
       default:
     }
-    makeQuery(query, entryItems);
-
-    return entryItems;
+    return query;
   }
 
-  private void makeQuery(ParseQuery<EntryItem> query, ArrayList<EntryItem> entryItems) {
+  private void makeQuery(SortFilter sortFilterParam, ParseQuery<EntryItem> query, LithoUIChangeHandler lithoUIChangeHandler) {
+//    ArrayList<EntryItem> entryItems = new ArrayList<>();
     query.findInBackground(new FindCallback<EntryItem>() {
       @Override
       public void done(List<EntryItem> queryResult, ParseException e) {
@@ -68,14 +74,15 @@ public class EntryItemList {
           return;
         }
         Log.i(TAG, "Post query success");
+        Log.i(TAG, "queryResult" + queryResult.toString());
 
-        entryItems.addAll(queryResult);
+        lithoUIChangeHandler.setupLithoView(sortFilterParam, queryResult);
       }
     });
   }
 
   //todo: sorts entryItems into FoodCategory: ArrayList<EntryItem>
-  private HashMap<String, List<EntryItem>> filterFoodGroup(List<EntryItem> entryItems)  {
+  public HashMap<String, List<EntryItem>> filterFoodGroup(List<EntryItem> entryItems)  {
     return new HashMap<>();
   }
 }

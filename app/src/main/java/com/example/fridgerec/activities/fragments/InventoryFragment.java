@@ -1,6 +1,5 @@
 package com.example.fridgerec.activities.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.MenuRes;
@@ -13,28 +12,24 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.fridgerec.R;
-import com.example.fridgerec.activities.MainActivity;
 //import com.example.fridgerec.activities.lithoSpecs.ListItem;
 //import com.example.fridgerec.activities.lithoSpecs.ListSection;
 import com.example.fridgerec.activities.lithoSpecs.FoodGroupsSection;
 import com.example.fridgerec.activities.lithoSpecs.ListSection;
 import com.example.fridgerec.activities.lithoSpecs.ListSectionSpec;
+import com.example.fridgerec.interfaces.LithoUIChangeHandler;
 import com.example.fridgerec.model.EntryItem;
 import com.example.fridgerec.model.EntryItemList;
 import com.facebook.litho.Component;
 import com.facebook.litho.ComponentContext;
-import com.facebook.litho.ComponentTree;
 import com.facebook.litho.LithoView;
 import com.facebook.litho.sections.SectionContext;
 import com.facebook.litho.sections.widget.RecyclerCollectionComponent;
@@ -46,7 +41,6 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -55,11 +49,12 @@ import java.util.List;
  * Use the {@link InventoryFragment} factory method to
  * create an instance of this fragment.
  */
-public class InventoryFragment extends Fragment {
+public class InventoryFragment extends Fragment implements LithoUIChangeHandler {
   public static final String TAG = "InventoryFragment";
   private AppBarConfiguration appBarConfiguration;
   private NavController navController;
 
+  private View fragmentView;
   private LithoView lvInventoryList;
   private Toolbar toolbar;
   private FloatingActionButton fab;
@@ -83,15 +78,17 @@ public class InventoryFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
     navController = Navigation.findNavController(view);
 
+    fragmentView = view;
     lvInventoryList = view.findViewById(R.id.lvInventoryList);
     fab = view.findViewById(R.id.fab);
     toolbar = view.findViewById(R.id.toolbar);
 
     entryItemList = new EntryItemList();
 
-    testQuery();
+//    testQuery();
 
-    setupLithoView(view, EntryItemList.SortFilter.NONE);
+    entryItemList.queryEntryItems(EntryItemList.SortFilter.NONE, EntryItem.CONTAINER_LIST_INVENTORY, InventoryFragment.this);
+//    setupLithoView(view, EntryItemList.SortFilter.NONE);
     setupToolbar();
     onClickToolbarItem(view);
 
@@ -103,17 +100,23 @@ public class InventoryFragment extends Fragment {
     });
   }
 
-  private void setupLithoView(View view, EntryItemList.SortFilter sortFilterParam) {
-    ComponentContext c = new ComponentContext(view.getContext());
+  // todo: makeQuery in onViewCreated
+  // todo: this takes in Object data
+  // todo:
+//  private void setupLithoView(View view, EntryItemList.SortFilter sortFilterParam) {
+//
+//  }
+
+  @Override
+  public void setupLithoView(EntryItemList.SortFilter sortFilterParam, List<EntryItem> entryItems) {
+    final ComponentContext c = new ComponentContext(fragmentView.getContext());
     Component component = Text.create(c).text("sort/filter param not recognised").build();
 
     switch (sortFilterParam)
     {
       case SORT_FOOD_GROUP:
         HashMap<String, List<EntryItem>> foodGroupMap =
-            (HashMap<String, List<EntryItem>>)
-                entryItemList.queryEntryItems(sortFilterParam, EntryItem.CONTAINER_LIST_INVENTORY);
-
+                entryItemList.filterFoodGroup(entryItems);
         component = RecyclerCollectionComponent.create(c)
             .section(
                 FoodGroupsSection.create(new SectionContext(c))
@@ -122,9 +125,6 @@ public class InventoryFragment extends Fragment {
             .build();
         break;
       default:
-        ArrayList<EntryItem> entryItems = (ArrayList<EntryItem>)
-            entryItemList.queryEntryItems(sortFilterParam, EntryItem.CONTAINER_LIST_INVENTORY);
-
         component = RecyclerCollectionComponent.create(c)
             .disablePTR(true)
             .section(
@@ -136,7 +136,7 @@ public class InventoryFragment extends Fragment {
     }
 
     //todo: switch section item depending on sorting
-    lvInventoryList.setComponent(component);
+    lvInventoryList.setComponentAsync(component);
   }
 
   private void setupToolbar() {
@@ -171,9 +171,9 @@ public class InventoryFragment extends Fragment {
     ParseQuery<EntryItem> query = ParseQuery.getQuery(EntryItem.class);
 
     ArrayList<EntryItem> entryItems = new ArrayList<>();
-    query.whereEqualTo(EntryItem.KEY_USER, ParseUser.getCurrentUser());
-    query.whereEqualTo(EntryItem.KEY_CONTAINER_LIST, EntryItem.CONTAINER_LIST_INVENTORY);
-    query.include(EntryItem.KEY_FOOD);   // include User data of each Post class in response
+    query.whereEqualTo(EntryItem.KEY_USER, ParseUser.getCurrentUser())
+        .whereEqualTo(EntryItem.KEY_CONTAINER_LIST, EntryItem.CONTAINER_LIST_INVENTORY)
+        .include(EntryItem.KEY_FOOD);   // include User data of each Post class in response
 
     query.findInBackground(new FindCallback<EntryItem>() {
       @Override
