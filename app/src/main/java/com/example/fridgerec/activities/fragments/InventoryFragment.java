@@ -103,7 +103,6 @@ public class InventoryFragment extends Fragment {
                 entryItemList.queryEntryItems(EntryItemList.SortFilter.NONE, EntryItem.CONTAINER_LIST_INVENTORY);
         break;
       default:
-
     }
 
 
@@ -118,7 +117,7 @@ public class InventoryFragment extends Fragment {
 //                    .data(testData)
 //                    .build())
 //            .build();
-//
+
 //    lvInventoryList.setComponent(component);
   }
 

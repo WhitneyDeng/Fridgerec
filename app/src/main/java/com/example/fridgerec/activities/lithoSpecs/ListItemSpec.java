@@ -4,6 +4,7 @@ import static com.facebook.yoga.YogaEdge.ALL;
 
 import android.graphics.Color;
 
+import com.example.fridgerec.model.EntryItem;
 import com.facebook.litho.Column;
 import com.facebook.litho.Component;
 import com.facebook.litho.ComponentContext;
@@ -18,32 +19,29 @@ import com.facebook.yoga.YogaJustify;
 
 @LayoutSpec
 public class ListItemSpec {
-  @PropDefault
-  public static final String sourceDate = "", expireDate = "";
+  public static final String SOURCE_DATE_DESC = "source date: ", EXPIRE_DATE_DESC = "expire date: ";
 
   @OnCreateLayout
   public static Component onCreateLayout(
           ComponentContext c,
 //          @Prop int color,
-          @Prop String foodName,
-          @Prop (optional = true) String expireDate,
-          @Prop (optional = true) String sourceDate) {
+          @Prop EntryItem entryItem) {
     return Row.create(c)
         .justifyContent(YogaJustify.SPACE_BETWEEN)
             .paddingDip(ALL, 16)
 //            .backgroundColor(color)
             .child(
                 Text.create(c)
-                    .text("food name")  //todo: replace w/ foodName
+                    .text(entryItem.getFood().getFoodName())  //todo: replace w/ foodName
                     .textSizeSp(20))
             .child(
                     Column.create(c)
                         .child(
                             Text.create(c)
-                                .text("expiration date")) //todo: replace w/ expireDate
+                                .text(EXPIRE_DATE_DESC + entryItem.getExpireDate().toString()))
                         .child(
                             Text.create(c)
-                                .text("source date")) //todo: replace w/ sourceDate
+                                .text(SOURCE_DATE_DESC + entryItem.getSourceDate().toString()))
                         .build())
             .build();
   }

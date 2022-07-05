@@ -26,12 +26,11 @@ public class ListSectionSpec {
   public static Children onCreateChildren(
       final SectionContext c,
       @Prop String foodCategoryHeaderTitle,
-      @Prop List<EntryItem> entryItems) { //todo: String => EntryItem & remove optional marker
+      @Prop List<EntryItem> entryItems) {
 
     DataDiffSection.Builder<EntryItem> entryItem = DataDiffSection.<EntryItem>create(c)
         .data(entryItems)
-        .renderEventHandler(ListSection.onRender(c))
-        ;
+        .renderEventHandler(ListSection.onRender(c));
 
     switch (foodCategoryHeaderTitle)
     {
@@ -55,11 +54,11 @@ public class ListSectionSpec {
   @OnEvent(RenderEvent.class)
   public static RenderInfo onRender(
       SectionContext c,
-      @FromEvent EntryItem entryItem) { //todo: Integer => EntryItem
+      @FromEvent EntryItem model) {
     return ComponentRenderInfo.create()
         .component(ListItem.create(c)
 //            .color((model % 2 == 0 ? Color.WHITE : Color.LTGRAY))
-            .foodName(entryItem.getFood().getFoodName()).getThis()
+            .entryItem(model)
             .build())
         .build();
   }
