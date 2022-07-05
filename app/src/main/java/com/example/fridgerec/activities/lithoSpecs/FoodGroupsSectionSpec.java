@@ -16,16 +16,15 @@ public class FoodGroupsSectionSpec {
   @OnCreateChildren
   static Children onCreateChildren(
       SectionContext c,
-      @Prop HashMap<String, List<EntryItem>> data) {
+      @Prop HashMap<String, List<EntryItem>> foodGroupMap) {
     Children.Builder builder = Children.create();
 
-//    for(Map.Entry<String, List<EntryItem>> entry : data.entrySet()) {
-//      builder.child(
-//          ListSection.create(c)
-//              .foodCategoryHeaderTitle(entry.getKey())
-////              .data(entry.getValue()
-//      );
-//    }
+    for(Map.Entry<String, List<EntryItem>> entry : foodGroupMap.entrySet()) {
+      builder.child(
+          ListSection.create(c)
+              .foodCategoryHeaderTitle(entry.getKey())
+              .entryItems(entry.getValue()));
+    }
 
     return builder.build();
 

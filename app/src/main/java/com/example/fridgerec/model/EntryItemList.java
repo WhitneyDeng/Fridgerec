@@ -36,11 +36,11 @@ public class EntryItemList {
 
     switch (sortFilterParam)
     {
-      case SORT_FOOD_NAME:
-        break;
       case SORT_FOOD_GROUP:
         makeQuery(query, entryItems);
         return filterFoodGroup(entryItems);
+      case SORT_FOOD_NAME:
+        break;
       case SORT_EXPIRE_DATE:
         break;
       case SORT_SOURCE_DATE:

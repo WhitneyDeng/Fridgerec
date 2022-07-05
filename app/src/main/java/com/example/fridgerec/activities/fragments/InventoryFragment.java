@@ -15,6 +15,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +27,8 @@ import com.example.fridgerec.R;
 import com.example.fridgerec.activities.MainActivity;
 //import com.example.fridgerec.activities.lithoSpecs.ListItem;
 //import com.example.fridgerec.activities.lithoSpecs.ListSection;
+import com.example.fridgerec.activities.lithoSpecs.FoodGroupsSection;
+import com.example.fridgerec.activities.lithoSpecs.ListSection;
 import com.example.fridgerec.activities.lithoSpecs.ListSectionSpec;
 import com.example.fridgerec.model.EntryItem;
 import com.example.fridgerec.model.EntryItemList;
@@ -37,6 +40,10 @@ import com.facebook.litho.sections.SectionContext;
 import com.facebook.litho.sections.widget.RecyclerCollectionComponent;
 import com.facebook.litho.widget.Text;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,6 +56,7 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class InventoryFragment extends Fragment {
+  public static final String TAG = "InventoryFragment";
   private AppBarConfiguration appBarConfiguration;
   private NavController navController;
 
@@ -79,6 +87,10 @@ public class InventoryFragment extends Fragment {
     fab = view.findViewById(R.id.fab);
     toolbar = view.findViewById(R.id.toolbar);
 
+    entryItemList = new EntryItemList();
+
+    testQuery();
+
     setupLithoView(view, EntryItemList.SortFilter.NONE);
     setupToolbar();
     onClickToolbarItem(view);
@@ -93,32 +105,38 @@ public class InventoryFragment extends Fragment {
 
   private void setupLithoView(View view, EntryItemList.SortFilter sortFilterParam) {
     ComponentContext c = new ComponentContext(view.getContext());
-    Component component;
+    Component component = Text.create(c).text("sort/filter param not recognised").build();
 
     switch (sortFilterParam)
     {
       case SORT_FOOD_GROUP:
         HashMap<String, List<EntryItem>> foodGroupMap =
             (HashMap<String, List<EntryItem>>)
-                entryItemList.queryEntryItems(EntryItemList.SortFilter.NONE, EntryItem.CONTAINER_LIST_INVENTORY);
+                entryItemList.queryEntryItems(sortFilterParam, EntryItem.CONTAINER_LIST_INVENTORY);
+
+        component = RecyclerCollectionComponent.create(c)
+            .section(
+                FoodGroupsSection.create(new SectionContext(c))
+                    .foodGroupMap(foodGroupMap)
+                    .build())
+            .build();
         break;
       default:
+        ArrayList<EntryItem> entryItems = (ArrayList<EntryItem>)
+            entryItemList.queryEntryItems(sortFilterParam, EntryItem.CONTAINER_LIST_INVENTORY);
+
+        component = RecyclerCollectionComponent.create(c)
+            .disablePTR(true)
+            .section(
+                ListSection.create(new SectionContext(c))
+                    .foodCategoryHeaderTitle(ListSectionSpec.NO_HEADER)
+                    .entryItems(entryItems)
+                    .build())
+            .build();
     }
 
-
     //todo: switch section item depending on sorting
-
-
-//    component = RecyclerCollectionComponent.create(c)
-//            .disablePTR(true)
-//            .section(
-//                ListSection.create(new SectionContext(c))
-//                    .foodCategoryHeaderTitle(ListSectionSpec.NO_HEADER)
-//                    .data(testData)
-//                    .build())
-//            .build();
-
-//    lvInventoryList.setComponent(component);
+    lvInventoryList.setComponent(component);
   }
 
   private void setupToolbar() {
@@ -146,5 +164,29 @@ public class InventoryFragment extends Fragment {
     MenuInflater inflater = popup.getMenuInflater();
     inflater.inflate(menu_popup, popup.getMenu());
     popup.show();
+  }
+
+  private void testQuery() {
+
+    ParseQuery<EntryItem> query = ParseQuery.getQuery(EntryItem.class);
+
+    ArrayList<EntryItem> entryItems = new ArrayList<>();
+    query.whereEqualTo(EntryItem.KEY_USER, ParseUser.getCurrentUser());
+    query.whereEqualTo(EntryItem.KEY_CONTAINER_LIST, EntryItem.CONTAINER_LIST_INVENTORY);
+    query.include(EntryItem.KEY_FOOD);   // include User data of each Post class in response
+
+    query.findInBackground(new FindCallback<EntryItem>() {
+      @Override
+      public void done(List<EntryItem> queryResult, ParseException e) {
+        if (e != null) {
+          Log.e(TAG, "Issue with post query", e);
+          return;
+        }
+        Log.i(TAG, "Post query success");
+        Log.i(TAG, "queryResult" + queryResult.toString());
+
+        entryItems.addAll(queryResult);
+      }
+    });
   }
 }
