@@ -24,12 +24,24 @@ import android.view.ViewGroup;
 
 import com.example.fridgerec.R;
 import com.example.fridgerec.activities.MainActivity;
+//import com.example.fridgerec.activities.lithoSpecs.ListItem;
+//import com.example.fridgerec.activities.lithoSpecs.ListSection;
+import com.example.fridgerec.activities.lithoSpecs.ListSectionSpec;
+import com.example.fridgerec.model.EntryItem;
+import com.example.fridgerec.model.EntryItemList;
+import com.facebook.litho.Component;
 import com.facebook.litho.ComponentContext;
 import com.facebook.litho.ComponentTree;
 import com.facebook.litho.LithoView;
+import com.facebook.litho.sections.SectionContext;
 import com.facebook.litho.sections.widget.RecyclerCollectionComponent;
 import com.facebook.litho.widget.Text;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,13 +52,12 @@ public class InventoryFragment extends Fragment {
   private AppBarConfiguration appBarConfiguration;
   private NavController navController;
 
-//  private RecyclerView rvInventoryList;
   private LithoView lvInventoryList;
   private Toolbar toolbar;
   private FloatingActionButton fab;
   private PopupMenu popup;
 
-  private ComponentTree componentTree;
+  private EntryItemList entryItemList;
 
   public InventoryFragment() {
     // Required empty public constructor
@@ -64,13 +75,11 @@ public class InventoryFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
     navController = Navigation.findNavController(view);
 
-
-//    rvInventoryList = view.findViewById(R.id.rvInventoryList);
     lvInventoryList = view.findViewById(R.id.lvInventoryList);
     fab = view.findViewById(R.id.fab);
     toolbar = view.findViewById(R.id.toolbar);
 
-    setupLithoView(view);
+    setupLithoView(view, EntryItemList.SortFilter.NONE);
     setupToolbar();
     onClickToolbarItem(view);
 
@@ -82,15 +91,35 @@ public class InventoryFragment extends Fragment {
     });
   }
 
-  private void setupLithoView(View view) {
-    lvInventoryList.setComponent(
-            Text.create(new ComponentContext(view.getContext()))
-                    .text("Hello World")
-                    .build()
-    );
-//            RecyclerCollectionComponent.create(lvInventoryList.getComponentContext())
-//            .section());
+  private void setupLithoView(View view, EntryItemList.SortFilter sortFilterParam) {
+    ComponentContext c = new ComponentContext(view.getContext());
+    Component component;
 
+    switch (sortFilterParam)
+    {
+      case SORT_FOOD_GROUP:
+        HashMap<String, List<EntryItem>> foodGroupMap =
+            (HashMap<String, List<EntryItem>>)
+                entryItemList.queryEntryItems(EntryItemList.SortFilter.NONE, EntryItem.CONTAINER_LIST_INVENTORY);
+        break;
+      default:
+
+    }
+
+
+    //todo: switch section item depending on sorting
+
+
+//    component = RecyclerCollectionComponent.create(c)
+//            .disablePTR(true)
+//            .section(
+//                ListSection.create(new SectionContext(c))
+//                    .foodCategoryHeaderTitle(ListSectionSpec.NO_HEADER)
+//                    .data(testData)
+//                    .build())
+//            .build();
+//
+//    lvInventoryList.setComponent(component);
   }
 
   private void setupToolbar() {
