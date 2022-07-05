@@ -6,17 +6,17 @@ import com.parse.ParseObject;
 
 @ParseClassName("Food")
 public class Food extends ParseObject {
-  public static final String KEY_ITEM_NAME = "itemName";
+  public static final String KEY_FOOD_NAME = "foodName";
   public static final String KEY_FOOD_CATEGORY = "foodCategory";
   public static final String KEY_API_ID = "apiId";
   public static final String KEY_IMAGE = "image";
 
-  public String getItemName() {
-    return getString(KEY_ITEM_NAME);
+  public String getFoodName() {
+    return getString(KEY_FOOD_NAME);
   }
 
-  public void setItemName(String itemName) {
-    put(KEY_ITEM_NAME, itemName);
+  public void setFoodName(String itemName) {
+    put(KEY_FOOD_NAME, itemName);
   }
 
   public String getFoodCategory() {

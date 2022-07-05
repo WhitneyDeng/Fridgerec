@@ -31,8 +31,8 @@ public class EntryItem extends ParseObject {
     put(KEY_USER, parseUser);
   }
 
-  public ParseObject getFood() {
-    return getParseObject(KEY_FOOD);
+  public Food getFood() {
+    return (Food) getParseObject(KEY_FOOD);
   }
 
   public void setFood(ParseObject food)

@@ -34,6 +34,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -67,36 +68,7 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
-//    appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-//    NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
-
-//    final FragmentManager fragmentManager = getSupportFragmentManager();
-//
-//    bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-//      @Override
-//      public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//        Fragment fragment;
-//        switch (item.getItemId()) {
-//          case R.id.action_inventory:
-//            fragment = new InventoryFragment();
-//            break;
-//          case R.id.action_shopping:
-//            fragment = new ShoppingFragment();
-//            break;
-//          case R.id.action_settings:
-//          default:
-//            fragment = new SettingsFragment();
-//            break;
-//        }
-////        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
-//        return true;
-//      }
-//    });
-//    // default bottom nav selection
-//    bottomNavigationView.setSelectedItemId(R.id.action_inventory);
-
-    query();
+//    query();
   }
 
   private void setupBottomNav() {
@@ -161,44 +133,4 @@ public class MainActivity extends AppCompatActivity {
 //      }
 //    });
   }
-
-//  // Menu icons are inflated just as they were with actionbar
-//  @Override
-//  public boolean onCreateOptionsMenu(Menu menu) {
-//    // Inflate the menu; this adds items to the action bar if it is present.
-//    getMenuInflater().inflate(R.menu.menu_main, menu);
-//
-//    return true;
-//  }
-//
-//  @Override
-//  public boolean onOptionsItemSelected(MenuItem item) {
-//    // Handle action bar item clicks here. The action bar will
-//    // automatically handle clicks on the Home/Up button, so long
-//    // as you specify a parent activity in AndroidManifest.xml.
-//    int id = item.getItemId();
-//
-//    switch(id)
-//    {
-//      case R.id.miLogout:
-//        Toast.makeText(this, "Logout selected", Toast.LENGTH_SHORT).show();
-//        logout();
-//      default:
-//    }
-//    return super.onOptionsItemSelected(item);
-//  }
-
-//  private void logout()
-//  {
-//    ParseUser.logOut();
-//    goLoginActivity();
-////        ParseUser currentUser = ParseUser.getCurrentUser();   //todo: update the current user by calling the ParseUser's getCurrentUser() how does this change anything?
-//  }
-//
-//  private void goLoginActivity()
-//  {
-//    Intent i = new Intent(this, LoginActivity.class);
-//    startActivity(i);
-//    finish();
-//  }
 }
