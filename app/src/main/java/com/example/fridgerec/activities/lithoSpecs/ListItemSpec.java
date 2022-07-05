@@ -26,23 +26,36 @@ public class ListItemSpec {
           ComponentContext c,
 //          @Prop int color,
           @Prop EntryItem entryItem) {
-    return Row.create(c)
-        .justifyContent(YogaJustify.SPACE_BETWEEN)
-            .paddingDip(ALL, 16)
+    try {
+      return Row.create(c)
+          .justifyContent(YogaJustify.SPACE_BETWEEN)
+          .paddingDip(ALL, 16)
 //            .backgroundColor(color)
-            .child(
-                Text.create(c)
-                    .text(entryItem.getFood().getFoodName())  //todo: replace w/ foodName
-                    .textSizeSp(20))
-            .child(
-                    Column.create(c)
-                        .child(
-                            Text.create(c)
-                                .text(EXPIRE_DATE_DESC + entryItem.getExpireDate().toString()))
-                        .child(
-                            Text.create(c)
-                                .text(SOURCE_DATE_DESC + entryItem.getSourceDate().toString()))
-                        .build())
-            .build();
+          .child(
+              Text.create(c)
+                  .text(entryItem.getFood().getFoodName())  //todo: replace w/ foodName
+                  .textSizeSp(20))
+          .child(
+              Column.create(c)
+                  .child(
+                      Text.create(c)
+                          .text(EXPIRE_DATE_DESC + entryItem.getExpireDate().toString()))
+                  .child(
+                      Text.create(c)
+                          .text(SOURCE_DATE_DESC + entryItem.getSourceDate().toString()))
+                  .build())
+          .build();
+    } catch (NullPointerException e) {
+      return Row.create(c)
+          .justifyContent(YogaJustify.SPACE_BETWEEN)
+          .paddingDip(ALL, 16)
+//            .backgroundColor(color)
+          .child(
+              Text.create(c)
+                  .text(entryItem.getFood().getFoodName())  //todo: replace w/ foodName
+                  .textSizeSp(20))
+          .build();
+    }
+    //todo: what if xor sourceDate or expireDate is null (one of them is nonnull)
   }
 }
