@@ -85,8 +85,9 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
 
     entryItemList = new EntryItemList();
 
-    entryItemList.queryEntryItems(EntryItemList.SortFilter.SORT_EXPIRE_DATE, EntryItem.CONTAINER_LIST_INVENTORY, InventoryFragment.this);
-//    entryItemList.queryEntryItems(EntryItemList.SortFilter.NONE, EntryItem.CONTAINER_LIST_INVENTORY, InventoryFragment.this);
+    entryItemList.queryEntryItems(EntryItemList.SortFilter.SORT_SOURCE_DATE,  //todo: change back to NONE filter
+        EntryItem.CONTAINER_LIST_INVENTORY,
+        InventoryFragment.this);
     setupToolbar();
     onClickToolbarItem(view);
 

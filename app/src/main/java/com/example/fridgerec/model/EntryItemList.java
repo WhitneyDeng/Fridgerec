@@ -50,6 +50,7 @@ public class EntryItemList {
         query.addAscendingOrder(EntryItem.KEY_EXPIRE_DATE);
         break;
       case SORT_SOURCE_DATE:
+        query.addAscendingOrder(EntryItem.KEY_SOURCE_DATE);
         break;
       case FILTER_EXPIRE_DATE:
         break;

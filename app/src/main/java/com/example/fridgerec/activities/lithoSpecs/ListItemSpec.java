@@ -17,15 +17,27 @@ import com.facebook.litho.annotations.PropDefault;
 import com.facebook.litho.widget.Text;
 import com.facebook.yoga.YogaJustify;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @LayoutSpec
 public class ListItemSpec {
-  public static final String SOURCE_DATE_DESC = "source date: ", EXPIRE_DATE_DESC = "expire date: ";
+  public static final String SOURCE_DATE_DESC = "source date: ", EXPIRE_DATE_DESC = "expire date: ", EMPTY_DATE = "(N/A)";
 
   @OnCreateLayout
   public static Component onCreateLayout(
           ComponentContext c,
 //          @Prop int color,
           @Prop EntryItem entryItem) {
+
+    Date expireDate = entryItem.getExpireDate();
+    Date sourceDate = entryItem.getSourceDate();
+
+    String expireDateString = EXPIRE_DATE_DESC + (expireDate == null ? EMPTY_DATE : formatDate(expireDate));
+    String sourceDateString = SOURCE_DATE_DESC + (sourceDate == null ? EMPTY_DATE : formatDate(sourceDate));
+
     try {
       return Row.create(c)
           .justifyContent(YogaJustify.SPACE_BETWEEN)
@@ -39,10 +51,10 @@ public class ListItemSpec {
               Column.create(c)
                   .child(
                       Text.create(c)
-                          .text(EXPIRE_DATE_DESC + entryItem.getExpireDate().toString()))
+                          .text(expireDateString))
                   .child(
                       Text.create(c)
-                          .text(SOURCE_DATE_DESC + entryItem.getSourceDate().toString()))
+                          .text(sourceDateString))
                   .build())
           .build();
     } catch (NullPointerException e) {
@@ -56,6 +68,11 @@ public class ListItemSpec {
                   .textSizeSp(20))
           .build();
     }
-    //todo: what if xor sourceDate or expireDate is null (one of them is nonnull)
+  }
+
+  private static String formatDate(Date date) {
+    String pattern = "dd MMMM yyyy";
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+    return simpleDateFormat.format(date);
   }
 }
