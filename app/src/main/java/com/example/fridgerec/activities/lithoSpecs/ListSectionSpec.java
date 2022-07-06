@@ -1,6 +1,7 @@
 package com.example.fridgerec.activities.lithoSpecs;
 
 import com.example.fridgerec.model.EntryItem;
+import com.facebook.litho.Row;
 import com.facebook.litho.annotations.FromEvent;
 import com.facebook.litho.annotations.OnEvent;
 import com.facebook.litho.annotations.Prop;
@@ -14,6 +15,7 @@ import com.facebook.litho.sections.common.SingleComponentSection;
 import com.facebook.litho.widget.ComponentRenderInfo;
 import com.facebook.litho.widget.RenderInfo;
 import com.facebook.litho.widget.Text;
+import com.facebook.yoga.YogaJustify;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,7 +27,7 @@ public class ListSectionSpec {
   @OnCreateChildren
   public static Children onCreateChildren(
       final SectionContext c,
-      @Prop String foodCategoryHeaderTitle,
+      @Prop (optional = true) String foodCategoryHeaderTitle,
       @Prop List<EntryItem> entryItems) {
 
     DataDiffSection.Builder<EntryItem> entryItem = DataDiffSection.<EntryItem>create(c)
@@ -34,7 +36,7 @@ public class ListSectionSpec {
 
     switch (foodCategoryHeaderTitle)
     {
-      case NO_HEADER:
+      case NO_HEADER: //todo: make this null instead of no header
         return Children.create()
             .child(entryItem)
             .build();
@@ -43,9 +45,12 @@ public class ListSectionSpec {
             .child(
                 SingleComponentSection.create(c)
                     .component(
-                        Text.create(c)
-                            .text(foodCategoryHeaderTitle)
-                            .build()))
+                        Row.create(c)
+                            .justifyContent(YogaJustify.CENTER)
+                            .child(
+                                Text.create(c)
+                                    .text(foodCategoryHeaderTitle)
+                                    .build())))//todo: Row needs another build()?
             .child(entryItem)
             .build();
     }

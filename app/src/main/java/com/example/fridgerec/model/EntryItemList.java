@@ -24,13 +24,13 @@ public class EntryItemList {
   public EntryItemList() {
   }
 
-  public void queryEntryItems(SortFilter sortFilterParam, String containerList, LithoUIChangeHandler lithoUIChangeHandler) {
+  public static void queryEntryItems(SortFilter sortFilterParam, String containerList, LithoUIChangeHandler lithoUIChangeHandler) {
     makeQuery(sortFilterParam,
         configParseQuery(sortFilterParam, containerList),
         lithoUIChangeHandler);
   }
 
-  private ParseQuery<EntryItem> configParseQuery(SortFilter sortFilterParam, String containerList) {
+  private static ParseQuery<EntryItem> configParseQuery(SortFilter sortFilterParam, String containerList) {
     ParseQuery<EntryItem> query = new ParseQuery<EntryItem>(EntryItem.class);
 
     query.whereEqualTo(EntryItem.KEY_USER, ParseUser.getCurrentUser());
@@ -43,8 +43,7 @@ public class EntryItemList {
       case SORT_FOOD_GROUP:
         break;
       case SORT_FOOD_NAME:
-        //todo: how to sort by fod name
-//        query.addAscendingOrder()
+        //todo: implement local sorting function
         break;
       case SORT_EXPIRE_DATE:
         query.addAscendingOrder(EntryItem.KEY_EXPIRE_DATE);
@@ -64,7 +63,7 @@ public class EntryItemList {
     return query;
   }
 
-  private void makeQuery(SortFilter sortFilterParam, ParseQuery<EntryItem> query, LithoUIChangeHandler lithoUIChangeHandler) {
+  private static void makeQuery(SortFilter sortFilterParam, ParseQuery<EntryItem> query, LithoUIChangeHandler lithoUIChangeHandler) {
     query.findInBackground(new FindCallback<EntryItem>() {
       @Override
       public void done(List<EntryItem> queryResult, ParseException e) {
@@ -80,8 +79,14 @@ public class EntryItemList {
     });
   }
 
-  //todo: sorts entryItems into FoodCategory: ArrayList<EntryItem>
-  public HashMap<String, List<EntryItem>> filterFoodGroup(List<EntryItem> entryItems)  {
-    return new HashMap<>();
+  public static HashMap<String, List<EntryItem>> filterFoodGroup(List<EntryItem> entryItems)  {
+    HashMap<String, List<EntryItem>> foodGroupMap = new HashMap<>();
+    for (EntryItem entryItem : entryItems) {
+      String foodGroup = entryItem.getFood().getFoodGroup();
+      List<EntryItem> foodGroupList = foodGroupMap.getOrDefault(foodGroup, new ArrayList<EntryItem>());
+      foodGroupList.add(entryItem);
+      foodGroupMap.put(foodGroup, foodGroupList);
+    }
+    return foodGroupMap;
   }
 }
