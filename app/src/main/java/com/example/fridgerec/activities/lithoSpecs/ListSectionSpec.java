@@ -36,7 +36,7 @@ public class ListSectionSpec {
 
     switch (foodCategoryHeaderTitle)
     {
-      case NO_HEADER: //todo: make this null instead of no header
+      case NO_HEADER: //TODO: make this null instead of no header
         return Children.create()
             .child(entryItem)
             .build();
@@ -50,7 +50,7 @@ public class ListSectionSpec {
                             .child(
                                 Text.create(c)
                                     .text(foodCategoryHeaderTitle)
-                                    .build())))//todo: Row needs another build()?
+                                    .build())))
             .child(entryItem)
             .build();
     }
@@ -62,7 +62,6 @@ public class ListSectionSpec {
       @FromEvent EntryItem model) {
     return ComponentRenderInfo.create()
         .component(ListItem.create(c)
-//            .color((model % 2 == 0 ? Color.WHITE : Color.LTGRAY))
             .entryItem(model)
             .build())
         .build();

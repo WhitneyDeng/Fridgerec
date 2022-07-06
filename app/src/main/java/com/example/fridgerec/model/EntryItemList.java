@@ -3,12 +3,14 @@ package com.example.fridgerec.model;
 import android.util.Log;
 
 import com.example.fridgerec.interfaces.LithoUIChangeHandler;
+import com.example.fridgerec.util.FoodNameComparator;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,19 +39,19 @@ public class EntryItemList {
     query.whereEqualTo(EntryItem.KEY_CONTAINER_LIST, containerList);
     query.include(EntryItem.KEY_FOOD);   // include User data of each Post class in response
 
-    //todo: chain query param
+    //TODO: chain query param
     switch (sortFilterParam)
     {
       case SORT_FOOD_GROUP:
         break;
       case SORT_FOOD_NAME:
-        //todo: implement local sorting function
+        //TODO: implement local sorting function
         break;
       case SORT_EXPIRE_DATE:
-        query.addAscendingOrder(EntryItem.KEY_EXPIRE_DATE);
+        query.orderByAscending(EntryItem.KEY_EXPIRE_DATE);
         break;
       case SORT_SOURCE_DATE:
-        query.addAscendingOrder(EntryItem.KEY_SOURCE_DATE);
+        query.orderByAscending(EntryItem.KEY_SOURCE_DATE);
         break;
       case FILTER_EXPIRE_DATE:
         break;
@@ -74,9 +76,19 @@ public class EntryItemList {
         Log.i(TAG, "Post query success");
         Log.i(TAG, "queryResult" + queryResult.toString());
 
+        postQueryProcess(queryResult, sortFilterParam);
+
         lithoUIChangeHandler.setupLithoView(sortFilterParam, queryResult);
       }
     });
+  }
+
+  private static void postQueryProcess(List<EntryItem> queryResult, SortFilter sortFilterParam) {
+    switch (sortFilterParam) {
+      case SORT_FOOD_NAME:
+        Collections.sort(queryResult, new FoodNameComparator());
+        break;
+    }
   }
 
   public static HashMap<String, List<EntryItem>> filterFoodGroup(List<EntryItem> entryItems)  {

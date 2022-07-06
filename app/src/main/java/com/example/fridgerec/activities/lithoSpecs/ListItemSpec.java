@@ -29,7 +29,6 @@ public class ListItemSpec {
   @OnCreateLayout
   public static Component onCreateLayout(
           ComponentContext c,
-//          @Prop int color,
           @Prop EntryItem entryItem) {
 
     Date expireDate = entryItem.getExpireDate();
@@ -42,10 +41,9 @@ public class ListItemSpec {
       return Row.create(c)
           .justifyContent(YogaJustify.SPACE_BETWEEN)
           .paddingDip(ALL, 16)
-//            .backgroundColor(color)
           .child(
               Text.create(c)
-                  .text(entryItem.getFood().getFoodName())  //todo: replace w/ foodName
+                  .text(entryItem.getFood().getFoodName())
                   .textSizeSp(20))
           .child(
               Column.create(c)
@@ -61,10 +59,9 @@ public class ListItemSpec {
       return Row.create(c)
           .justifyContent(YogaJustify.SPACE_BETWEEN)
           .paddingDip(ALL, 16)
-//            .backgroundColor(color)
           .child(
               Text.create(c)
-                  .text(entryItem.getFood().getFoodName())  //todo: replace w/ foodName
+                  .text(entryItem.getFood().getFoodName())
                   .textSizeSp(20))
           .build();
     }

@@ -34,7 +34,6 @@ public class ShoppingCreationFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
     return inflater.inflate(R.layout.fragment_shopping_creation, container, false);
   }
 
@@ -59,7 +58,7 @@ public class ShoppingCreationFragment extends Fragment {
     toolbar.setOnMenuItemClickListener(item -> {
       switch (item.getItemId()) {
         case R.id.miSave:
-          //todo: save item
+          //TODO: save item
           navController.navigate(R.id.action_shoppingCreationFragment_to_shoppingFragment);
           return true;
         default:

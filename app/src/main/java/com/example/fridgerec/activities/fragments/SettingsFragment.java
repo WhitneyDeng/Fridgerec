@@ -42,7 +42,6 @@ public class SettingsFragment extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     setHasOptionsMenu(true);
-    // Inflate the layout for this fragment
     return inflater.inflate(R.layout.fragment_settings, container, false);
   }
 
@@ -78,7 +77,7 @@ public class SettingsFragment extends Fragment {
     toolbar.setOnMenuItemClickListener(item -> {
       switch (item.getItemId()) {
         case R.id.miSave:
-          //todo: save preferences
+          //TODO: save preferences
           return true;
         default:
           return false;
