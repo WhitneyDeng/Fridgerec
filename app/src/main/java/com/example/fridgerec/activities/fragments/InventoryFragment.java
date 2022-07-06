@@ -20,8 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.fridgerec.R;
-//import com.example.fridgerec.activities.lithoSpecs.ListItem;
-//import com.example.fridgerec.activities.lithoSpecs.ListSection;
 import com.example.fridgerec.activities.lithoSpecs.FoodGroupsSection;
 import com.example.fridgerec.activities.lithoSpecs.ListSection;
 import com.example.fridgerec.activities.lithoSpecs.ListSectionSpec;
@@ -67,7 +65,6 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
     return inflater.inflate(R.layout.fragment_inventory, container, false);
   }
 
@@ -81,7 +78,7 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
     fab = view.findViewById(R.id.fab);
     toolbar = view.findViewById(R.id.toolbar);
 
-    EntryItemList.queryEntryItems(EntryItemList.SortFilter.SORT_FOOD_GROUP,  //todo: change back to NONE filter
+    EntryItemList.queryEntryItems(EntryItemList.SortFilter.SORT_FOOD_NAME,  //TODO: change back to NONE filter
         EntryItem.CONTAINER_LIST_INVENTORY,
         InventoryFragment.this);
     setupToolbar();
@@ -100,8 +97,7 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
     final ComponentContext c = new ComponentContext(fragmentView.getContext());
     Component component = Text.create(c).text("sort/filter param not recognised").build();
 
-    switch (sortFilterParam)
-    {
+    switch (sortFilterParam) {
       case SORT_FOOD_GROUP:
         HashMap<String, List<EntryItem>> foodGroupMap =
             EntryItemList.filterFoodGroup(entryItems);
@@ -117,13 +113,13 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
             .disablePTR(true)
             .section(
                 ListSection.create(new SectionContext(c))
-                    .foodCategoryHeaderTitle(ListSectionSpec.NO_HEADER) //todo: take advantage of optional header
+                    .foodCategoryHeaderTitle(ListSectionSpec.NO_HEADER) //TODO: take advantage of optional header
                     .entryItems(entryItems)
                     .build())
             .build();
     }
 
-    //todo: switch section item depending on sorting
+    //TODO: switch section item depending on sorting
     lvInventoryList.setComponentAsync(component);
   }
 
@@ -154,7 +150,7 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
     popup.show();
   }
 
-  //todo: delete (this is for testing only)
+  //TODO: delete (this is for testing only)
   private void testQuery() {
 
     ParseQuery<EntryItem> query = ParseQuery.getQuery(EntryItem.class);

@@ -59,7 +59,7 @@ public class InventoryCreationFragment extends Fragment {
     toolbar.setOnMenuItemClickListener( item -> {
       switch (item.getItemId()) {
         case R.id.miSave:
-          //todo: save item
+          //TODO: save item
           navController.navigate(R.id.action_inventoryCreationFragment_to_inventoryFragment);
           return true;
         default:

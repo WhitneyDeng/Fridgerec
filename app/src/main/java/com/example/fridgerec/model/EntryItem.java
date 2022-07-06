@@ -35,8 +35,7 @@ public class EntryItem extends ParseObject {
     return (Food) getParseObject(KEY_FOOD);
   }
 
-  public void setFood(ParseObject food)
-  {
+  public void setFood(ParseObject food) {
     put(KEY_FOOD, food);
   }
 
@@ -56,7 +55,7 @@ public class EntryItem extends ParseObject {
     put(KEY_AMOUNT_UNIT, amountUnit);
   }
 
-  public Date getExpireDate()  {
+  public Date getExpireDate() {
     return getDate(KEY_EXPIRE_DATE);
   }
 
@@ -84,8 +83,7 @@ public class EntryItem extends ParseObject {
     return getString(KEY_CONTAINER_LIST);
   }
 
-  public void setContainerList(String containerList)
-  {
+  public void setContainerList(String containerList) {
     put(KEY_CONTAINER_LIST, containerList);
   }
 }
