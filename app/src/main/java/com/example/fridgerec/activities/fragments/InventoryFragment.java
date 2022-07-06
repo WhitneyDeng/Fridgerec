@@ -60,8 +60,6 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
   private FloatingActionButton fab;
   private PopupMenu popup;
 
-  private EntryItemList entryItemList;
-
   public InventoryFragment() {
     // Required empty public constructor
   }
@@ -83,9 +81,7 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
     fab = view.findViewById(R.id.fab);
     toolbar = view.findViewById(R.id.toolbar);
 
-    entryItemList = new EntryItemList();
-
-    entryItemList.queryEntryItems(EntryItemList.SortFilter.SORT_SOURCE_DATE,  //todo: change back to NONE filter
+    EntryItemList.queryEntryItems(EntryItemList.SortFilter.SORT_FOOD_GROUP,  //todo: change back to NONE filter
         EntryItem.CONTAINER_LIST_INVENTORY,
         InventoryFragment.this);
     setupToolbar();
@@ -108,7 +104,7 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
     {
       case SORT_FOOD_GROUP:
         HashMap<String, List<EntryItem>> foodGroupMap =
-                entryItemList.filterFoodGroup(entryItems);
+            EntryItemList.filterFoodGroup(entryItems);
         component = RecyclerCollectionComponent.create(c)
             .section(
                 FoodGroupsSection.create(new SectionContext(c))
@@ -121,7 +117,7 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
             .disablePTR(true)
             .section(
                 ListSection.create(new SectionContext(c))
-                    .foodCategoryHeaderTitle(ListSectionSpec.NO_HEADER)
+                    .foodCategoryHeaderTitle(ListSectionSpec.NO_HEADER) //todo: take advantage of optional header
                     .entryItems(entryItems)
                     .build())
             .build();
@@ -158,6 +154,7 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
     popup.show();
   }
 
+  //todo: delete (this is for testing only)
   private void testQuery() {
 
     ParseQuery<EntryItem> query = ParseQuery.getQuery(EntryItem.class);

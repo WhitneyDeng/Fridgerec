@@ -7,7 +7,7 @@ import com.parse.ParseObject;
 @ParseClassName("Food")
 public class Food extends ParseObject {
   public static final String KEY_FOOD_NAME = "foodName";
-  public static final String KEY_FOOD_CATEGORY = "foodCategory";
+  public static final String KEY_FOOD_GROUP = "foodGroup";
   public static final String KEY_API_ID = "apiId";
   public static final String KEY_IMAGE = "image";
 
@@ -19,13 +19,13 @@ public class Food extends ParseObject {
     put(KEY_FOOD_NAME, itemName);
   }
 
-  public String getFoodCategory() {
-    return getString(KEY_FOOD_CATEGORY);
+  public String getFoodGroup() {
+    return getString(KEY_FOOD_GROUP);
   }
 
-  public void setFoodCategory(String foodCategory)
+  public void setFoodGroup(String foodCategory)
   {
-    put(KEY_FOOD_CATEGORY, foodCategory);
+    put(KEY_FOOD_GROUP, foodCategory);
   }
 
   public String getApiId() {
