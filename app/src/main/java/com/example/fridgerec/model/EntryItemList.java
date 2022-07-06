@@ -41,9 +41,13 @@ public class EntryItemList {
     switch (sortFilterParam)
     {
       case SORT_FOOD_GROUP:
+        break;
       case SORT_FOOD_NAME:
+        //todo: how to sort by fod name
+//        query.addAscendingOrder()
         break;
       case SORT_EXPIRE_DATE:
+        query.addAscendingOrder(EntryItem.KEY_EXPIRE_DATE);
         break;
       case SORT_SOURCE_DATE:
         break;
