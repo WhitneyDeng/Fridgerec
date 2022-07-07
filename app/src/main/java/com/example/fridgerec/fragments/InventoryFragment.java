@@ -8,6 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -26,6 +28,7 @@ import com.example.fridgerec.activities.lithoSpecs.ListSectionSpec;
 import com.example.fridgerec.interfaces.LithoUIChangeHandler;
 import com.example.fridgerec.model.EntryItem;
 import com.example.fridgerec.model.EntryItemList;
+import com.example.fridgerec.model.InventoryViewModel;
 import com.facebook.litho.Component;
 import com.facebook.litho.ComponentContext;
 import com.facebook.litho.LithoView;
@@ -58,6 +61,8 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
   private FloatingActionButton fab;
   private PopupMenu popup;
 
+  private InventoryViewModel model;
+
   public InventoryFragment() {
     // Required empty public constructor
   }
@@ -77,51 +82,90 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
     lvInventoryList = view.findViewById(R.id.lvInventoryList);
     fab = view.findViewById(R.id.fab);
     toolbar = view.findViewById(R.id.toolbar);
+    
+    onClickFab();
 
-    EntryItemList.queryEntryItems(EntryItemList.SortFilter.SORT_FOOD_NAME,  //TODO: change back to NONE filter
-        EntryItem.CONTAINER_LIST_INVENTORY,
-        InventoryFragment.this);
     setupToolbar();
     onClickToolbarItem(view);
 
+    model = new ViewModelProvider(this).get(InventoryViewModel.class);
+    
+    setupObservers();
+
+    EntryItemList.queryEntryItems(model.getSortFilterParams().getValue(),  //TODO: change back to NONE filter
+        EntryItem.CONTAINER_LIST_INVENTORY,
+        InventoryFragment.this);
+  }
+
+  private void setupObservers() {
+    observeRecyclerDataset();
+    observeSortFilterParams();
+  }
+
+  private void observeSortFilterParams() {
+    final Observer<HashMap<EntryItemList.SortFilter, Object>> sortFilterParamsObserver = new Observer<HashMap<EntryItemList.SortFilter, Object>>() {
+      @Override
+      public void onChanged(HashMap<EntryItemList.SortFilter, Object> sortFilterObjectHashMap) {
+        EntryItemList.queryEntryItems(model.getSortFilterParams().getValue(),  //TODO: change back to NONE filter
+            EntryItem.CONTAINER_LIST_INVENTORY,
+            InventoryFragment.this);
+      }
+    };
+    model.getSortFilterParams().observe(getViewLifecycleOwner(), sortFilterParamsObserver);
+  }
+
+  private void observeRecyclerDataset() {
+    final Observer<List<EntryItem>> inventoryListObserver = new Observer<List<EntryItem>>() {
+      @Override
+      public void onChanged(List<EntryItem> entryItems) {
+        setupLithoRecycler(model.getInventoryList().getValue());
+      }
+    };
+
+    model.getInventoryList().observe(getViewLifecycleOwner(), inventoryListObserver);
+
+    final Observer<HashMap<String, List<EntryItem>>> inventoryMapObserver = new Observer<HashMap<String, List<EntryItem>>>() {
+      @Override
+      public void onChanged(HashMap<String, List<EntryItem>> stringListHashMap) {
+        setupSectionedLithoRecycler(model.getInventoryMap().getValue());
+      }
+    };
+
+    model.getInventoryMap().observe(getViewLifecycleOwner(), inventoryMapObserver);
+  }
+
+  private void onClickFab() {
     fab.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Navigation.findNavController(view).navigate(R.id.action_inventoryFragment_to_inventoryCreationFragment);
+        navController.navigate(R.id.action_inventoryFragment_to_inventoryCreationFragment);
       }
     });
   }
 
-  // TODO:
-
-  @Override
-  public void setupLithoView(EntryItemList.SortFilter sortFilterParam, List<EntryItem> entryItems) {
+  private void setupSectionedLithoRecycler(HashMap<String, List<EntryItem>> foodGroupMap) {
     final ComponentContext c = new ComponentContext(fragmentView.getContext());
-    Component component = Text.create(c).text("sort/filter param not recognised").build();
+    Component component = RecyclerCollectionComponent.create(c)
+        .section(
+            FoodGroupsSection.create(new SectionContext(c))
+                .foodGroupMap(foodGroupMap)
+                .build())
+        .build();
 
-    switch (sortFilterParam) {
-      case SORT_FOOD_GROUP:
-        HashMap<String, List<EntryItem>> foodGroupMap =
-            EntryItemList.filterFoodGroup(entryItems);
-        component = RecyclerCollectionComponent.create(c)
-            .section(
-                FoodGroupsSection.create(new SectionContext(c))
-                    .foodGroupMap(foodGroupMap)
-                    .build())
-            .build();
-        break;
-      default:
-        component = RecyclerCollectionComponent.create(c)
-            .disablePTR(true)
-            .section(
-                ListSection.create(new SectionContext(c))
-                    .foodCategoryHeaderTitle(ListSectionSpec.NO_HEADER) //TODO: take advantage of optional header
-                    .entryItems(entryItems)
-                    .build())
-            .build();
-    }
+    lvInventoryList.setComponentAsync(component);
+  }
 
-    //TODO: switch section item depending on sorting
+  private void setupLithoRecycler(List<EntryItem> entryItems) {
+    final ComponentContext c = new ComponentContext(fragmentView.getContext());
+    Component component = RecyclerCollectionComponent.create(c)
+        .disablePTR(true)
+        .section(
+            ListSection.create(new SectionContext(c))
+                .foodCategoryHeaderTitle(ListSectionSpec.NO_HEADER) //TODO: take advantage of optional header
+                .entryItems(entryItems)
+                .build())
+        .build();
+
     lvInventoryList.setComponentAsync(component);
   }
 
@@ -178,5 +222,10 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
         entryItems.addAll(queryResult);
       }
     });
+  }
+
+  @Override
+  public void setupLithoView(EntryItemList.SortFilter sortFilterParam, List<EntryItem> entryItems) {
+
   }
 }
