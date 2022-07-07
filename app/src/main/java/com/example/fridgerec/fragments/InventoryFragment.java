@@ -1,6 +1,5 @@
 package com.example.fridgerec.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.MenuRes;
@@ -85,7 +84,7 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
     setupToolbar();
     onClickToolbarItem(view);
 
-    retrieveArgs(getArguments());
+//    retrieveArgs(getArguments());
 
     fab.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -95,28 +94,11 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
     });
   }
 
-  private void retrieveArgs(Bundle arguments) {
-    InventoryFragmentArgs args = InventoryFragmentArgs.fromBundle(arguments);
-    Log.i(TAG, "testString: " + args.getTestString());
-  }
-
-  @Override
-  public void onAttach(@NonNull Context context) {
-    super.onAttach(context);
-    Log.i(TAG, "onAttach");
-  }
-
-  @Override
-  public void onStart() {
-    super.onStart();
-    Log.i(TAG, "onStart");
-  }
-
-  @Override
-  public void onResume() {
-    super.onResume();
-    Log.i(TAG, "onResume");
-  }
+  // TODO:
+//  private void retrieveArgs(Bundle arguments) {
+//    InventoryFragmentArgs args = InventoryFragmentArgs.fromBundle(arguments);
+//    Log.i(TAG, "testString: " + args.getTestString());
+//  }
 
   @Override
   public void setupLithoView(EntryItemList.SortFilter sortFilterParam, List<EntryItem> entryItems) {
