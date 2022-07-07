@@ -58,9 +58,4 @@ dependencies {
     implementation 'com.facebook.litho:litho-sections-widget:0.41.2'
     compileOnly 'com.facebook.litho:litho-sections-annotations:0.41.2'
     annotationProcessor 'com.facebook.litho:litho-sections-processor:0.41.2'
-
-    //FOR: ViewModel
-    implementation "androidx.lifecycle:lifecycle-viewmodel:2.6.0-alpha01"
-    //FOR: LiveData
-    implementation "androidx.lifecycle:lifecycle-livedata:2.6.0-alpha01"
 }
