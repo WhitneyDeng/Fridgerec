@@ -77,17 +77,31 @@
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:id="@+id/chipFilterExpireDate"
+                android:id="@+id/chipFilterExpireBefore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="expire date" />
+                android:text="expire before" />
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:id="@+id/chipFilterSourceDate"
+                android:id="@+id/chipFilterExpireAfter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="source date" />
+                android:text="expire after" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:id="@+id/chipFilterSourceBefore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="sourced before" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:id="@+id/chipFilterSourceAfter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="sourced after" />
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
