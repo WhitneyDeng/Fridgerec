@@ -84,8 +84,6 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
     setupToolbar();
     onClickToolbarItem(view);
 
-//    retrieveArgs(getArguments());
-
     fab.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -95,10 +93,6 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
   }
 
   // TODO:
-//  private void retrieveArgs(Bundle arguments) {
-//    InventoryFragmentArgs args = InventoryFragmentArgs.fromBundle(arguments);
-//    Log.i(TAG, "testString: " + args.getTestString());
-//  }
 
   @Override
   public void setupLithoView(EntryItemList.SortFilter sortFilterParam, List<EntryItem> entryItems) {

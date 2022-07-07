@@ -82,6 +82,7 @@ public class EntryItemList {
 
         postQueryProcess(queryResult, sortFilterParam);
 
+        //TODO: set inventoryList of corresponding ViewModel
         lithoUIChangeHandler.setupLithoView(sortFilterParam, queryResult);
       }
     });

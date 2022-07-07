@@ -44,7 +44,7 @@ public class SortFilterPrefDialog extends DialogFragment{
         .setPositiveButton("save", new DialogInterface.OnClickListener() {
           @Override
           public void onClick(DialogInterface dialog, int which) {
-
+            //TODO: set sort & filter params in InventoryViewModel
           }
         })
         .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -70,7 +70,6 @@ public class SortFilterPrefDialog extends DialogFragment{
 
     //TODO: set default date picker to today
     //TODO: toggle visibility of linear layouts
-//    configureToolbar();
   }
 
   @Override
@@ -83,31 +82,4 @@ public class SortFilterPrefDialog extends DialogFragment{
       dialog.getWindow().setLayout(width, height);
     }
   }
-
-//  private void configureToolbar() {
-//    AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.inventoryFragment, R.id.shoppingFragment, R.id.settingsFragment).build();
-//    NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
-//
-//    toolbar.setNavigationOnClickListener(v -> dismiss());
-//    toolbar.setTitle("Sort and Filter");
-//    toolbar.setOnMenuItemClickListener(item -> {
-//      dismiss();
-//      return true;
-//    });
-//  }
-
-//  private void onClickToolbarItem() {
-//    toolbar.setOnMenuItemClickListener(item -> {
-//      switch (item.getItemId()) {
-//        case R.id.miSave:
-//
-//          navController.navigate(
-//              SortFilterPrefDialogDirections.actionSortFilterPrefDialogToInventoryFragment("not test string"));
-//          //TODO: pass selected sort & filter preference to inventoryfragment
-//          return true;
-//        default:
-//          return false;
-//      }
-//    });
-//  }
 }
