@@ -14,14 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.example.fridgerec.R;
-import com.example.fridgerec.model.EntryItemList;
 
 public class SortFilterPrefDialog extends DialogFragment{
   public static final String TAG = "SortFilterPrefDialog";
