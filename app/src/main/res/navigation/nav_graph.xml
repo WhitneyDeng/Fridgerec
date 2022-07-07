@@ -18,6 +18,9 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_inventoryFragment_to_sortFilterPrefDialog"
+            app:destination="@id/sortFilterPrefDialog" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -68,4 +71,8 @@
             android:id="@+id/action_shoppingCreationFragment_to_shoppingFragment"
             app:destination="@id/shoppingFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/sortFilterPrefDialog"
+        android:name="com.example.fridgerec.dialogs.SortFilterPrefDialog"
+        android:label="SortFilterPrefDialog" />
 </navigation>

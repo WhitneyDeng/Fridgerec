@@ -131,6 +131,9 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
   private void onClickToolbarItem(View view) {
     toolbar.setOnMenuItemClickListener(item -> {
       switch (item.getItemId()) {
+        case R.id.miSortFilter:
+          navController.navigate(R.id.action_inventoryFragment_to_sortFilterPrefDialog );
+          return true;
         case R.id.miFilter:
           showPopup(view.findViewById(R.id.miFilter), R.menu.menu_popup_filter);
           return true;
