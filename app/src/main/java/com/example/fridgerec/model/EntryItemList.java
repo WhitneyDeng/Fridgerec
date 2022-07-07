@@ -18,7 +18,7 @@ public class EntryItemList {
   public enum SortFilter {
     NONE,
     SORT_FOOD_NAME, SORT_FOOD_GROUP, SORT_EXPIRE_DATE, SORT_SOURCE_DATE,
-    FILTER_FOOD_GROUP, FILTER_EXPIRE_DATE, FILTER_SOURCE_DATE
+    FILTER_FOOD_GROUP, FILTER_EXPIRE_BEFORE, FILTER_EXPIRE_AFTER, FILTER_SOURCED_BEFORE, FILTER_SOURCED_AFTER
   }
 
   public static final String TAG = "EntryItemList";
@@ -53,9 +53,13 @@ public class EntryItemList {
       case SORT_SOURCE_DATE:
         query.orderByAscending(EntryItem.KEY_SOURCE_DATE);
         break;
-      case FILTER_EXPIRE_DATE:
+      case FILTER_EXPIRE_BEFORE:
         break;
-      case FILTER_SOURCE_DATE:
+      case FILTER_EXPIRE_AFTER:
+        break;
+      case FILTER_SOURCED_BEFORE:
+        break;
+      case FILTER_SOURCED_AFTER:
         break;
       case FILTER_FOOD_GROUP:
         break;

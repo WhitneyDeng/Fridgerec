@@ -1,8 +1,11 @@
 package com.example.fridgerec.dialogs;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +23,47 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.fridgerec.R;
 import com.example.fridgerec.model.EntryItemList;
 
-public class SortFilterPrefDialog extends DialogFragment implements DialogInterface.OnCancelListener, DialogInterface.OnDismissListener{
+public class SortFilterPrefDialog extends DialogFragment{
+  public static final String TAG = "SortFilterPrefDialog";
+
   private Toolbar toolbar;
   private NavController navController;
+  private SortFilterPrefDialogListener listener;
+
+  public interface SortFilterPrefDialogListener {
+    public void onDialogPositiveClick(DialogFragment dialog);
+  }
 
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     return inflater.inflate(R.layout.dialog_sort_filter_pref, container, false);
+  }
+
+  @NonNull
+  @Override
+  public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    builder.setMessage("Sort and Filter Pref")
+        .setPositiveButton("save", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+
+          }
+        })
+        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            Log.i(TAG, "sort & filter dialog cancelled");
+          }
+        });
+    return builder.create();
+  }
+
+  @Override
+  public void onAttach(@NonNull Context context) {
+    super.onAttach(context);
+
   }
 
   @Override
@@ -36,7 +72,9 @@ public class SortFilterPrefDialog extends DialogFragment implements DialogInterf
     navController = NavHostFragment.findNavController(this);
     toolbar = view.findViewById(R.id.toolbar);
 
-    configureToolbar();
+    //TODO: set default date picker to today
+    //TODO: toggle visibility of linear layouts
+//    configureToolbar();
   }
 
   @Override
@@ -50,25 +88,30 @@ public class SortFilterPrefDialog extends DialogFragment implements DialogInterf
     }
   }
 
-  private void configureToolbar() {
-    AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.inventoryFragment, R.id.shoppingFragment, R.id.settingsFragment).build();
-    NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
+//  private void configureToolbar() {
+//    AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.inventoryFragment, R.id.shoppingFragment, R.id.settingsFragment).build();
+//    NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
+//
+//    toolbar.setNavigationOnClickListener(v -> dismiss());
+//    toolbar.setTitle("Sort and Filter");
+//    toolbar.setOnMenuItemClickListener(item -> {
+//      dismiss();
+//      return true;
+//    });
+//  }
 
-    toolbar.setNavigationOnClickListener(v -> dismiss());
-    toolbar.setTitle("Sort and Filter");
-    toolbar.setOnMenuItemClickListener(item -> {
-      dismiss();
-      return true;
-    });
-  }
-
-  @Override
-  public void onCancel(DialogInterface dialog) {
-
-  }
-
-  @Override
-  public void onDismiss(DialogInterface dialog) {
-
-  }
+//  private void onClickToolbarItem() {
+//    toolbar.setOnMenuItemClickListener(item -> {
+//      switch (item.getItemId()) {
+//        case R.id.miSave:
+//
+//          navController.navigate(
+//              SortFilterPrefDialogDirections.actionSortFilterPrefDialogToInventoryFragment("not test string"));
+//          //TODO: pass selected sort & filter preference to inventoryfragment
+//          return true;
+//        default:
+//          return false;
+//      }
+//    });
+//  }
 }
