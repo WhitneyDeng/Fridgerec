@@ -11,8 +11,25 @@ public class InventoryViewModel extends ViewModel {
   private MutableLiveData<HashMap<String, EntryItem>> inventoryMap;
   private MutableLiveData<HashMap<EntryItemList.SortFilter, Object>> sortFilterParams;
 
-  //TODO: tracks selecdted sort & filter params
-  //TODO: tracks inventoryList or inventoryMap
+  public MutableLiveData<HashMap<EntryItemList.SortFilter, Object>> getSortFilterParams() {
+    if (sortFilterParams == null) {
+      sortFilterParams = new MutableLiveData<>();
+      sortFilterParams.getValue().put(EntryItemList.SortFilter.NONE, null);
+    }
+    return sortFilterParams;
+  }
 
-  //TODO:
+  public MutableLiveData<List<EntryItem>> getInventoryList() {
+    if (inventoryList == null) {
+      inventoryList = new MutableLiveData<>();
+    }
+    return inventoryList;
+  }
+
+  public MutableLiveData<HashMap<String, EntryItem>> getInventoryMap() {
+    if (inventoryMap == null) {
+      inventoryMap = new MutableLiveData<>();
+    }
+    return inventoryMap;
+  }
 }
