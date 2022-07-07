@@ -21,6 +21,10 @@
         <action
             android:id="@+id/action_inventoryFragment_to_sortFilterPrefDialog"
             app:destination="@id/sortFilterPrefDialog" />
+        <argument
+            android:name="testString"
+            app:argType="string"
+            android:defaultValue=""/>
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -74,5 +78,14 @@
     <dialog
         android:id="@+id/sortFilterPrefDialog"
         android:name="com.example.fridgerec.dialogs.SortFilterPrefDialog"
-        android:label="SortFilterPrefDialog" />
+        android:label="SortFilterPrefDialog" >
+        <action
+            android:id="@+id/action_sortFilterPrefDialog_to_inventoryFragment"
+            app:destination="@id/inventoryFragment" >
+            <argument
+                android:name="testString"
+                app:argType="string"
+                app:nullable="true"/>
+        </action>
+    </dialog>
 </navigation>
