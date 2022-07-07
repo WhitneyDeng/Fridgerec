@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/miSortFilter"
+        android:title="Sort/Filter"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/miFilter"
         android:title="Filter"
         app:showAsAction="always" />
