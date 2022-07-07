@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/inventoryFragment"
-        android:name="com.example.fridgerec.activities.fragments.InventoryFragment"
+        android:name="com.example.fridgerec.fragments.InventoryFragment"
         android:label="Inventory List"
         tools:layout="@layout/fragment_inventory" >
         <action
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.fridgerec.activities.fragments.SettingsFragment"
+        android:name="com.example.fridgerec.fragments.SettingsFragment"
         android:label="Settings"
         tools:layout="@layout/fragment_settings" >
         <action
@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/shoppingFragment"
-        android:name="com.example.fridgerec.activities.fragments.ShoppingFragment"
+        android:name="com.example.fridgerec.fragments.ShoppingFragment"
         android:label="Shopping List"
         tools:layout="@layout/fragment_shopping" >
         <action
@@ -41,7 +41,7 @@
     </fragment>
     <fragment
         android:id="@+id/inventoryCreationFragment"
-        android:name="com.example.fridgerec.activities.fragments.InventoryCreationFragment"
+        android:name="com.example.fridgerec.fragments.InventoryCreationFragment"
         android:label="Inventory Item"
         tools:layout="@layout/fragment_inventory_creation" >
         <action
@@ -50,7 +50,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.fridgerec.activities.fragments.LoginFragment"
+        android:name="com.example.fridgerec.fragments.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -61,7 +61,7 @@
     </fragment>
     <fragment
         android:id="@+id/shoppingCreationFragment"
-        android:name="com.example.fridgerec.activities.fragments.ShoppingCreationFragment"
+        android:name="com.example.fridgerec.fragments.ShoppingCreationFragment"
         android:label="Shopping Item"
         tools:layout="@layout/fragment_shopping_creation" >
         <action
