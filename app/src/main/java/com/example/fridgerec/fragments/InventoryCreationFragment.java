@@ -1,4 +1,4 @@
-package com.example.fridgerec.activities.fragments;
+package com.example.fridgerec.fragments;
 
 import android.os.Bundle;
 
@@ -19,22 +19,24 @@ import com.example.fridgerec.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ShoppingCreationFragment} factory method to
+ * Use the {@link InventoryCreationFragment} factory method to
  * create an instance of this fragment.
  */
-public class ShoppingCreationFragment extends Fragment {
+public class InventoryCreationFragment extends Fragment {
+
   private Toolbar toolbar;
   private NavController navController;
   private AppBarConfiguration appBarConfiguration;
 
-  public ShoppingCreationFragment() {
+  public InventoryCreationFragment() {
     // Required empty public constructor
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.fragment_shopping_creation, container, false);
+    // Inflate the layout for this fragment
+    return inflater.inflate(R.layout.fragment_inventory_creation, container, false);
   }
 
   @Override
@@ -46,7 +48,6 @@ public class ShoppingCreationFragment extends Fragment {
 
     setupToolbar();
     onClickToolbarItem();
-
   }
 
   private void setupToolbar() {
@@ -55,11 +56,11 @@ public class ShoppingCreationFragment extends Fragment {
   }
 
   private void onClickToolbarItem() {
-    toolbar.setOnMenuItemClickListener(item -> {
+    toolbar.setOnMenuItemClickListener( item -> {
       switch (item.getItemId()) {
         case R.id.miSave:
           //TODO: save item
-          navController.navigate(R.id.action_shoppingCreationFragment_to_shoppingFragment);
+          navController.navigate(R.id.action_inventoryCreationFragment_to_inventoryFragment);
           return true;
         default:
           return false;

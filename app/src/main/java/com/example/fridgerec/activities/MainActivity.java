@@ -3,30 +3,22 @@ package com.example.fridgerec.activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.fridgerec.R;
-import com.example.fridgerec.activities.fragments.InventoryFragment;
-import com.example.fridgerec.activities.fragments.SettingsFragment;
-import com.example.fridgerec.activities.fragments.ShoppingFragment;
 import com.example.fridgerec.model.Food;
 import com.example.fridgerec.model.EntryItem;
 import com.facebook.soloader.SoLoader;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -34,7 +26,6 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {

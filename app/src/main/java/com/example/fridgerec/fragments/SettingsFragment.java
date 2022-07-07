@@ -1,4 +1,4 @@
-package com.example.fridgerec.activities.fragments;
+package com.example.fridgerec.fragments;
 
 import android.os.Bundle;
 
@@ -14,40 +14,49 @@ import androidx.navigation.ui.NavigationUI;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.fridgerec.R;
+import com.parse.ParseUser;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link InventoryCreationFragment} factory method to
+ * Use the {@link SettingsFragment} factory method to
  * create an instance of this fragment.
  */
-public class InventoryCreationFragment extends Fragment {
-
-  private Toolbar toolbar;
+public class SettingsFragment extends Fragment {
+  public static final String TAG = "SettingsFragment";
   private NavController navController;
   private AppBarConfiguration appBarConfiguration;
+  private Toolbar toolbar;
+  private Button btnLogout;
 
-  public InventoryCreationFragment() {
-    // Required empty public constructor
-  }
+  public SettingsFragment(){ }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
-    return inflater.inflate(R.layout.fragment_inventory_creation, container, false);
+    setHasOptionsMenu(true);
+    return inflater.inflate(R.layout.fragment_settings, container, false);
   }
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
-    navController = Navigation.findNavController(view);
-
+    btnLogout = view.findViewById(R.id.btnLogout);
     toolbar = view.findViewById(R.id.toolbar);
 
+    navController = Navigation.findNavController(view);
+
     setupToolbar();
-    onClickToolbarItem();
+
+    btnLogout.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        logout();
+        navController.navigate(R.id.action_settingsFragment_to_loginFragment);
+      }
+    });
   }
 
   private void setupToolbar() {
@@ -55,12 +64,16 @@ public class InventoryCreationFragment extends Fragment {
     NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
   }
 
+  private void logout() {
+    ParseUser.logOut();
+    Toast.makeText(getActivity(), "logout success", Toast.LENGTH_SHORT).show();
+  }
+
   private void onClickToolbarItem() {
-    toolbar.setOnMenuItemClickListener( item -> {
+    toolbar.setOnMenuItemClickListener(item -> {
       switch (item.getItemId()) {
         case R.id.miSave:
-          //TODO: save item
-          navController.navigate(R.id.action_inventoryCreationFragment_to_inventoryFragment);
+          //TODO: save preferences
           return true;
         default:
           return false;
