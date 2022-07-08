@@ -2,10 +2,8 @@ package com.example.fridgerec.fragments;
 
 import android.os.Bundle;
 
-import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -16,7 +14,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -53,7 +50,6 @@ public class InventoryFragment extends Fragment {
   private FragmentInventoryBinding binding;
 
   private View fragmentView;
-  private PopupMenu popup;
 
   private InventoryViewModel model;
 
@@ -62,8 +58,7 @@ public class InventoryFragment extends Fragment {
   }
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                           Bundle savedInstanceState) {
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     binding = FragmentInventoryBinding.inflate(getLayoutInflater(), container, false);
     return binding.getRoot();
   }
@@ -80,7 +75,6 @@ public class InventoryFragment extends Fragment {
     onClickFab();
     setupToolbar();
     onClickToolbarItem(view);
-
 
     setupObservers();
 
@@ -177,23 +171,10 @@ public class InventoryFragment extends Fragment {
         case R.id.miSortFilter:
           navController.navigate(R.id.action_inventoryFragment_to_sortFilterPrefDialog );
           return true;
-        case R.id.miFilter:
-          showPopup(view.findViewById(R.id.miFilter), R.menu.menu_popup_filter);
-          return true;
-        case R.id.miSort:
-          showPopup(view.findViewById(R.id.miSort), R.menu.menu_popup_sort);
-          return true;
         default:
           return false;
       }
     });
-  }
-
-  private void showPopup(View view, @MenuRes int menu_popup) {
-    popup = new PopupMenu(getActivity(), view);
-    MenuInflater inflater = popup.getMenuInflater();
-    inflater.inflate(menu_popup, popup.getMenu());
-    popup.show();
   }
 
   //TODO: delete (this is for testing only)

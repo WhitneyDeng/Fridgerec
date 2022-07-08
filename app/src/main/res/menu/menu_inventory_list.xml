@@ -5,13 +5,4 @@
         android:id="@+id/miSortFilter"
         android:title="Sort/Filter"
         app:showAsAction="always" />
-
-    <item
-        android:id="@+id/miFilter"
-        android:title="Filter"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/miSort"
-        android:title="Sort"
-        app:showAsAction="always"/>
 </menu>
