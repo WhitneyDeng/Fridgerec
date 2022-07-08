@@ -12,11 +12,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.fridgerec.R;
+import com.example.fridgerec.databinding.FragmentLoginBinding;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -33,27 +32,18 @@ public class LoginFragment extends Fragment {
     // Required empty public constructor
   }
 
-
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-
-  }
-
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
-    return inflater.inflate(R.layout.fragment_login, container, false);
+    binding = FragmentLoginBinding.inflate(getLayoutInflater(), container, false);
+    return binding.getRoot();
   }
 
   public static final String TAG = "LoginActivity";
-  private EditText etUsername;
-  private EditText etPassword;
-  private Button btnLogin;
-  private Button btnSignup;
+  private FragmentLoginBinding binding;
 
   private NavController navController;
+
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -65,28 +55,22 @@ public class LoginFragment extends Fragment {
       goMainActivity();
     }
 
-
-    etUsername = view.findViewById(R.id.etUsername);
-    etPassword = view.findViewById(R.id.etPassword);
-    btnLogin = view.findViewById(R.id.btnLogin);
-    btnSignup = view.findViewById(R.id.btnSignup);
-
-    btnLogin.setOnClickListener(new View.OnClickListener() {
+    binding.btnLogin.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         Log.i(TAG, "onClick login button");
-        String username = etUsername.getText().toString();
-        String password = etPassword.getText().toString();
+        String username = binding.etUsername.getText().toString();
+        String password = binding.etPassword.getText().toString();
         loginUser(username, password);
       }
     });
 
-    btnSignup.setOnClickListener(new View.OnClickListener() {
+    binding.btnSignup.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         Log.i(TAG, "onClick sign up button");
-        String username = etUsername.getText().toString();
-        String password = etPassword.getText().toString();
+        String username = binding.etUsername.getText().toString();
+        String password = binding.etPassword.getText().toString();
         signupUser(username, password);
       }
     });

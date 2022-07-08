@@ -15,5 +15,6 @@
     <string name="chip_expire_after">expire after</string>
     <string name="chip_sourced_before">sourced before</string>
     <string name="chip_sourced_after">sourced after</string>
+    <string name="datepicker_btn_txt">select date</string>
 
 </resources>
