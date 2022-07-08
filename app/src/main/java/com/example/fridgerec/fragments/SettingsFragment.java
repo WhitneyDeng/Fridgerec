@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -14,10 +13,10 @@ import androidx.navigation.ui.NavigationUI;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.fridgerec.R;
+import com.example.fridgerec.databinding.FragmentSettingsBinding;
 import com.parse.ParseUser;
 
 /**
@@ -29,8 +28,7 @@ public class SettingsFragment extends Fragment {
   public static final String TAG = "SettingsFragment";
   private NavController navController;
   private AppBarConfiguration appBarConfiguration;
-  private Toolbar toolbar;
-  private Button btnLogout;
+  private FragmentSettingsBinding binding;
 
   public SettingsFragment(){ }
 
@@ -38,19 +36,18 @@ public class SettingsFragment extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     setHasOptionsMenu(true);
-    return inflater.inflate(R.layout.fragment_settings, container, false);
+    binding = FragmentSettingsBinding.inflate(getLayoutInflater(), container, false);
+    return binding.getRoot();
   }
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-    btnLogout = view.findViewById(R.id.btnLogout);
-    toolbar = view.findViewById(R.id.toolbar);
 
     navController = Navigation.findNavController(view);
 
     setupToolbar();
 
-    btnLogout.setOnClickListener(new View.OnClickListener() {
+    binding.btnLogout.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         logout();
@@ -61,7 +58,7 @@ public class SettingsFragment extends Fragment {
 
   private void setupToolbar() {
     appBarConfiguration = new AppBarConfiguration.Builder(R.id.inventoryFragment, R.id.shoppingFragment, R.id.settingsFragment).build();
-    NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
+    NavigationUI.setupWithNavController(binding.toolbar, navController, appBarConfiguration);
   }
 
   private void logout() {
@@ -70,7 +67,7 @@ public class SettingsFragment extends Fragment {
   }
 
   private void onClickToolbarItem() {
-    toolbar.setOnMenuItemClickListener(item -> {
+    binding.toolbar.setOnMenuItemClickListener(item -> {
       switch (item.getItemId()) {
         case R.id.miSave:
           //TODO: save preferences

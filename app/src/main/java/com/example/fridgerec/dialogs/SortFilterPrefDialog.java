@@ -20,11 +20,11 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.fridgerec.EntryItemQuery;
 import com.example.fridgerec.R;
+import com.example.fridgerec.databinding.DialogSortFilterParamsBinding;
 import com.example.fridgerec.model.viewmodel.InventoryViewModel;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
-import java.util.Collections;
 import java.util.HashMap;
 
 public class SortFilterPrefDialog extends DialogFragment{
@@ -33,11 +33,10 @@ public class SortFilterPrefDialog extends DialogFragment{
   private HashMap<String, EntryItemQuery.SortFilter> sortChipParamMap;
   private HashMap<String, EntryItemQuery.SortFilter> filterChipParamMap;
 
+  private DialogSortFilterParamsBinding binding;
 
-  private Toolbar toolbar;
+
   private NavController navController;
-  private ChipGroup cgSort;
-  private ChipGroup cgFilter;
 
   @Nullable
   @Override
@@ -49,9 +48,6 @@ public class SortFilterPrefDialog extends DialogFragment{
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     navController = NavHostFragment.findNavController(this);
-    toolbar = view.findViewById(R.id.toolbar);
-    cgSort = view.findViewById(R.id.cgSort);
-    cgFilter = view.findViewById(R.id.cgFilter);
 
     configToolbar();
     configChipMaps();
@@ -74,18 +70,18 @@ public class SortFilterPrefDialog extends DialogFragment{
 
   private void configToolbar() {
     AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.inventoryFragment, R.id.shoppingFragment, R.id.settingsFragment).build();
-    NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
+    NavigationUI.setupWithNavController(binding.toolbar, navController, appBarConfiguration);
 
-    toolbar.setNavigationOnClickListener(v -> dismiss());
-    toolbar.setTitle("Sort and Filter");
-    toolbar.setOnMenuItemClickListener(item -> {
+    binding.toolbar.setNavigationOnClickListener(v -> dismiss());
+    binding.toolbar.setTitle("Sort and Filter");
+    binding.toolbar.setOnMenuItemClickListener(item -> {
       dismiss();
       return true;
     });
   }
 
   private void onClickToolbarItem() {
-    toolbar.setOnMenuItemClickListener(item -> {
+    binding.toolbar.setOnMenuItemClickListener(item -> {
       switch (item.getItemId()) {
         case R.id.miSave:
           InventoryViewModel model = new ViewModelProvider(requireActivity()).get(InventoryViewModel.class);
@@ -100,13 +96,13 @@ public class SortFilterPrefDialog extends DialogFragment{
 
   private HashMap<EntryItemQuery.SortFilter, Object> getSelectedParams() {
     HashMap<EntryItemQuery.SortFilter, Object> sortFilterParams = new HashMap<>();
-    for (Integer id : cgSort.getCheckedChipIds()) {
-      String chipLabel = ((Chip) cgSort.findViewById(id)).getText().toString();
+    for (Integer id : binding.cgSort.getCheckedChipIds()) {
+      String chipLabel = ((Chip) binding.cgSort.findViewById(id)).getText().toString();
       sortFilterParams.put(sortChipParamMap.get(chipLabel), null);
     }
 
-    for (Integer id : cgFilter.getCheckedChipIds()) {
-      String chipLabel = ((Chip) cgSort.findViewById(id)).getText().toString();
+    for (Integer id : binding.cgFilter.getCheckedChipIds()) {
+      String chipLabel = ((Chip) binding.cgSort.findViewById(id)).getText().toString();
       EntryItemQuery.SortFilter sortFilterParam = sortChipParamMap.get(chipLabel);
 
       Object val = null;

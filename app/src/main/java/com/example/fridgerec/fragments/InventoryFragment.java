@@ -6,7 +6,6 @@ import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -22,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.fridgerec.R;
+import com.example.fridgerec.databinding.FragmentInventoryBinding;
 import com.example.fridgerec.litho.FoodGroupsSection;
 import com.example.fridgerec.litho.ListSection;
 import com.example.fridgerec.litho.ListSectionSpec;
@@ -30,10 +30,8 @@ import com.example.fridgerec.EntryItemQuery;
 import com.example.fridgerec.model.viewmodel.InventoryViewModel;
 import com.facebook.litho.Component;
 import com.facebook.litho.ComponentContext;
-import com.facebook.litho.LithoView;
 import com.facebook.litho.sections.SectionContext;
 import com.facebook.litho.sections.widget.RecyclerCollectionComponent;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -52,11 +50,9 @@ public class InventoryFragment extends Fragment {
   public static final String TAG = "InventoryFragment";
   private AppBarConfiguration appBarConfiguration;
   private NavController navController;
+  private FragmentInventoryBinding binding;
 
   private View fragmentView;
-  private LithoView lvInventoryList;
-  private Toolbar toolbar;
-  private FloatingActionButton fab;
   private PopupMenu popup;
 
   private InventoryViewModel model;
@@ -68,7 +64,8 @@ public class InventoryFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.fragment_inventory, container, false);
+    binding = FragmentInventoryBinding.inflate(getLayoutInflater(), container, false);
+    return binding.getRoot();
   }
 
   @Override
@@ -77,17 +74,14 @@ public class InventoryFragment extends Fragment {
     navController = Navigation.findNavController(view);
 
     fragmentView = view;
-    lvInventoryList = view.findViewById(R.id.lvInventoryList);
-    fab = view.findViewById(R.id.fab);
-    toolbar = view.findViewById(R.id.toolbar);
-    
-    onClickFab();
 
+    model = new ViewModelProvider(requireActivity()).get(InventoryViewModel.class);
+
+    onClickFab();
     setupToolbar();
     onClickToolbarItem(view);
 
-    model = new ViewModelProvider(requireActivity()).get(InventoryViewModel.class);
-    
+
     setupObservers();
 
     EntryItemQuery.queryEntryItems(model,
@@ -138,7 +132,7 @@ public class InventoryFragment extends Fragment {
   }
 
   private void onClickFab() {
-    fab.setOnClickListener(new View.OnClickListener() {
+    binding.fab.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         navController.navigate(R.id.action_inventoryFragment_to_inventoryCreationFragment);
@@ -155,7 +149,7 @@ public class InventoryFragment extends Fragment {
                 .build())
         .build();
 
-    lvInventoryList.setComponentAsync(component);
+    binding.lvInventoryList.setComponentAsync(component);
   }
 
   private void setupLithoRecycler(List<EntryItem> entryItems) {
@@ -169,16 +163,16 @@ public class InventoryFragment extends Fragment {
                 .build())
         .build();
 
-    lvInventoryList.setComponentAsync(component);
+    binding.lvInventoryList.setComponentAsync(component);
   }
 
   private void setupToolbar() {
     appBarConfiguration = new AppBarConfiguration.Builder(R.id.inventoryFragment, R.id.shoppingFragment, R.id.settingsFragment).build();
-    NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
+    NavigationUI.setupWithNavController(binding.toolbar, navController, appBarConfiguration);
   }
 
   private void onClickToolbarItem(View view) {
-    toolbar.setOnMenuItemClickListener(item -> {
+    binding.toolbar.setOnMenuItemClickListener(item -> {
       switch (item.getItemId()) {
         case R.id.miSortFilter:
           navController.navigate(R.id.action_inventoryFragment_to_sortFilterPrefDialog );

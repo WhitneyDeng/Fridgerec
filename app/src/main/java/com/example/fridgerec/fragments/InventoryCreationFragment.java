@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.fridgerec.R;
+import com.example.fridgerec.databinding.FragmentInventoryCreationBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +29,8 @@ public class InventoryCreationFragment extends Fragment {
   private NavController navController;
   private AppBarConfiguration appBarConfiguration;
 
+  private FragmentInventoryCreationBinding binding;
+
   public InventoryCreationFragment() {
     // Required empty public constructor
   }
@@ -35,8 +38,8 @@ public class InventoryCreationFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
-    return inflater.inflate(R.layout.fragment_inventory_creation, container, false);
+    binding = FragmentInventoryCreationBinding.inflate(getLayoutInflater(), container, false);
+    return binding.getRoot();
   }
 
   @Override
@@ -44,7 +47,7 @@ public class InventoryCreationFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
     navController = Navigation.findNavController(view);
 
-    toolbar = view.findViewById(R.id.toolbar);
+    toolbar = binding.toolbar;
 
     setupToolbar();
     onClickToolbarItem();
