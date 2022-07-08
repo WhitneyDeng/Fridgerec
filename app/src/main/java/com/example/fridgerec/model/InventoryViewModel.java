@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class InventoryViewModel extends ViewModel {
+  private MutableLiveData<Boolean> refresh;
   private MutableLiveData<List<EntryItem>> inventoryList;
   private MutableLiveData<HashMap<String, List<EntryItem>>> inventoryMap;
   private MutableLiveData<HashMap<EntryItemList.SortFilter, Object>> sortFilterParams;
