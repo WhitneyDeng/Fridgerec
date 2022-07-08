@@ -1,5 +1,7 @@
-package com.example.fridgerec.activities.lithoSpecs;
+package com.example.fridgerec.litho;
 
+import com.example.fridgerec.activities.lithoSpecs.ListItem;
+import com.example.fridgerec.activities.lithoSpecs.ListSection;
 import com.example.fridgerec.model.EntryItem;
 import com.facebook.litho.Row;
 import com.facebook.litho.annotations.FromEvent;

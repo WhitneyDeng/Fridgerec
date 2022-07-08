@@ -1,4 +1,4 @@
-package com.example.fridgerec.activities.lithoSpecs;
+package com.example.fridgerec.litho;
 
 import static com.facebook.yoga.YogaEdge.ALL;
 
