@@ -8,13 +8,16 @@ import java.util.List;
 
 public class InventoryViewModel extends ViewModel {
   private MutableLiveData<List<EntryItem>> inventoryList;
-  private MutableLiveData<HashMap<String, EntryItem>> inventoryMap;
+  private MutableLiveData<HashMap<String, List<EntryItem>>> inventoryMap;
   private MutableLiveData<HashMap<EntryItemList.SortFilter, Object>> sortFilterParams;
 
   public MutableLiveData<HashMap<EntryItemList.SortFilter, Object>> getSortFilterParams() {
     if (sortFilterParams == null) {
       sortFilterParams = new MutableLiveData<>();
-      sortFilterParams.getValue().put(EntryItemList.SortFilter.NONE, null);
+
+      HashMap<EntryItemList.SortFilter, Object> map = new HashMap<>();
+      map.put(EntryItemList.SortFilter.NONE, null);
+      sortFilterParams.setValue(map);
     }
     return sortFilterParams;
   }
@@ -26,7 +29,7 @@ public class InventoryViewModel extends ViewModel {
     return inventoryList;
   }
 
-  public MutableLiveData<HashMap<String, EntryItem>> getInventoryMap() {
+  public MutableLiveData<HashMap<String, List<EntryItem>>> getInventoryMap() {
     if (inventoryMap == null) {
       inventoryMap = new MutableLiveData<>();
     }
