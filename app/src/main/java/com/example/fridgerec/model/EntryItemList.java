@@ -11,8 +11,10 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EntryItemList {
   public enum SortFilter {
@@ -26,13 +28,13 @@ public class EntryItemList {
   public EntryItemList() {
   }
 
-  public static void queryEntryItems(SortFilter sortFilterParam, String containerList, LithoUIChangeHandler lithoUIChangeHandler) {
-    makeQuery(sortFilterParam,
-        configParseQuery(sortFilterParam, containerList),
+  public static void queryEntryItems(HashMap<SortFilter, Object> sortFilterParams, String containerList, LithoUIChangeHandler lithoUIChangeHandler) {
+    makeQuery(sortFilterParams,
+        configParseQuery(sortFilterParams, containerList),
         lithoUIChangeHandler);
   }
 
-  private static ParseQuery<EntryItem> configParseQuery(SortFilter sortFilterParam, String containerList) {
+  private static ParseQuery<EntryItem> configParseQuery(HashMap<SortFilter, Object> sortFilterParams, String containerList) {
     ParseQuery<EntryItem> query = new ParseQuery<EntryItem>(EntryItem.class);
 
     query.whereEqualTo(EntryItem.KEY_USER, ParseUser.getCurrentUser());
@@ -40,36 +42,48 @@ public class EntryItemList {
     query.include(EntryItem.KEY_FOOD);   // include User data of each Post class in response
 
     //TODO: chain query param
-    switch (sortFilterParam)
-    {
-      case SORT_FOOD_GROUP:
-        break;
-      case SORT_FOOD_NAME:
-        //TODO: implement local sorting function
-        break;
-      case SORT_EXPIRE_DATE:
-        query.orderByAscending(EntryItem.KEY_EXPIRE_DATE);
-        break;
-      case SORT_SOURCE_DATE:
-        query.orderByAscending(EntryItem.KEY_SOURCE_DATE);
-        break;
-      case FILTER_EXPIRE_BEFORE:
-        break;
-      case FILTER_EXPIRE_AFTER:
-        break;
-      case FILTER_SOURCED_BEFORE:
-        break;
-      case FILTER_SOURCED_AFTER:
-        break;
-      case FILTER_FOOD_GROUP:
-        break;
-      case NONE:
-      default:
+    for (Map.Entry<SortFilter, Object> entry : sortFilterParams.entrySet()) {
+      switch (entry.getKey())
+      {
+        case SORT_FOOD_GROUP:
+          break;
+        case SORT_FOOD_NAME:
+          //TODO: implement local sorting function
+          break;
+        case SORT_EXPIRE_DATE:
+          query.orderByAscending(EntryItem.KEY_EXPIRE_DATE);
+          break;
+        case SORT_SOURCE_DATE:
+          query.orderByAscending(EntryItem.KEY_SOURCE_DATE);
+          break;
+        case FILTER_EXPIRE_BEFORE:
+          Date expireBefore = (Date) entry.getValue();
+          //TODO: implement
+          break;
+        case FILTER_EXPIRE_AFTER:
+          Date expireAfter = (Date) entry.getValue();
+          //TODO: implement
+          break;
+        case FILTER_SOURCED_BEFORE:
+          Date sourcedBefore = (Date) entry.getValue();
+          //TODO: implement
+          break;
+        case FILTER_SOURCED_AFTER:
+          Date sourcedAfter = (Date) entry.getValue();
+          //TODO: implement
+          break;
+        case FILTER_FOOD_GROUP:
+          String foodGroup = (String) entry.getValue(); //TODO: select multiple food group => becomes List<String>
+          //TODO: implement
+          break;
+        case NONE:
+        default:
+      }
     }
     return query;
   }
 
-  private static void makeQuery(SortFilter sortFilterParam, ParseQuery<EntryItem> query, LithoUIChangeHandler lithoUIChangeHandler) {
+  private static void makeQuery(HashMap<SortFilter, Object> sortFilterParams, ParseQuery<EntryItem> query, LithoUIChangeHandler lithoUIChangeHandler) {
     query.findInBackground(new FindCallback<EntryItem>() {
       @Override
       public void done(List<EntryItem> queryResult, ParseException e) {
@@ -80,19 +94,16 @@ public class EntryItemList {
         Log.i(TAG, "Post query success");
         Log.i(TAG, "queryResult" + queryResult.toString());
 
-        postQueryProcess(queryResult, sortFilterParam);
+        postQueryProcess(queryResult, sortFilterParams);
 
         //TODO: set inventoryList of corresponding ViewModel
-        lithoUIChangeHandler.setupLithoView(sortFilterParam, queryResult);
       }
     });
   }
 
-  private static void postQueryProcess(List<EntryItem> queryResult, SortFilter sortFilterParam) {
-    switch (sortFilterParam) {
-      case SORT_FOOD_NAME:
-        Collections.sort(queryResult, new FoodNameComparator());
-        break;
+  private static void postQueryProcess(List<EntryItem> queryResult, HashMap<SortFilter, Object> sortFilterParams) {
+    if (sortFilterParams.containsKey(SortFilter.SORT_FOOD_NAME)) {
+      Collections.sort(queryResult, new FoodNameComparator());
     }
   }
 
