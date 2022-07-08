@@ -25,7 +25,6 @@
         android:padding="20dp">
 
         <TextView
-            android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -33,84 +32,85 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
         <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cgSort"
             app:singleSelection="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:id="@+id/chipSortFoodName"
+                android:id="@+id/cSortFoodName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="food name" />
+                android:text="@string/chip_food_name" />
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:id="@+id/chipSortFoodGroup"
+                android:id="@+id/cSortFoodGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="food group" />
+                android:text="@string/chip_food_group" />
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:id="@+id/chipSortSourceDate"
+                android:id="@+id/cSortSourceDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="source date" />
+                android:text="@string/chip_source_date" />
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:id="@+id/chipSortExpireDate"
+                android:id="@+id/cSortExpireDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="expire date" />
+                android:text="@string/chip_expire_date" />
         </com.google.android.material.chip.ChipGroup>
 
         <TextView
-            android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Filter by:" />
 
         <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cgFilter"
             app:singleSelection="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:id="@+id/chipFilterExpireBefore"
+                android:id="@+id/cFilterExpireBefore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="expire before" />
+                android:text="@string/chip_expire_before" />
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:id="@+id/chipFilterExpireAfter"
+                android:id="@+id/cFilterExpireAfter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="expire after" />
+                android:text="@string/chip_expire_after" />
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:id="@+id/chipFilterSourceBefore"
+                android:id="@+id/cFilterSourceBefore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="sourced before" />
+                android:text="@string/chip_sourced_before" />
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:id="@+id/chipFilterSourceAfter"
+                android:id="@+id/cFilterSourceAfter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="sourced after" />
+                android:text="@string/chip_sourced_after" />
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:id="@+id/chipFilterFoodGroup"
+                android:id="@+id/cFilterFoodGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="food group" />
+                android:text="@string/chip_food_group" />
         </com.google.android.material.chip.ChipGroup>
 
         <LinearLayout
