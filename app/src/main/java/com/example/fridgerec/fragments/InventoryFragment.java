@@ -27,14 +27,13 @@ import com.example.fridgerec.activities.lithoSpecs.ListSection;
 import com.example.fridgerec.activities.lithoSpecs.ListSectionSpec;
 import com.example.fridgerec.interfaces.LithoUIChangeHandler;
 import com.example.fridgerec.model.EntryItem;
-import com.example.fridgerec.model.EntryItemList;
+import com.example.fridgerec.model.EntryItemQuery;
 import com.example.fridgerec.model.InventoryViewModel;
 import com.facebook.litho.Component;
 import com.facebook.litho.ComponentContext;
 import com.facebook.litho.LithoView;
 import com.facebook.litho.sections.SectionContext;
 import com.facebook.litho.sections.widget.RecyclerCollectionComponent;
-import com.facebook.litho.widget.Text;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -92,7 +91,7 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
     
     setupObservers();
 
-    EntryItemList.queryEntryItems(model.getSortFilterParams().getValue(),
+    EntryItemQuery.queryEntryItems(model,
         EntryItem.CONTAINER_LIST_INVENTORY);
   }
 
@@ -103,10 +102,10 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
   }
 
   private void observeSortFilterParams() {
-    final Observer<HashMap<EntryItemList.SortFilter, Object>> sortFilterParamsObserver = new Observer<HashMap<EntryItemList.SortFilter, Object>>() {
+    final Observer<HashMap<EntryItemQuery.SortFilter, Object>> sortFilterParamsObserver = new Observer<HashMap<EntryItemQuery.SortFilter, Object>>() {
       @Override
-      public void onChanged(HashMap<EntryItemList.SortFilter, Object> sortFilterObjectHashMap) {
-        EntryItemList.queryEntryItems(model.getSortFilterParams().getValue(),
+      public void onChanged(HashMap<EntryItemQuery.SortFilter, Object> sortFilterObjectHashMap) {
+        EntryItemQuery.queryEntryItems(model,
             EntryItem.CONTAINER_LIST_INVENTORY);
 
         Log.i(TAG, "sort & filter params changed");
@@ -119,24 +118,24 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
     final Observer<List<EntryItem>> inventoryListObserver = new Observer<List<EntryItem>>() {
       @Override
       public void onChanged(List<EntryItem> entryItems) {
-        setupLithoRecycler(model.getInventoryList().getValue());
+        setupLithoRecycler(model.getList().getValue());
 
         Log.i(TAG, "inventory list changed");
       }
     };
 
-    model.getInventoryList().observe(getViewLifecycleOwner(), inventoryListObserver);
+    model.getList().observe(getViewLifecycleOwner(), inventoryListObserver);
 
     final Observer<HashMap<String, List<EntryItem>>> inventoryMapObserver = new Observer<HashMap<String, List<EntryItem>>>() {
       @Override
       public void onChanged(HashMap<String, List<EntryItem>> stringListHashMap) {
-        setupSectionedLithoRecycler(model.getInventoryMap().getValue());
+        setupSectionedLithoRecycler(model.getMap().getValue());
 
         Log.i(TAG, "inventory list changed (sort by food group)");
       }
     };
 
-    model.getInventoryMap().observe(getViewLifecycleOwner(), inventoryMapObserver);
+    model.getMap().observe(getViewLifecycleOwner(), inventoryMapObserver);
   }
 
   private void onClickFab() {
