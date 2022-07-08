@@ -1,7 +1,9 @@
-package com.example.fridgerec.model;
+package com.example.fridgerec;
 
 import android.util.Log;
 
+import com.example.fridgerec.interfaces.DatasetViewModel;
+import com.example.fridgerec.model.EntryItem;
 import com.example.fridgerec.util.FoodNameComparator;
 import com.parse.FindCallback;
 import com.parse.ParseException;

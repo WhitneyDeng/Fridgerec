@@ -24,11 +24,10 @@ import android.view.ViewGroup;
 import com.example.fridgerec.R;
 import com.example.fridgerec.activities.lithoSpecs.FoodGroupsSection;
 import com.example.fridgerec.activities.lithoSpecs.ListSection;
-import com.example.fridgerec.activities.lithoSpecs.ListSectionSpec;
-import com.example.fridgerec.interfaces.LithoUIChangeHandler;
+import com.example.fridgerec.litho.ListSectionSpec;
 import com.example.fridgerec.model.EntryItem;
-import com.example.fridgerec.model.EntryItemQuery;
-import com.example.fridgerec.model.InventoryViewModel;
+import com.example.fridgerec.EntryItemQuery;
+import com.example.fridgerec.model.viewmodel.InventoryViewModel;
 import com.facebook.litho.Component;
 import com.facebook.litho.ComponentContext;
 import com.facebook.litho.LithoView;
@@ -49,7 +48,7 @@ import java.util.List;
  * Use the {@link InventoryFragment} factory method to
  * create an instance of this fragment.
  */
-public class InventoryFragment extends Fragment implements LithoUIChangeHandler {
+public class InventoryFragment extends Fragment {
   public static final String TAG = "InventoryFragment";
   private AppBarConfiguration appBarConfiguration;
   private NavController navController;

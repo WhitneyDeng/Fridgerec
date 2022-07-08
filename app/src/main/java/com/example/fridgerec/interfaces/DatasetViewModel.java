@@ -1,6 +1,9 @@
-package com.example.fridgerec.model;
+package com.example.fridgerec.interfaces;
 
 import androidx.lifecycle.MutableLiveData;
+
+import com.example.fridgerec.model.EntryItem;
+import com.example.fridgerec.EntryItemQuery;
 
 import java.util.HashMap;
 import java.util.List;
