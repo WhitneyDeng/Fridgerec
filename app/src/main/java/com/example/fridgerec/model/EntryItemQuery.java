@@ -2,7 +2,6 @@ package com.example.fridgerec.model;
 
 import android.util.Log;
 
-import com.example.fridgerec.interfaces.LithoUIChangeHandler;
 import com.example.fridgerec.util.FoodNameComparator;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -16,25 +15,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EntryItemList {
+public class EntryItemQuery {
   public enum SortFilter {
     NONE,
     SORT_FOOD_NAME, SORT_FOOD_GROUP, SORT_EXPIRE_DATE, SORT_SOURCE_DATE,
     FILTER_FOOD_GROUP, FILTER_EXPIRE_BEFORE, FILTER_EXPIRE_AFTER, FILTER_SOURCED_BEFORE, FILTER_SOURCED_AFTER
   }
 
-  public static final String TAG = "EntryItemList";
+  public static final String TAG = "EntryItemQuery";
 
-  public EntryItemList() {
+  private static HashMap<SortFilter, Object> sortFilterParams;
+  private static String containerList;
+  private static DatasetViewModel viewModel;
+
+  public static void queryEntryItems(DatasetViewModel vm, String cl) {
+    viewModel = vm;
+    containerList = cl;
+    sortFilterParams = vm.getSortFilterParams().getValue();
+
+    makeQuery(configParseQuery());
   }
 
-  public static void queryEntryItems(HashMap<SortFilter, Object> sortFilterParams, String containerList, LithoUIChangeHandler lithoUIChangeHandler) {
-    makeQuery(sortFilterParams,
-        configParseQuery(sortFilterParams, containerList),
-        lithoUIChangeHandler);
-  }
-
-  private static ParseQuery<EntryItem> configParseQuery(HashMap<SortFilter, Object> sortFilterParams, String containerList) {
+  private static ParseQuery<EntryItem> configParseQuery() {
     ParseQuery<EntryItem> query = new ParseQuery<EntryItem>(EntryItem.class);
 
     query.whereEqualTo(EntryItem.KEY_USER, ParseUser.getCurrentUser());
@@ -83,7 +85,7 @@ public class EntryItemList {
     return query;
   }
 
-  private static void makeQuery(HashMap<SortFilter, Object> sortFilterParams, ParseQuery<EntryItem> query, LithoUIChangeHandler lithoUIChangeHandler) {
+  private static void makeQuery(ParseQuery<EntryItem> query) {
     query.findInBackground(new FindCallback<EntryItem>() {
       @Override
       public void done(List<EntryItem> queryResult, ParseException e) {
@@ -94,20 +96,26 @@ public class EntryItemList {
         Log.i(TAG, "Post query success");
         Log.i(TAG, "queryResult" + queryResult.toString());
 
-        postQueryProcess(queryResult, sortFilterParams);
-
-        //TODO: set inventoryList of corresponding ViewModel
+        postQueryProcess(queryResult);
       }
     });
   }
 
-  private static void postQueryProcess(List<EntryItem> queryResult, HashMap<SortFilter, Object> sortFilterParams) {
+  private static void postQueryProcess(List<EntryItem> queryResult) {
+
     if (sortFilterParams.containsKey(SortFilter.SORT_FOOD_NAME)) {
       Collections.sort(queryResult, new FoodNameComparator());
     }
+    if (sortFilterParams.containsKey(SortFilter.SORT_FOOD_GROUP)) {
+      viewModel.getMap()
+          .setValue(
+              filterFoodGroup(queryResult));
+      return;
+    }
+    viewModel.getList().setValue(queryResult);
   }
 
-  public static HashMap<String, List<EntryItem>> filterFoodGroup(List<EntryItem> entryItems)  {
+  private static HashMap<String, List<EntryItem>> filterFoodGroup(List<EntryItem> entryItems)  {
     HashMap<String, List<EntryItem>> foodGroupMap = new HashMap<>();
     for (EntryItem entryItem : entryItems) {
       String foodGroup = entryItem.getFood().getFoodGroup();
