@@ -93,8 +93,7 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
     setupObservers();
 
     EntryItemList.queryEntryItems(model.getSortFilterParams().getValue(),
-        EntryItem.CONTAINER_LIST_INVENTORY,
-        InventoryFragment.this);
+        EntryItem.CONTAINER_LIST_INVENTORY);
   }
 
   private void setupObservers() {
@@ -108,8 +107,7 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
       @Override
       public void onChanged(HashMap<EntryItemList.SortFilter, Object> sortFilterObjectHashMap) {
         EntryItemList.queryEntryItems(model.getSortFilterParams().getValue(),
-            EntryItem.CONTAINER_LIST_INVENTORY,
-            InventoryFragment.this);
+            EntryItem.CONTAINER_LIST_INVENTORY);
 
         Log.i(TAG, "sort & filter params changed");
       }
