@@ -22,8 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.fridgerec.R;
-import com.example.fridgerec.activities.lithoSpecs.FoodGroupsSection;
-import com.example.fridgerec.activities.lithoSpecs.ListSection;
+import com.example.fridgerec.litho.FoodGroupsSection;
+import com.example.fridgerec.litho.ListSection;
 import com.example.fridgerec.litho.ListSectionSpec;
 import com.example.fridgerec.model.EntryItem;
 import com.example.fridgerec.EntryItemQuery;
@@ -86,7 +86,7 @@ public class InventoryFragment extends Fragment {
     setupToolbar();
     onClickToolbarItem(view);
 
-    model = new ViewModelProvider(this).get(InventoryViewModel.class);
+    model = new ViewModelProvider(requireActivity()).get(InventoryViewModel.class);
     
     setupObservers();
 

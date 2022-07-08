@@ -1,7 +1,5 @@
 package com.example.fridgerec.litho;
 
-import com.example.fridgerec.activities.lithoSpecs.ListItem;
-import com.example.fridgerec.activities.lithoSpecs.ListSection;
 import com.example.fridgerec.model.EntryItem;
 import com.facebook.litho.Row;
 import com.facebook.litho.annotations.FromEvent;
@@ -20,7 +18,6 @@ import com.facebook.litho.widget.Text;
 import com.facebook.yoga.YogaJustify;
 
 import java.util.List;
-import java.util.Objects;
 
 @GroupSectionSpec
 public class ListSectionSpec {
