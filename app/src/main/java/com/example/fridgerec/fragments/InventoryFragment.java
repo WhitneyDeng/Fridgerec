@@ -92,7 +92,7 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
     
     setupObservers();
 
-    EntryItemList.queryEntryItems(model.getSortFilterParams().getValue(),  //TODO: change back to NONE filter
+    EntryItemList.queryEntryItems(model.getSortFilterParams().getValue(),
         EntryItem.CONTAINER_LIST_INVENTORY,
         InventoryFragment.this);
   }
@@ -100,15 +100,18 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
   private void setupObservers() {
     observeRecyclerDataset();
     observeSortFilterParams();
+    //TODO: add observer for refresh (to reload litho recycler)
   }
 
   private void observeSortFilterParams() {
     final Observer<HashMap<EntryItemList.SortFilter, Object>> sortFilterParamsObserver = new Observer<HashMap<EntryItemList.SortFilter, Object>>() {
       @Override
       public void onChanged(HashMap<EntryItemList.SortFilter, Object> sortFilterObjectHashMap) {
-        EntryItemList.queryEntryItems(model.getSortFilterParams().getValue(),  //TODO: change back to NONE filter
+        EntryItemList.queryEntryItems(model.getSortFilterParams().getValue(),
             EntryItem.CONTAINER_LIST_INVENTORY,
             InventoryFragment.this);
+
+        Log.i(TAG, "sort & filter params changed");
       }
     };
     model.getSortFilterParams().observe(getViewLifecycleOwner(), sortFilterParamsObserver);
@@ -119,6 +122,8 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
       @Override
       public void onChanged(List<EntryItem> entryItems) {
         setupLithoRecycler(model.getInventoryList().getValue());
+
+        Log.i(TAG, "inventory list changed");
       }
     };
 
@@ -128,6 +133,8 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
       @Override
       public void onChanged(HashMap<String, List<EntryItem>> stringListHashMap) {
         setupSectionedLithoRecycler(model.getInventoryMap().getValue());
+
+        Log.i(TAG, "inventory list changed (sort by food group)");
       }
     };
 
@@ -222,10 +229,5 @@ public class InventoryFragment extends Fragment implements LithoUIChangeHandler 
         entryItems.addAll(queryResult);
       }
     });
-  }
-
-  @Override
-  public void setupLithoView(EntryItemList.SortFilter sortFilterParam, List<EntryItem> entryItems) {
-
   }
 }
