@@ -88,6 +88,7 @@ Nice to have: Convenient grocery/food logging with UPC (optional: barcode scanne
 - [ ] not let source date exceed expire date
 - [ ] allow user to filter multiple food groups (programmatically add chips)
 - [ ] remember prev sort & filter choices + check previously selected sort/filter preferences
+- [ ] constraint source date filter selection to before today
 
 ##### Optional Stretches
 - [ ] Calendar view of when grocery expires
