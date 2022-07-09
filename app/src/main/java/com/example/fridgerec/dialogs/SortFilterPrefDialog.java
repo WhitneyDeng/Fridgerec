@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +25,7 @@ import com.example.fridgerec.R;
 import com.example.fridgerec.databinding.DialogSortFilterParamsBinding;
 import com.example.fridgerec.model.viewmodel.InventoryViewModel;
 import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
@@ -30,6 +33,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class SortFilterPrefDialog extends DialogFragment{
   public static final String TAG = "SortFilterPrefDialog";
@@ -54,13 +58,35 @@ public class SortFilterPrefDialog extends DialogFragment{
 
     configToolbar();
     onClickToolbarItem();
+    configFilterLayoutVisibility();
     onClickDatePickerBtn(binding.btnExpireBefore);
     onClickDatePickerBtn(binding.btnExpireAfter);
     onClickDatePickerBtn(binding.btnSourcedBefore);
     onClickDatePickerBtn(binding.btnSourcedAfter);
-    //TODO: set default date picker to today
     //TODO: toggle visibility of linear layouts
   }
+
+  private void configFilterLayoutVisibility() {
+    onChipCheckedChanged(binding.cFilterExpireBefore, binding.llFilterExpireBefore);
+    onChipCheckedChanged(binding.cFilterExpireAfter, binding.llFilterExpireAfter);
+    onChipCheckedChanged(binding.cFilterSourceBefore, binding.llFilterSourcedBefore);
+    onChipCheckedChanged(binding.cFilterSourceAfter, binding.llFilterSourcedAfter);
+    onChipCheckedChanged(binding.cFilterFoodGroup, binding.llFilterFoodGroup);
+  }
+
+  private void onChipCheckedChanged(Chip chip, LinearLayout ll) {
+    chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+      @Override
+      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+          ll.setVisibility(LinearLayout.VISIBLE);
+        } else {
+          ll.setVisibility(LinearLayout.GONE);
+        }
+      }
+    });
+  }
+
 
   private void onClickDatePickerBtn(Button btn) {
     MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
