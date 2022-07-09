@@ -1,16 +1,15 @@
 package com.example.fridgerec.dialogs;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -21,9 +20,10 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.fridgerec.EntryItemQuery;
 import com.example.fridgerec.R;
 import com.example.fridgerec.databinding.DialogSortFilterParamsBinding;
+import com.example.fridgerec.databinding.FragmentInventoryBinding;
 import com.example.fridgerec.model.viewmodel.InventoryViewModel;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.datepicker.MaterialDatePicker;
 
 import java.util.HashMap;
 
@@ -41,7 +41,8 @@ public class SortFilterPrefDialog extends DialogFragment{
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.dialog_sort_filter_params, container, false);
+    binding = DialogSortFilterParamsBinding.inflate(getLayoutInflater(), container, false);
+    return binding.getRoot();
   }
 
   @Override
@@ -52,9 +53,26 @@ public class SortFilterPrefDialog extends DialogFragment{
     configToolbar();
     configChipMaps();
     onClickToolbarItem();
-
+    onClickDatePickerBtn(binding.btnExpireBefore);
+    onClickDatePickerBtn(binding.btnExpireAfter);
+    onClickDatePickerBtn(binding.btnSourcedBefore);
+    onClickDatePickerBtn(binding.btnSourcedAfter);
     //TODO: set default date picker to today
     //TODO: toggle visibility of linear layouts
+  }
+
+  private void onClickDatePickerBtn(Button btn) {
+    MaterialDatePicker datePicker = MaterialDatePicker.Builder.datePicker()
+        .setTitleText("Select Date")
+        .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+        .build();
+
+    btn.setOnClickListener((new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        datePicker.show(getChildFragmentManager(), "DATE_PICKER");
+      }
+    }));
   }
 
   @Override
