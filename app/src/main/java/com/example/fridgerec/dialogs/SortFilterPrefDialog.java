@@ -20,10 +20,10 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.fridgerec.EntryItemQuery;
 import com.example.fridgerec.R;
 import com.example.fridgerec.databinding.DialogSortFilterParamsBinding;
-import com.example.fridgerec.databinding.FragmentInventoryBinding;
 import com.example.fridgerec.model.viewmodel.InventoryViewModel;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
 import java.util.HashMap;
 
@@ -51,7 +51,6 @@ public class SortFilterPrefDialog extends DialogFragment{
     navController = NavHostFragment.findNavController(this);
 
     configToolbar();
-    configChipMaps();
     onClickToolbarItem();
     onClickDatePickerBtn(binding.btnExpireBefore);
     onClickDatePickerBtn(binding.btnExpireAfter);
@@ -62,7 +61,7 @@ public class SortFilterPrefDialog extends DialogFragment{
   }
 
   private void onClickDatePickerBtn(Button btn) {
-    MaterialDatePicker datePicker = MaterialDatePicker.Builder.datePicker()
+    MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
         .setTitleText("Select Date")
         .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
         .build();
@@ -73,6 +72,13 @@ public class SortFilterPrefDialog extends DialogFragment{
         datePicker.show(getChildFragmentManager(), "DATE_PICKER");
       }
     }));
+
+    datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
+      @Override
+      public void onPositiveButtonClick(Object selection) {
+        btn.setText(datePicker.getHeaderText());
+      }
+    });
   }
 
   @Override
@@ -113,7 +119,9 @@ public class SortFilterPrefDialog extends DialogFragment{
   }
 
   private HashMap<EntryItemQuery.SortFilter, Object> getSelectedParams() {
+    configChipMaps();
     HashMap<EntryItemQuery.SortFilter, Object> sortFilterParams = new HashMap<>();
+
     for (Integer id : binding.cgSort.getCheckedChipIds()) {
       String chipLabel = ((Chip) binding.cgSort.findViewById(id)).getText().toString();
       sortFilterParams.put(sortChipParamMap.get(chipLabel), null);
@@ -121,7 +129,7 @@ public class SortFilterPrefDialog extends DialogFragment{
 
     for (Integer id : binding.cgFilter.getCheckedChipIds()) {
       String chipLabel = ((Chip) binding.cgSort.findViewById(id)).getText().toString();
-      EntryItemQuery.SortFilter sortFilterParam = sortChipParamMap.get(chipLabel);
+      EntryItemQuery.SortFilter sortFilterParam = filterChipParamMap.get(chipLabel);
 
       Object val = null;
       switch (sortFilterParam) {
