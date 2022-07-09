@@ -52,7 +52,6 @@ public class EntryItemQuery {
         case SORT_FOOD_GROUP:
           break;
         case SORT_FOOD_NAME:
-          //TODO: implement local sorting function
           break;
         case SORT_EXPIRE_DATE:
           query.orderByAscending(EntryItem.KEY_EXPIRE_DATE);
@@ -61,20 +60,20 @@ public class EntryItemQuery {
           query.orderByAscending(EntryItem.KEY_SOURCE_DATE);
           break;
         case FILTER_EXPIRE_BEFORE:
-          Date expireBefore = (Date) entry.getValue();
-          //TODO: implement
+          query.whereLessThan(EntryItem.KEY_EXPIRE_DATE,
+              (Date) entry.getValue());
           break;
         case FILTER_EXPIRE_AFTER:
-          Date expireAfter = (Date) entry.getValue();
-          //TODO: implement
+          query.whereGreaterThan(EntryItem.KEY_EXPIRE_DATE,
+              (Date) entry.getValue());
           break;
         case FILTER_SOURCED_BEFORE:
-          Date sourcedBefore = (Date) entry.getValue();
-          //TODO: implement
+          query.whereLessThan(EntryItem.KEY_SOURCE_DATE,
+              (Date) entry.getValue());
           break;
         case FILTER_SOURCED_AFTER:
-          Date sourcedAfter = (Date) entry.getValue();
-          //TODO: implement
+          query.whereGreaterThan(EntryItem.KEY_SOURCE_DATE,
+              (Date) entry.getValue());
           break;
         case FILTER_FOOD_GROUP:
           String foodGroup = (String) entry.getValue(); //TODO: select multiple food group => becomes List<String>
@@ -121,7 +120,7 @@ public class EntryItemQuery {
     HashMap<String, List<EntryItem>> foodGroupMap = new HashMap<>();
     for (EntryItem entryItem : entryItems) {
       String foodGroup = entryItem.getFood().getFoodGroup();
-      List<EntryItem> foodGroupList = foodGroupMap.getOrDefault(foodGroup, new ArrayList<EntryItem>());
+      List<EntryItem> foodGroupList = foodGroupMap.getOrDefault(foodGroup, new ArrayList<>());
       foodGroupList.add(entryItem);
       foodGroupMap.put(foodGroup, foodGroupList);
     }
