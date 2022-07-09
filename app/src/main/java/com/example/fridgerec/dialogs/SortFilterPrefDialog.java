@@ -166,6 +166,7 @@ public class SortFilterPrefDialog extends DialogFragment{
       Log.e(TAG, "unable to extract date from" + btnDatepicker.getText().toString());
       Toast.makeText(getContext(), "unselected date (default to today)", Toast.LENGTH_SHORT).show();
       e.printStackTrace();
+
       return new Date(System.currentTimeMillis());
     }
   }
