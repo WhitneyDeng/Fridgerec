@@ -6,6 +6,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.lifecycle.ViewModelProvider;
+
+import com.example.fridgerec.interfaces.DatasetViewModel;
 import com.example.fridgerec.model.EntryItem;
 import com.facebook.litho.ClickEvent;
 import com.facebook.litho.Column;
@@ -32,13 +35,8 @@ public class ListItemSpec {
   @OnCreateLayout
   public static Component onCreateLayout(
           ComponentContext c,
-          @Prop EntryItem entryItem) {
-
-    Date expireDate = entryItem.getExpireDate();
-    Date sourceDate = entryItem.getSourceDate();
-
-    String expireDateString = EXPIRE_DATE_DESC + (expireDate == null ? EMPTY_DATE : formatDate(expireDate));
-    String sourceDateString = SOURCE_DATE_DESC + (sourceDate == null ? EMPTY_DATE : formatDate(sourceDate));
+          @Prop EntryItem entryItem,
+          @Prop DatasetViewModel viewModel) {
 
     Row.Builder component = Row.create(c)
         .justifyContent(YogaJustify.SPACE_BETWEEN)
@@ -49,6 +47,12 @@ public class ListItemSpec {
                 .textSizeSp(20))
         .clickHandler(ListItem.onClick(c))
         .longClickHandler(ListItem.onLongClick(c));
+
+    Date expireDate = entryItem.getExpireDate();
+    Date sourceDate = entryItem.getSourceDate();
+
+    String expireDateString = EXPIRE_DATE_DESC + (expireDate == null ? EMPTY_DATE : formatDate(expireDate));
+    String sourceDateString = SOURCE_DATE_DESC + (sourceDate == null ? EMPTY_DATE : formatDate(sourceDate));
 
     try {
       return component
@@ -69,13 +73,20 @@ public class ListItemSpec {
   }
 
   @OnEvent(ClickEvent.class)
-  public static void onClick(ComponentContext c, @FromEvent View view) {
-    Log.i(TAG, "click detected");
+  public static void onClick(ComponentContext c,
+                             @Prop DatasetViewModel viewModel,
+                             @Prop EntryItem entryItem,
+                             @FromEvent View view) {
+    Log.i(TAG, "click detected: " + entryItem.getFood().getFoodName());
   }
 
   @OnEvent(LongClickEvent.class)
-  public static boolean onLongClick(ComponentContext c, @FromEvent View view) {
-    Log.i(TAG, "long click detected");
+  public static boolean onLongClick(ComponentContext c,
+                                    @Prop DatasetViewModel viewModel,
+                                    @Prop EntryItem entryItem,
+                                    @FromEvent View view) {
+    Log.i(TAG, "long click detected: " + entryItem.getFood().getFoodName());
+    Log.i(TAG, viewModel.getList().getValue().toString());
     return true;
   }
 
