@@ -85,7 +85,19 @@ public class InventoryFragment extends Fragment {
   private void setupObservers() {
     observeRecyclerDataset();
     observeSortFilterParams();
+    observeInDeleteMode();
     //TODO: add observer for refresh (to reload litho recycler)
+  }
+
+  private void observeInDeleteMode() {
+    final Observer<Boolean> inDeleteModeObserver = new Observer<Boolean>() {
+      @Override
+      public void onChanged(Boolean inDeleteMode) {
+        //TODO: change toolbar to contextual action bar
+        Log.i(TAG, "inDeleteMode changed to: " + inDeleteMode);
+      }
+    };
+    model.getInDeleteMode().observe(getViewLifecycleOwner(), inDeleteModeObserver);
   }
 
   private void observeSortFilterParams() {
