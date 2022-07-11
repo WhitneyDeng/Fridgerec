@@ -4,5 +4,6 @@
     <item
         android:id="@+id/miSortFilter"
         android:title="Sort/Filter"
+        android:icon="@drawable/ic_filter"
         app:showAsAction="always" />
 </menu>
