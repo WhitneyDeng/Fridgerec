@@ -25,7 +25,6 @@ import com.example.fridgerec.R;
 import com.example.fridgerec.databinding.DialogSortFilterParamsBinding;
 import com.example.fridgerec.model.viewmodel.InventoryViewModel;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
@@ -33,7 +32,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 public class SortFilterPrefDialog extends DialogFragment{
   public static final String TAG = "SortFilterPrefDialog";
@@ -125,7 +123,7 @@ public class SortFilterPrefDialog extends DialogFragment{
     NavigationUI.setupWithNavController(binding.toolbar, navController, appBarConfiguration);
 
     binding.toolbar.setNavigationOnClickListener(v -> dismiss());
-    binding.toolbar.setTitle("Sort and Filter");
+    binding.toolbar.setTitle("select Sort & Filter");
     binding.toolbar.setOnMenuItemClickListener(item -> {
       dismiss();
       return true;
