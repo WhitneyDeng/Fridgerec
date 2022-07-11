@@ -86,7 +86,6 @@ public class ListItemSpec {
                                     @Prop EntryItem entryItem,
                                     @FromEvent View view) {
     Log.i(TAG, "long click detected: " + entryItem.getFood().getFoodName());
-    Log.i(TAG, viewModel.getList().getValue().toString());
     return true;
   }
 
