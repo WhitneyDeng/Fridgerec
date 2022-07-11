@@ -12,4 +12,6 @@ public interface DatasetViewModel {
   public MutableLiveData<HashMap<EntryItemQuery.SortFilter, Object>> getSortFilterParams();
   public MutableLiveData<List<EntryItem>> getList();
   public MutableLiveData<HashMap<String, List<EntryItem>>> getMap();
+  public MutableLiveData<Boolean> getInDeleteMode();
+  public MutableLiveData<List<EntryItem>> getCheckedItems();
 }
