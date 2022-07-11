@@ -33,7 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
-public class SortFilterPrefDialog extends DialogFragment{
+public class SortFilterParamsDialog extends DialogFragment{
   public static final String TAG = "SortFilterPrefDialog";
 
   private HashMap<String, EntryItemQuery.SortFilter> sortChipParamMap;

@@ -77,7 +77,7 @@
     </fragment>
     <dialog
         android:id="@+id/sortFilterPrefDialog"
-        android:name="com.example.fridgerec.dialogs.SortFilterPrefDialog"
+        android:name="com.example.fridgerec.dialogs.SortFilterParamsDialog"
         android:label="SortFilterPrefDialog" >
         <action
             android:id="@+id/action_sortFilterPrefDialog_to_inventoryFragment"
