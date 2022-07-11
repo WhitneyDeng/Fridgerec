@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.fridgerec.interfaces.DatasetViewModel;
@@ -86,6 +87,11 @@ public class ListItemSpec {
                                     @Prop EntryItem entryItem,
                                     @FromEvent View view) {
     Log.i(TAG, "long click detected: " + entryItem.getFood().getFoodName());
+
+    MutableLiveData<Boolean> inDeleteMode = viewModel.getInDeleteMode();
+    if (Boolean.FALSE.equals(inDeleteMode.getValue())) {
+      inDeleteMode.setValue(true);
+    }
     return true;
   }
 
