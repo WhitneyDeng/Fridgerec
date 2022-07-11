@@ -19,9 +19,9 @@ import android.view.ViewGroup;
 
 import com.example.fridgerec.R;
 import com.example.fridgerec.databinding.FragmentInventoryBinding;
-import com.example.fridgerec.litho.FoodGroupsSection;
-import com.example.fridgerec.litho.ListSection;
-import com.example.fridgerec.litho.ListSectionSpec;
+import com.example.fridgerec.lithoSpecs.FoodGroupsSection;
+import com.example.fridgerec.lithoSpecs.ListSection;
+import com.example.fridgerec.lithoSpecs.ListSectionSpec;
 import com.example.fridgerec.model.EntryItem;
 import com.example.fridgerec.EntryItemQuery;
 import com.example.fridgerec.model.viewmodel.InventoryViewModel;
@@ -140,6 +140,7 @@ public class InventoryFragment extends Fragment {
         .section(
             FoodGroupsSection.create(new SectionContext(c))
                 .foodGroupMap(foodGroupMap)
+                .viewModel(model)
                 .build())
         .build();
 
@@ -154,6 +155,7 @@ public class InventoryFragment extends Fragment {
             ListSection.create(new SectionContext(c))
                 .foodCategoryHeaderTitle(ListSectionSpec.NO_HEADER) //TODO: take advantage of optional header
                 .entryItems(entryItems)
+                .viewModel(model)
                 .build())
         .build();
 

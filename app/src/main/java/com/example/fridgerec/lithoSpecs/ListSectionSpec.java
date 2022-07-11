@@ -1,5 +1,8 @@
-package com.example.fridgerec.litho;
+package com.example.fridgerec.lithoSpecs;
 
+import android.provider.ContactsContract;
+
+import com.example.fridgerec.interfaces.DatasetViewModel;
 import com.example.fridgerec.model.EntryItem;
 import com.facebook.litho.Row;
 import com.facebook.litho.annotations.FromEvent;
@@ -27,7 +30,8 @@ public class ListSectionSpec {
   public static Children onCreateChildren(
       final SectionContext c,
       @Prop (optional = true) String foodCategoryHeaderTitle,
-      @Prop List<EntryItem> entryItems) {
+      @Prop List<EntryItem> entryItems,
+      @Prop DatasetViewModel viewModel) {
 
     DataDiffSection.Builder<EntryItem> entryItem = DataDiffSection.<EntryItem>create(c)
         .data(entryItems)
@@ -58,10 +62,12 @@ public class ListSectionSpec {
   @OnEvent(RenderEvent.class)
   public static RenderInfo onRender(
       SectionContext c,
+      @Prop DatasetViewModel viewModel,
       @FromEvent EntryItem model) {
     return ComponentRenderInfo.create()
         .component(ListItem.create(c)
             .entryItem(model)
+            .viewModel(viewModel)
             .build())
         .build();
   }

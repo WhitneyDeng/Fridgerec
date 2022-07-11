@@ -1,5 +1,6 @@
-package com.example.fridgerec.litho;
+package com.example.fridgerec.lithoSpecs;
 
+import com.example.fridgerec.interfaces.DatasetViewModel;
 import com.example.fridgerec.model.EntryItem;
 import com.facebook.litho.annotations.Prop;
 import com.facebook.litho.sections.Children;
@@ -16,14 +17,16 @@ public class FoodGroupsSectionSpec {
   @OnCreateChildren
   static Children onCreateChildren(
       SectionContext c,
-      @Prop HashMap<String, List<EntryItem>> foodGroupMap) {
+      @Prop HashMap<String, List<EntryItem>> foodGroupMap,
+      @Prop DatasetViewModel viewModel) {
     Children.Builder builder = Children.create();
 
     for(Map.Entry<String, List<EntryItem>> entry : foodGroupMap.entrySet()) {
       builder.child(
           ListSection.create(c)
               .foodCategoryHeaderTitle(entry.getKey())
-              .entryItems(entry.getValue()));
+              .entryItems(entry.getValue())
+              .viewModel(viewModel));
     }
     return builder.build();
   }
