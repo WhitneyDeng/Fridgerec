@@ -1,7 +1,5 @@
 package com.example.fridgerec.lithoSpecs;
 
-import android.provider.ContactsContract;
-
 import com.example.fridgerec.interfaces.DatasetViewModel;
 import com.example.fridgerec.model.EntryItem;
 import com.facebook.litho.Row;

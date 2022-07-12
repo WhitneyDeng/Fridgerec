@@ -5,10 +5,8 @@ import static com.facebook.yoga.YogaEdge.ALL;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.fridgerec.interfaces.DatasetViewModel;
 import com.example.fridgerec.model.EntryItem;
@@ -44,6 +42,8 @@ public class ListItemSpec {
       @Prop EntryItem entryItem,
       @Prop DatasetViewModel viewModel,
       @State Boolean isChecked) {
+
+    Log.i(TAG, "rendering: " + entryItem + " " + entryItem.getFood().getFoodName());
 
     Row.Builder component = Row.create(c)
         .justifyContent(YogaJustify.SPACE_BETWEEN)
@@ -128,6 +128,4 @@ public class ListItemSpec {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
     return simpleDateFormat.format(date);
   }
-
-
 }
