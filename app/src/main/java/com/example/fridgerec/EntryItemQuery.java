@@ -133,12 +133,13 @@ public class EntryItemQuery {
     EntryItem.deleteAllInBackground(viewModel.getCheckedItemsList(), new DeleteCallback() {
       @Override
       public void done(ParseException e) {
+        viewModel.getInDeleteMode().setValue(false);
+
         if (e != null) {
           Log.e(TAG, "error while deleting entryItems", e);
           return;
         }
         Log.i(TAG, "entryItems deleted successfully");
-        viewModel.getInDeleteMode().setValue(false);
       }
     });
     // TODO: get checkedItems
