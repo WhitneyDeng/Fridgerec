@@ -79,6 +79,10 @@ public class InventoryFragment extends Fragment {
 
     setupObservers();
 
+    queryEntryItems();
+  }
+
+  private void queryEntryItems() {
     EntryItemQuery.queryEntryItems(model,
         EntryItem.CONTAINER_LIST_INVENTORY);
   }
@@ -98,7 +102,7 @@ public class InventoryFragment extends Fragment {
         if (inDeleteMode) {
           fragmentView.startActionMode(configContextualMenuCallback());
         } else {
-          // TODO: refresh recycler
+          queryEntryItems();
         }
       }
     };
@@ -121,6 +125,7 @@ public class InventoryFragment extends Fragment {
 
       @Override
       public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+
         switch (item.getItemId()) {
           case R.id.mi_check:
           case R.id.mi_delete:
