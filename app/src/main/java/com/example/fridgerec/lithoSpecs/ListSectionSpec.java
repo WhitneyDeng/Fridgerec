@@ -11,6 +11,8 @@ import com.facebook.litho.sections.SectionContext;
 import com.facebook.litho.sections.annotations.GroupSectionSpec;
 import com.facebook.litho.sections.annotations.OnCreateChildren;
 import com.facebook.litho.sections.common.DataDiffSection;
+import com.facebook.litho.sections.common.OnCheckIsSameContentEvent;
+import com.facebook.litho.sections.common.OnCheckIsSameItemEvent;
 import com.facebook.litho.sections.common.RenderEvent;
 import com.facebook.litho.sections.common.SingleComponentSection;
 import com.facebook.litho.widget.ComponentRenderInfo;
@@ -33,6 +35,8 @@ public class ListSectionSpec {
 
     DataDiffSection.Builder<EntryItem> entryItem = DataDiffSection.<EntryItem>create(c)
         .data(entryItems)
+        .onCheckIsSameItemEventHandler(ListSection.onCheckIsSameItem(c))
+        .onCheckIsSameContentEventHandler(ListSection.onCheckIsSameContent(c))
         .renderEventHandler(ListSection.onRender(c));
 
     switch (foodCategoryHeaderTitle)
@@ -55,6 +59,22 @@ public class ListSectionSpec {
             .child(entryItem)
             .build();
     }
+  }
+
+  @OnEvent(OnCheckIsSameItemEvent.class)
+  public static boolean onCheckIsSameItem(
+      SectionContext c,
+      @FromEvent EntryItem previousItem,
+      @FromEvent EntryItem nextItem) {
+    return previousItem.getObjectId().equals(nextItem.getObjectId());
+  }
+
+  @OnEvent(OnCheckIsSameContentEvent.class)
+  public static boolean onCheckIsSameContent(
+      SectionContext c,
+      @FromEvent EntryItem previousItem,
+      @FromEvent EntryItem nextItem) {
+    return EntryItem.compareContent(previousItem, nextItem);
   }
 
   @OnEvent(RenderEvent.class)
