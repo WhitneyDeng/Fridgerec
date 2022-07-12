@@ -1,5 +1,7 @@
 package com.example.fridgerec.model.viewmodel;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -9,16 +11,19 @@ import com.example.fridgerec.model.EntryItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class InventoryViewModel extends ViewModel implements DatasetViewModel {
+  public static final String TAG = "InventoryViewModel";
   private MutableLiveData<Boolean> refresh;
   private MutableLiveData<List<EntryItem>> inventoryList;
   private MutableLiveData<HashMap<String, List<EntryItem>>> inventoryMap;
   private MutableLiveData<HashMap<EntryItemQuery.SortFilter, Object>> sortFilterParams;
 
   private MutableLiveData<Boolean> inDeleteMode;
-  private MutableLiveData<List<EntryItem>> checkedItems;
+  private List<EntryItem> checkedItemsList;
+  private HashSet<EntryItem> checkedItemsSet;
 
   public MutableLiveData<HashMap<EntryItemQuery.SortFilter, Object>> getSortFilterParams() {
     if (sortFilterParams == null) {
@@ -55,11 +60,25 @@ public class InventoryViewModel extends ViewModel implements DatasetViewModel {
     return inDeleteMode;
   }
 
-  public MutableLiveData<List<EntryItem>> getCheckedItems() {
-    if (checkedItems == null) {
-      checkedItems = new MutableLiveData<>();
-      checkedItems.setValue(new ArrayList<>());
+  @Override
+  public List<EntryItem> getCheckedItemsList() {
+    if (checkedItemsList == null) {
+      checkedItemsList = new ArrayList<>();
     }
-    return checkedItems;
+    checkedItemsList.clear();
+    checkedItemsList.addAll(checkedItemsSet);
+
+    checkedItemsSet.clear();
+
+    Log.i(TAG, "checkedItemsList: " + checkedItemsList.toString()); //TODO: testing
+    return checkedItemsList;
+  }
+
+  @Override
+  public HashSet<EntryItem> getCheckedItemsSet() {
+    if (checkedItemsSet == null) {
+      checkedItemsSet = new HashSet<>();
+    }
+    return checkedItemsSet;
   }
 }
