@@ -104,6 +104,7 @@ public class InventoryFragment extends Fragment {
           fragmentView.startActionMode(configContextualMenuCallback());
         } else {
           queryEntryItems();
+          //TODO: success or failed delete;
         }
       }
     };
@@ -129,7 +130,7 @@ public class InventoryFragment extends Fragment {
         switch (item.getItemId()) {
           case R.id.mi_check:
           case R.id.mi_delete:
-            Toast.makeText(getContext(),"removing " + model.getCheckedItemsSet().size() + " items", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(),"removing " + model.getCheckedItemsSet().size() + " item(s)", Toast.LENGTH_LONG).show();
             EntryItemQuery.deleteEntryItems(model);
             mode.finish();
             return true;
