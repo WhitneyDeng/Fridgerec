@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.fridgerec.R;
 import com.example.fridgerec.databinding.FragmentInventoryBinding;
@@ -125,10 +126,10 @@ public class InventoryFragment extends Fragment {
 
       @Override
       public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-
         switch (item.getItemId()) {
           case R.id.mi_check:
           case R.id.mi_delete:
+            Toast.makeText(getContext(),"removing " + model.getCheckedItemsSet().size() + " items", Toast.LENGTH_LONG).show();
             EntryItemQuery.deleteEntryItems(model);
             mode.finish();
             return true;
