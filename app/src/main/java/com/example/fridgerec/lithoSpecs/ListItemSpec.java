@@ -34,7 +34,8 @@ import java.util.Date;
 @LayoutSpec
 public class ListItemSpec {
   public static final String TAG = "ListItemSpec";
-  public static final String SOURCE_DATE_DESC = "source date: ", EXPIRE_DATE_DESC = "expire date: ", EMPTY_DATE = "(N/A)";
+  public static final String SOURCE_DATE_DESC = "source date: ", EXPIRE_DATE_DESC = "expire date: ", EMPTY = "(N/A)";
+  public static final String AMOUNT_LEFT_DESC = "amount left: ";
 
   @OnCreateLayout
   public static Component onCreateLayout(
@@ -52,6 +53,13 @@ public class ListItemSpec {
             Text.create(c)
                 .text(entryItem.getFood().getFoodName())
                 .textSizeSp(20))
+        .child(
+            Column.create(c)
+                .child(
+                    Text.create(c)
+                        .text(AMOUNT_LEFT_DESC + nullCheckInt(entryItem.getAmount()) + " " + nullcheckString(entryItem.getAmountUnit()))
+                )
+        )
         .clickHandler(ListItem.onClick(c))
         .longClickHandler(ListItem.onLongClick(c))
         .backgroundColor(isChecked ? Color.GRAY : Color.WHITE);
@@ -59,8 +67,8 @@ public class ListItemSpec {
     Date expireDate = entryItem.getExpireDate();
     Date sourceDate = entryItem.getSourceDate();
 
-    String expireDateString = EXPIRE_DATE_DESC + (expireDate == null ? EMPTY_DATE : formatDate(expireDate));
-    String sourceDateString = SOURCE_DATE_DESC + (sourceDate == null ? EMPTY_DATE : formatDate(sourceDate));
+    String expireDateString = EXPIRE_DATE_DESC + (expireDate == null ? EMPTY : formatDate(expireDate));
+    String sourceDateString = SOURCE_DATE_DESC + (sourceDate == null ? EMPTY : formatDate(sourceDate));
 
     try {
       return component
@@ -78,6 +86,14 @@ public class ListItemSpec {
       return component
           .build();
     }
+  }
+
+  private static String nullCheckInt(Integer i) {
+    return i == 0 ? "" : i.toString();
+  }
+
+  private static String nullcheckString(String s) {
+    return s == null ? "" : s;
   }
 
   @OnCreateInitialState
