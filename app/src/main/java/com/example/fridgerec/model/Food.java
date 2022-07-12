@@ -4,6 +4,8 @@ import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 
+import java.util.Objects;
+
 @ParseClassName("Food")
 public class Food extends ParseObject {
   public static final String KEY_FOOD_NAME = "foodName";
@@ -43,5 +45,12 @@ public class Food extends ParseObject {
   public void setImage(ParseFile parseFile)
   {
     put(KEY_IMAGE, parseFile);
+  }
+
+  public static boolean compareContent(Food p, Food n) {
+    return Objects.equals(p.getFoodName(), n.getFoodName())
+        && Objects.equals(p.getFoodGroup(), n.getFoodGroup())
+        && Objects.equals(p.getApiId(), n.getApiId())
+        && Objects.equals(p.getImage(), n.getImage());
   }
 }

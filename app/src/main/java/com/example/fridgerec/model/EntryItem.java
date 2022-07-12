@@ -5,6 +5,7 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.Date;
+import java.util.Objects;
 
 @ParseClassName("EntryItem")
 public class EntryItem extends ParseObject {
@@ -85,5 +86,14 @@ public class EntryItem extends ParseObject {
 
   public void setContainerList(String containerList) {
     put(KEY_CONTAINER_LIST, containerList);
+  }
+
+  public static boolean compareContent(EntryItem p, EntryItem n) {
+    return Food.compareContent(p.getFood(), n.getFood())
+        && p.getAmount() == n.getAmount()
+        && Objects.equals(p.getAmountUnit(), n.getAmountUnit())
+        && Objects.equals(p.getExpireDate(), n.getExpireDate())
+        && Objects.equals(p.getSourceDate(), n.getSourceDate())
+        && Objects.equals(p.getContainerList(), n.getContainerList());
   }
 }
