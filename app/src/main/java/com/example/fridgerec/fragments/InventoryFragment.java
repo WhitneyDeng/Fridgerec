@@ -13,7 +13,10 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -45,13 +48,11 @@ import java.util.List;
  */
 public class InventoryFragment extends Fragment {
   public static final String TAG = "InventoryFragment";
+  private View fragmentView;
+  private InventoryViewModel model;
   private AppBarConfiguration appBarConfiguration;
   private NavController navController;
   private FragmentInventoryBinding binding;
-
-  private View fragmentView;
-
-  private InventoryViewModel model;
 
   public InventoryFragment() {
     // Required empty public constructor
@@ -93,12 +94,49 @@ public class InventoryFragment extends Fragment {
     final Observer<Boolean> inDeleteModeObserver = new Observer<Boolean>() {
       @Override
       public void onChanged(Boolean inDeleteMode) {
-        //TODO: change toolbar to contextual action bar
+        if (inDeleteMode) {
+          fragmentView.startActionMode(configContextualMenuCallback());
+        }
+
         Log.i(TAG, "inDeleteMode changed to: " + inDeleteMode);
       }
     };
     model.getInDeleteMode().observe(getViewLifecycleOwner(), inDeleteModeObserver);
   }
+
+  private ActionMode.Callback configContextualMenuCallback() {
+    return new ActionMode.Callback() {
+      @Override
+      public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        mode.getMenuInflater().inflate(R.menu.menu_contextual_action_bar, menu);
+        mode.setTitle("Select Items");
+        return true;
+      }
+
+      @Override
+      public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        return false;
+      }
+
+      @Override
+      public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        switch (item.getItemId()) {
+          case R.id.mi_check:
+          case R.id.mi_delete:
+            //TODO: delete items in checkedItems
+            mode.finish();
+            return true;
+        }
+        return false;
+      }
+
+      @Override
+      public void onDestroyActionMode(ActionMode mode) {
+
+      }
+    };
+  }
+
 
   private void observeSortFilterParams() {
     final Observer<HashMap<EntryItemQuery.SortFilter, Object>> sortFilterParamsObserver = new Observer<HashMap<EntryItemQuery.SortFilter, Object>>() {
