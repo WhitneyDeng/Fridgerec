@@ -100,11 +100,11 @@ public class ListItemSpec {
 
     if (Boolean.TRUE.equals(viewModel.getInDeleteMode().getValue())) {
       if (isChecked) {
-
+        viewModel.getCheckedItemsSet().remove(entryItem);
       } else {
-
+        viewModel.getCheckedItemsSet().add(entryItem);
       }
-
+      Log.i(TAG, "checkedItemsSet: " + viewModel.getCheckedItemsSet().toString());
       ListItem.toggleIsCheckedState(c);
     }
   }
