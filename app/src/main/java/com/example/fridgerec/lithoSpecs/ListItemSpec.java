@@ -34,7 +34,7 @@ import java.util.Date;
 @LayoutSpec
 public class ListItemSpec {
   public static final String TAG = "ListItemSpec";
-  public static final String SOURCE_DATE_DESC = "source date: ", EXPIRE_DATE_DESC = "expire date: ", EMPTY = "(N/A)";
+  public static final String SOURCE_DATE_DESC = "source date: ", EXPIRE_DATE_DESC = "expire date: ", EMPTY = "-";
   public static final String AMOUNT_LEFT_DESC = "amount left: ";
 
   @OnCreateLayout
@@ -46,7 +46,15 @@ public class ListItemSpec {
 
     Log.i(TAG, "rendering: " + entryItem + " " + entryItem.getFood().getFoodName());
 
-    Row.Builder component = Row.create(c)
+    Date expireDate = entryItem.getExpireDate();
+    Date sourceDate = entryItem.getSourceDate();
+
+    String expireDateString = EXPIRE_DATE_DESC + (expireDate == null ? EMPTY : formatDate(expireDate));
+    String sourceDateString = SOURCE_DATE_DESC + (sourceDate == null ? EMPTY : formatDate(sourceDate));
+
+    String amountLeftString = nullCheckInt(entryItem.getAmount()) + " " + nullcheckString(entryItem.getAmountUnit());
+
+    return Row.create(c)
         .justifyContent(YogaJustify.SPACE_BETWEEN)
         .paddingDip(ALL, 16)
         .child(
@@ -57,43 +65,30 @@ public class ListItemSpec {
             Column.create(c)
                 .child(
                     Text.create(c)
-                        .text(AMOUNT_LEFT_DESC + nullCheckInt(entryItem.getAmount()) + " " + nullcheckString(entryItem.getAmountUnit()))
-                )
-        )
+                        .text(AMOUNT_LEFT_DESC))
+                .child(
+                    Text.create(c)
+                        .text(amountLeftString)))
+        .child(
+            Column.create(c)
+                .child(
+                    Text.create(c)
+                        .text(expireDateString))
+                .child(
+                    Text.create(c)
+                        .text(sourceDateString)))
         .clickHandler(ListItem.onClick(c))
         .longClickHandler(ListItem.onLongClick(c))
-        .backgroundColor(isChecked ? Color.GRAY : Color.WHITE);
-
-    Date expireDate = entryItem.getExpireDate();
-    Date sourceDate = entryItem.getSourceDate();
-
-    String expireDateString = EXPIRE_DATE_DESC + (expireDate == null ? EMPTY : formatDate(expireDate));
-    String sourceDateString = SOURCE_DATE_DESC + (sourceDate == null ? EMPTY : formatDate(sourceDate));
-
-    try {
-      return component
-          .child(
-              Column.create(c)
-                  .child(
-                      Text.create(c)
-                          .text(expireDateString))
-                  .child(
-                      Text.create(c)
-                          .text(sourceDateString))
-                  .build())
-          .build();
-    } catch (NullPointerException e) {
-      return component
-          .build();
-    }
+        .backgroundColor(isChecked ? Color.GRAY : Color.WHITE)
+        .build();
   }
 
   private static String nullCheckInt(Integer i) {
-    return i == 0 ? "" : i.toString();
+    return i == 0 ? EMPTY : i.toString();
   }
 
   private static String nullcheckString(String s) {
-    return s == null ? "" : s;
+    return s == null ? EMPTY : s;
   }
 
   @OnCreateInitialState
