@@ -2,6 +2,7 @@ package com.example.fridgerec.lithoSpecs;
 
 import static com.facebook.yoga.YogaEdge.ALL;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -17,11 +18,15 @@ import com.facebook.litho.Component;
 import com.facebook.litho.ComponentContext;
 import com.facebook.litho.LongClickEvent;
 import com.facebook.litho.Row;
+import com.facebook.litho.StateValue;
 import com.facebook.litho.annotations.FromEvent;
 import com.facebook.litho.annotations.LayoutSpec;
+import com.facebook.litho.annotations.OnCreateInitialState;
 import com.facebook.litho.annotations.OnCreateLayout;
 import com.facebook.litho.annotations.OnEvent;
+import com.facebook.litho.annotations.OnUpdateState;
 import com.facebook.litho.annotations.Prop;
+import com.facebook.litho.annotations.State;
 import com.facebook.litho.widget.Text;
 import com.facebook.yoga.YogaJustify;
 
@@ -35,9 +40,10 @@ public class ListItemSpec {
 
   @OnCreateLayout
   public static Component onCreateLayout(
-          ComponentContext c,
-          @Prop EntryItem entryItem,
-          @Prop DatasetViewModel viewModel) {
+      ComponentContext c,
+      @Prop EntryItem entryItem,
+      @Prop DatasetViewModel viewModel,
+      @State Boolean isChecked) {
 
     Row.Builder component = Row.create(c)
         .justifyContent(YogaJustify.SPACE_BETWEEN)
@@ -47,7 +53,8 @@ public class ListItemSpec {
                 .text(entryItem.getFood().getFoodName())
                 .textSizeSp(20))
         .clickHandler(ListItem.onClick(c))
-        .longClickHandler(ListItem.onLongClick(c));
+        .longClickHandler(ListItem.onLongClick(c))
+        .backgroundColor(isChecked ? Color.GRAY : Color.WHITE);
 
     Date expireDate = entryItem.getExpireDate();
     Date sourceDate = entryItem.getSourceDate();
@@ -73,12 +80,33 @@ public class ListItemSpec {
     }
   }
 
+  @OnCreateInitialState
+  public static void onCreateInitialState(ComponentContext c, StateValue<Boolean> isChecked) {
+    isChecked.set(false);
+  }
+
+  @OnUpdateState
+  public static void toggleIsCheckedState(StateValue<Boolean> isChecked) {
+    isChecked.set(!isChecked.get());
+  }
+
   @OnEvent(ClickEvent.class)
   public static void onClick(ComponentContext c,
                              @Prop DatasetViewModel viewModel,
                              @Prop EntryItem entryItem,
+                             @State Boolean isChecked,
                              @FromEvent View view) {
     Log.i(TAG, "click detected: " + entryItem.getFood().getFoodName());
+
+    if (Boolean.TRUE.equals(viewModel.getInDeleteMode().getValue())) {
+      if (isChecked) {
+
+      } else {
+
+      }
+
+      ListItem.toggleIsCheckedState(c);
+    }
   }
 
   @OnEvent(LongClickEvent.class)
