@@ -94,11 +94,12 @@ public class InventoryFragment extends Fragment {
     final Observer<Boolean> inDeleteModeObserver = new Observer<Boolean>() {
       @Override
       public void onChanged(Boolean inDeleteMode) {
+        Log.i(TAG, "inDeleteMode changed to: " + inDeleteMode);
         if (inDeleteMode) {
           fragmentView.startActionMode(configContextualMenuCallback());
+        } else {
+          // TODO: refresh recycler
         }
-
-        Log.i(TAG, "inDeleteMode changed to: " + inDeleteMode);
       }
     };
     model.getInDeleteMode().observe(getViewLifecycleOwner(), inDeleteModeObserver);
@@ -123,7 +124,7 @@ public class InventoryFragment extends Fragment {
         switch (item.getItemId()) {
           case R.id.mi_check:
           case R.id.mi_delete:
-            //TODO: delete items in checkedItems
+            EntryItemQuery.deleteEntryItems(model);
             mode.finish();
             return true;
         }
