@@ -212,16 +212,17 @@
             android:visibility="gone">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilFoodGroup"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/dropdown_select_food_group">
 
                 <AutoCompleteTextView
-                    android:id="@+id/edmFoodGroup"
+                    android:id="@+id/actvFoodGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text" />
+                    android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </LinearLayout>
