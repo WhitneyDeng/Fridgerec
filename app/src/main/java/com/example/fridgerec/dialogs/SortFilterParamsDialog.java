@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -55,6 +56,7 @@ public class SortFilterParamsDialog extends DialogFragment{
     navController = NavHostFragment.findNavController(this);
 
     configToolbar();
+    configDropdown();
     onClickToolbarItem();
     configFilterLayoutVisibility();
     onClickDatePickerBtn(binding.btnExpireBefore);
@@ -62,6 +64,11 @@ public class SortFilterParamsDialog extends DialogFragment{
     onClickDatePickerBtn(binding.btnSourcedBefore);
     onClickDatePickerBtn(binding.btnSourcedAfter);
     //TODO: toggle visibility of linear layouts
+  }
+
+  private void configDropdown() {
+    ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.item_dropdown_foodgroup, getResources().getStringArray(R.array.foodGroupStrings));
+    binding.edmFoodGroup.setAdapter(arrayAdapter);
   }
 
   private void configFilterLayoutVisibility() {
