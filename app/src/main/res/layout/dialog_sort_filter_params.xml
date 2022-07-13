@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         app:layout_constraintTop_toTopOf="parent"
@@ -18,47 +17,40 @@
             app:menu="@menu/menu_save">
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp">
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Sort by:"
             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cgSort"
             app:singleSelection="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/cSortFoodName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/chip_food_name" />
-
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/cSortFoodGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/chip_food_group" />
-
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/cSortSourceDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/chip_source_date" />
-
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/cSortExpireDate"
@@ -66,7 +58,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/chip_expire_date" />
         </com.google.android.material.chip.ChipGroup>
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,35 +67,30 @@
             android:id="@+id/cgFilter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/cFilterExpireBefore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/chip_expire_before" />
-
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/cFilterExpireAfter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/chip_expire_after" />
-
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/cFilterSourceBefore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/chip_sourced_before" />
-
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/cFilterSourceAfter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/chip_sourced_after" />
-
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:id="@+id/cFilterFoodGroup"
@@ -112,21 +98,18 @@
                 android:layout_height="wrap_content"
                 android:text="@string/chip_food_group" />
         </com.google.android.material.chip.ChipGroup>
-
         <LinearLayout
             android:id="@+id/llFilterExpireBefore"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:visibility="gone">
-
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="expire before" />
-
             <Button
                 android:id="@+id/btnExpireBefore"
                 android:layout_width="wrap_content"
@@ -134,29 +117,24 @@
                 android:layout_weight="1"
                 android:text="@string/datepicker_btn_txt" />
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/llFilterExpireAfter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:visibility="gone">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="expire after" />
-
             <Button
                 android:id="@+id/btnExpireAfter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/datepicker_btn_txt" />
-
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/llFilterSourcedBefore"
             android:layout_width="match_parent"
@@ -164,22 +142,18 @@
             android:layout_weight="1"
             android:orientation="horizontal"
             android:visibility="gone">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="sourced before" />
-
             <Button
                 android:id="@+id/btnSourcedBefore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/datepicker_btn_txt" />
-
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/llFilterSourcedAfter"
             android:layout_width="match_parent"
@@ -187,36 +161,30 @@
             android:layout_weight="1"
             android:orientation="horizontal"
             android:visibility="gone">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="sourced after" />
-
             <Button
                 android:id="@+id/btnSourcedAfter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/datepicker_btn_txt" />
-
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/llFilterFoodGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone">
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilFoodGroup"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/dropdown_select_food_group">
-
                 <AutoCompleteTextView
                     android:id="@+id/actvFoodGroup"
                     android:layout_width="match_parent"
