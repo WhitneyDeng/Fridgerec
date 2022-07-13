@@ -196,7 +196,7 @@ public class SortFilterParamsDialog extends DialogFragment{
   private String extractFoodGroupSelection() {
     String selectedFoodGroup = binding.tilFoodGroup.getEditText().getText().toString();
 
-    if (selectedFoodGroup.equals(getResources().getString(R.string.dropdown_select_food_group))) {
+    if (selectedFoodGroup.isEmpty()) {
       Toast.makeText(getContext(), "no food group filter selected", Toast.LENGTH_LONG).show();
       return null;
     }
