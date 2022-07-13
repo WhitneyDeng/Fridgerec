@@ -1,10 +1,12 @@
 package com.example.fridgerec;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.fridgerec.interfaces.DatasetViewModel;
 import com.example.fridgerec.model.EntryItem;
 import com.example.fridgerec.util.FoodNameComparator;
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -126,4 +128,24 @@ public class EntryItemQuery {
     }
     return foodGroupMap;
   }
+
+  public static void deleteEntryItems(DatasetViewModel viewModel) {
+    EntryItem.deleteAllInBackground(viewModel.getCheckedItemsList(), new DeleteCallback() {
+      @Override
+      public void done(ParseException e) {
+        viewModel.getInDeleteMode().setValue(false);
+
+        if (e != null) {
+          Log.e(TAG, "error while deleting entryItems", e);
+          return;
+        }
+        Log.i(TAG, "entryItems deleted successfully");
+      }
+    });
+    // TODO: get checkedItems
+    // TODO: delete items
+      // TODO: toggle inDeleteMode
+  }
+
+  //TODO: query distinct food groups
 }
