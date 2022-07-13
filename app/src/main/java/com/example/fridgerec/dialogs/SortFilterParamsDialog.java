@@ -7,9 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,7 +37,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class SortFilterParamsDialog extends DialogFragment{
-  public static final String TAG = "SortFilterPrefDialog";
+  public static final String TAG = "SortFilterParamsDialog";
 
   private HashMap<Integer, EntryItemQuery.SortFilter> sortChipParamMap;
   private HashMap<Integer, EntryItemQuery.SortFilter> filterChipParamMap;
@@ -68,7 +70,7 @@ public class SortFilterParamsDialog extends DialogFragment{
 
   private void configDropdown() {
     ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.item_dropdown_foodgroup, getResources().getStringArray(R.array.foodGroupStrings));
-    binding.edmFoodGroup.setAdapter(arrayAdapter);
+    binding.actvFoodGroup.setAdapter(arrayAdapter);
   }
 
   private void configFilterLayoutVisibility() {
@@ -177,14 +179,28 @@ public class SortFilterParamsDialog extends DialogFragment{
           val = extractDate(binding.btnSourcedAfter);
           break;
         case FILTER_FOOD_GROUP:
-          //TODO: extract selection
+          val = extractFoodGroupSelection();
+          Log.i(TAG, "food group selected: " + val);
           break;
         default:
           Log.e(TAG, "filter chip not recognised");
       }
-      sortFilterParams.put(sortFilterParam, val);
+
+      if (val != null) {
+        sortFilterParams.put(sortFilterParam, val);
+      }
     }
     return sortFilterParams;
+  }
+
+  private String extractFoodGroupSelection() {
+    String selectedFoodGroup = binding.tilFoodGroup.getEditText().getText().toString();
+
+    if (selectedFoodGroup.isEmpty()) {
+      Toast.makeText(getContext(), "no food group filter selected", Toast.LENGTH_LONG).show();
+      return null;
+    }
+    return selectedFoodGroup;
   }
 
   private Date extractDate(Button btnDatepicker) {
@@ -193,9 +209,9 @@ public class SortFilterParamsDialog extends DialogFragment{
       return formatter.parse(btnDatepicker.getText().toString());
     } catch (ParseException e) {
       Log.e(TAG, "unable to extract date from" + btnDatepicker.getText().toString());
-      Toast.makeText(getContext(), "unselected date (default to today)", Toast.LENGTH_SHORT).show();
+      Toast.makeText(getContext(), "no date selected", Toast.LENGTH_SHORT).show();
       e.printStackTrace();
-      return new Date(System.currentTimeMillis());
+      return null;
     }
   }
 
