@@ -17,8 +17,7 @@
     <string name="chip_sourced_after">sourced after</string>
     <string name="datepicker_btn_txt">select date</string>
 
-    <string name="fg_baking">Baking</string>
-    <string name="fg_healthFoods">Health Foods</string>
+    <string name="dropdown_select_food_group">select food group</string>
 
     <string-array name="foodGroupStrings">
         <item>Baking</item>

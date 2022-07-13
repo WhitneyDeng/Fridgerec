@@ -6,9 +6,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,10 +37,10 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class SortFilterParamsDialog extends DialogFragment{
-  public static final String TAG = "SortFilterPrefDialog";
+  public static final String TAG = "SortFilterParamsDialog";
 
-  private HashMap<String, EntryItemQuery.SortFilter> sortChipParamMap;
-  private HashMap<String, EntryItemQuery.SortFilter> filterChipParamMap;
+  private HashMap<Integer, EntryItemQuery.SortFilter> sortChipParamMap;
+  private HashMap<Integer, EntryItemQuery.SortFilter> filterChipParamMap;
 
   private DialogSortFilterParamsBinding binding;
   private NavController navController;
@@ -55,6 +58,7 @@ public class SortFilterParamsDialog extends DialogFragment{
     navController = NavHostFragment.findNavController(this);
 
     configToolbar();
+    configDropdown();
     onClickToolbarItem();
     configFilterLayoutVisibility();
     onClickDatePickerBtn(binding.btnExpireBefore);
@@ -62,6 +66,11 @@ public class SortFilterParamsDialog extends DialogFragment{
     onClickDatePickerBtn(binding.btnSourcedBefore);
     onClickDatePickerBtn(binding.btnSourcedAfter);
     //TODO: toggle visibility of linear layouts
+  }
+
+  private void configDropdown() {
+    ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.item_dropdown_foodgroup, getResources().getStringArray(R.array.foodGroupStrings));
+    binding.actvFoodGroup.setAdapter(arrayAdapter);
   }
 
   private void configFilterLayoutVisibility() {
@@ -149,13 +158,11 @@ public class SortFilterParamsDialog extends DialogFragment{
     HashMap<EntryItemQuery.SortFilter, Object> sortFilterParams = new HashMap<>();
 
     for (Integer id : binding.cgSort.getCheckedChipIds()) {
-      String chipLabel = ((Chip) binding.cgSort.findViewById(id)).getText().toString();
-      sortFilterParams.put(sortChipParamMap.get(chipLabel), null);
+      sortFilterParams.put(sortChipParamMap.get(id), null);
     }
 
     for (Integer id : binding.cgFilter.getCheckedChipIds()) {
-      String chipLabel = ((Chip) binding.cgFilter.findViewById(id)).getText().toString();
-      EntryItemQuery.SortFilter sortFilterParam = filterChipParamMap.get(chipLabel);
+      EntryItemQuery.SortFilter sortFilterParam = filterChipParamMap.get(id);
 
       Object val = null;
       switch (sortFilterParam) {
@@ -172,14 +179,28 @@ public class SortFilterParamsDialog extends DialogFragment{
           val = extractDate(binding.btnSourcedAfter);
           break;
         case FILTER_FOOD_GROUP:
-          //TODO: extract selection
+          val = extractFoodGroupSelection();
+          Log.i(TAG, "food group filter selected: " + val);
           break;
         default:
           Log.e(TAG, "filter chip not recognised");
       }
-      sortFilterParams.put(sortFilterParam, val);
+
+      if (val != null) {
+        sortFilterParams.put(sortFilterParam, val);
+      }
     }
     return sortFilterParams;
+  }
+
+  private String extractFoodGroupSelection() {
+    String selectedFoodGroup = binding.tilFoodGroup.getEditText().getText().toString();
+
+    if (selectedFoodGroup.isEmpty()) {
+      Toast.makeText(getContext(), "no food group selected", Toast.LENGTH_LONG).show();
+      return null;
+    }
+    return selectedFoodGroup;
   }
 
   private Date extractDate(Button btnDatepicker) {
@@ -188,24 +209,24 @@ public class SortFilterParamsDialog extends DialogFragment{
       return formatter.parse(btnDatepicker.getText().toString());
     } catch (ParseException e) {
       Log.e(TAG, "unable to extract date from" + btnDatepicker.getText().toString());
-      Toast.makeText(getContext(), "unselected date (default to today)", Toast.LENGTH_SHORT).show();
+      Toast.makeText(getContext(), "no date selected", Toast.LENGTH_SHORT).show();
       e.printStackTrace();
-      return new Date(System.currentTimeMillis());
+      return null;
     }
   }
 
   private void configChipMaps() {
     sortChipParamMap = new HashMap<>();
-    sortChipParamMap.put(getResources().getString(R.string.chip_food_name), EntryItemQuery.SortFilter.SORT_FOOD_NAME);
-    sortChipParamMap.put(getResources().getString(R.string.chip_food_group), EntryItemQuery.SortFilter.SORT_FOOD_GROUP);
-    sortChipParamMap.put(getResources().getString(R.string.chip_source_date), EntryItemQuery.SortFilter.SORT_SOURCE_DATE);
-    sortChipParamMap.put(getResources().getString(R.string.chip_expire_date), EntryItemQuery.SortFilter.SORT_EXPIRE_DATE);
+    sortChipParamMap.put(R.id.cSortFoodName, EntryItemQuery.SortFilter.SORT_FOOD_NAME);
+    sortChipParamMap.put(R.id.cSortFoodGroup, EntryItemQuery.SortFilter.SORT_FOOD_GROUP);
+    sortChipParamMap.put(R.id.cSortSourceDate, EntryItemQuery.SortFilter.SORT_SOURCE_DATE);
+    sortChipParamMap.put(R.id.cSortExpireDate, EntryItemQuery.SortFilter.SORT_EXPIRE_DATE);
 
     filterChipParamMap = new HashMap<>();
-    filterChipParamMap.put(getResources().getString(R.string.chip_expire_before), EntryItemQuery.SortFilter.FILTER_EXPIRE_BEFORE);
-    filterChipParamMap.put(getResources().getString(R.string.chip_expire_after), EntryItemQuery.SortFilter.FILTER_EXPIRE_AFTER);
-    filterChipParamMap.put(getResources().getString(R.string.chip_sourced_before), EntryItemQuery.SortFilter.FILTER_SOURCED_BEFORE);
-    filterChipParamMap.put(getResources().getString(R.string.chip_sourced_after), EntryItemQuery.SortFilter.FILTER_SOURCED_AFTER);
-    filterChipParamMap.put(getResources().getString(R.string.chip_food_group), EntryItemQuery.SortFilter.FILTER_FOOD_GROUP);
+    filterChipParamMap.put(R.id.cFilterExpireBefore, EntryItemQuery.SortFilter.FILTER_EXPIRE_BEFORE);
+    filterChipParamMap.put(R.id.cFilterExpireAfter, EntryItemQuery.SortFilter.FILTER_EXPIRE_AFTER);
+    filterChipParamMap.put(R.id.cFilterSourceBefore, EntryItemQuery.SortFilter.FILTER_SOURCED_BEFORE);
+    filterChipParamMap.put(R.id.cFilterSourceAfter, EntryItemQuery.SortFilter.FILTER_SOURCED_AFTER);
+    filterChipParamMap.put(R.id.cFilterFoodGroup, EntryItemQuery.SortFilter.FILTER_FOOD_GROUP);
   }
 }

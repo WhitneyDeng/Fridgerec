@@ -5,10 +5,12 @@ import android.widget.Toast;
 
 import com.example.fridgerec.interfaces.DatasetViewModel;
 import com.example.fridgerec.model.EntryItem;
+import com.example.fridgerec.model.Food;
 import com.example.fridgerec.util.FoodNameComparator;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -78,8 +80,12 @@ public class EntryItemQuery {
               (Date) entry.getValue());
           break;
         case FILTER_FOOD_GROUP:
-          String foodGroup = (String) entry.getValue(); //TODO: select multiple food group => becomes List<String>
-          //TODO: implement
+          String foodGroup = (String) entry.getValue();
+
+          ParseQuery<ParseObject> foodQuery = new ParseQuery<>("Food");
+          foodQuery.whereEqualTo(Food.KEY_FOOD_GROUP, foodGroup);
+
+          query.whereMatchesQuery(EntryItem.KEY_FOOD, foodQuery);
           break;
         case NONE:
         default:
