@@ -17,4 +17,41 @@
     <string name="chip_sourced_after">sourced after</string>
     <string name="datepicker_btn_txt">select date</string>
 
+    <string name="fg_baking">Baking</string>
+    <string name="fg_healthFoods">Health Foods</string>
+
+    <string-array name="foodGroupStrings">
+        <item>Baking</item>
+        <item>Health Foods</item>
+        <item>Spices and Seasonings</item>
+        <item>Pasta and Rice</item>
+        <item>Bakery/Bread</item>
+        <item>Refrigerated</item>
+        <item>Canned and Jarred</item>
+        <item>Frozen</item>
+        <item>Nut butters, Jams, and Honey</item>
+        <item>Oil, Vinegar, Salad Dressing</item>
+        <item>Condiments</item>
+        <item>Savory Snacks</item>
+        <item>Milk, Eggs, Other Dairy</item>
+        <item>Ethnic Foods</item>
+        <item>Tea and Coffee</item>
+        <item>Meat</item>
+        <item>Gourmet</item>
+        <item>Sweet Snacks</item>
+        <item>Gluten Free</item>
+        <item>Alcoholic Beverages</item>
+        <item>Cereal</item>
+        <item>Nuts</item>
+        <item>Beverages</item>
+        <item>Produce</item>
+        <item>Not in Grocery Store/Homemade</item>
+        <item>Seafood</item>
+        <item>Cheese</item>
+        <item>Dried Fruits</item>
+        <item>Online</item>
+        <item>Grilling Supplies</item>
+        <item>Bread</item>
+    </string-array>
+
 </resources>
