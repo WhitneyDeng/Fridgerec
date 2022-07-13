@@ -180,7 +180,7 @@ public class SortFilterParamsDialog extends DialogFragment{
           break;
         case FILTER_FOOD_GROUP:
           val = extractFoodGroupSelection();
-          Log.i(TAG, "food group selected: " + val);
+          Log.i(TAG, "food group filter selected: " + val);
           break;
         default:
           Log.e(TAG, "filter chip not recognised");
@@ -197,7 +197,7 @@ public class SortFilterParamsDialog extends DialogFragment{
     String selectedFoodGroup = binding.tilFoodGroup.getEditText().getText().toString();
 
     if (selectedFoodGroup.isEmpty()) {
-      Toast.makeText(getContext(), "no food group filter selected", Toast.LENGTH_LONG).show();
+      Toast.makeText(getContext(), "no food group selected", Toast.LENGTH_LONG).show();
       return null;
     }
     return selectedFoodGroup;
