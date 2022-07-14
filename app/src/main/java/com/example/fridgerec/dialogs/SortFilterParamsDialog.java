@@ -58,7 +58,7 @@ public class SortFilterParamsDialog extends DialogFragment{
     navController = NavHostFragment.findNavController(this);
 
     configToolbar();
-    configDropdown();
+    configExposedDropdownMenu();
     onClickToolbarItem();
     configFilterLayoutVisibility();
     onClickDatePickerBtn(binding.btnExpireBefore);
@@ -68,7 +68,7 @@ public class SortFilterParamsDialog extends DialogFragment{
     //TODO: toggle visibility of linear layouts
   }
 
-  private void configDropdown() {
+  private void configExposedDropdownMenu() {
     ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.item_dropdown_foodgroup, getResources().getStringArray(R.array.foodGroupStrings));
     binding.actvFoodGroup.setAdapter(arrayAdapter);
   }
