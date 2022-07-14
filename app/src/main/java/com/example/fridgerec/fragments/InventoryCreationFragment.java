@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import com.example.fridgerec.R;
@@ -54,13 +55,14 @@ public class InventoryCreationFragment extends Fragment {
     toolbar = binding.toolbar;
 
     setupToolbar();
-    configExposedDropdownMenu();
+    configExposedDropdownMenu(binding.actvFoodGroup, getResources().getStringArray(R.array.foodGroupStrings));
+    configExposedDropdownMenu(binding.actvAmountUnit, getResources().getStringArray(R.array.amountUnitStrings));
     onClickToolbarItem();
   }
 
-  private void configExposedDropdownMenu() {
-    ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.item_dropdown_foodgroup, getResources().getStringArray(R.array.amountUnitStrings));
-    binding.actvAmountUnit.setAdapter(arrayAdapter);
+  private void configExposedDropdownMenu(AutoCompleteTextView actv, String[] optionStrings) {
+    ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.item_dropdown_foodgroup, optionStrings);
+    actv.setAdapter(arrayAdapter);
   }
 
   private void setupToolbar() {
