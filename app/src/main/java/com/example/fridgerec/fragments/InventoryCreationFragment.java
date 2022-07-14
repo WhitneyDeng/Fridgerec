@@ -20,6 +20,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.fridgerec.EntryItemQuery;
 import com.example.fridgerec.R;
 import com.example.fridgerec.databinding.FragmentInventoryCreationBinding;
 import com.example.fridgerec.model.EntryItem;
@@ -107,7 +108,10 @@ public class InventoryCreationFragment extends Fragment {
     toolbar.setOnMenuItemClickListener( item -> {
       switch (item.getItemId()) {
         case R.id.miSave:
-          if (extractData()) {
+          EntryItem entryItem = new EntryItem();
+          if (extractData(entryItem)) {
+            entryItem.setContainerList(EntryItem.CONTAINER_LIST_INVENTORY);
+            EntryItemQuery.saveNewEntry(entryItem);
             navController.navigate(R.id.action_inventoryCreationFragment_to_inventoryFragment);
           }
           return true;
@@ -117,8 +121,7 @@ public class InventoryCreationFragment extends Fragment {
     });
   }
 
-  private boolean extractData() {
-    EntryItem entryItem = new EntryItem();
+  private boolean extractData(EntryItem entryItem) {
     Food food = new Food();
     //TODO: save set food apiId upone autocomplete selection
 
