@@ -17,10 +17,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.fridgerec.R;
 import com.example.fridgerec.databinding.FragmentInventoryCreationBinding;
+import com.example.fridgerec.model.EntryItem;
+import com.example.fridgerec.model.Food;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -97,8 +107,9 @@ public class InventoryCreationFragment extends Fragment {
     toolbar.setOnMenuItemClickListener( item -> {
       switch (item.getItemId()) {
         case R.id.miSave:
-          extractData();
-          navController.navigate(R.id.action_inventoryCreationFragment_to_inventoryFragment);
+          if (extractData()) {
+            navController.navigate(R.id.action_inventoryCreationFragment_to_inventoryFragment);
+          }
           return true;
         default:
           return false;
@@ -106,16 +117,81 @@ public class InventoryCreationFragment extends Fragment {
     });
   }
 
-  private void extractData() {
-    Log.i(TAG, "amount unit: " + extractAmountUnitSelection());
+  private boolean extractData() {
+    EntryItem entryItem = new EntryItem();
+    Food food = new Food();
+    //TODO: save set food apiId upone autocomplete selection
+
+    String foodName = extractString(binding.tilFood);
+    if (foodName == null) {
+      Toast.makeText(getContext(), "error: must enter food", Toast.LENGTH_LONG).show();
+      return false;
+    }
+    food.setFoodName(foodName);
+
+    String foodGroup = extractString(binding.tilFoodGroup);
+    if (foodGroup != null) {
+      food.setFoodGroup(foodGroup);
+    }
+    Log.i(TAG, "food group: " + foodGroup);
+
+    entryItem.setFood(food);
+
+    try {
+      int amount = Integer.parseInt(extractString(binding.tilAmount));
+
+      if (amount < 0) {
+        Toast.makeText(getContext(), "error: amount must be non negative", Toast.LENGTH_LONG).show();
+        throw new NumberFormatException();
+      }
+
+      String amountUnit = extractString(binding.tilAmountUnit);
+      if (amountUnit == null) { // implicit: amount is nonempty
+        Toast.makeText(getContext(), "error: missing unit", Toast.LENGTH_LONG).show();
+        return false;
+      }
+      entryItem.setAmountUnit(amountUnit);
+
+      Log.i(TAG, "amount: " + amount);
+      Log.i(TAG, "amount unit: " + amountUnit);
+    } catch (NumberFormatException e) {
+      Log.i(TAG, "no amount extracted");
+    }
+
+    Date sourceDate = extractDate(binding.btnSourceDate);
+    if (sourceDate == null) {
+      sourceDate = new Date(System.currentTimeMillis());
+      Toast.makeText(getContext(), "no source date selected (default to today)", Toast.LENGTH_SHORT).show();
+    }
+    entryItem.setSourceDate(sourceDate);
+
+    Date expireDate = extractDate(binding.btnExpireDate);
+    if (expireDate != null) {
+      entryItem.setExpireDate(expireDate);
+    }
+
+    Log.i(TAG, "food group: " + foodGroup);
+    Log.i(TAG, "source date: " + sourceDate);
+    Log.i(TAG, "expire date: " + expireDate);
+    return true;
   }
 
-  private String extractAmountUnitSelection() {
-    String selectedAmountUnit = binding.tilAmountUnit.getEditText().getText().toString();
-    if (selectedAmountUnit.isEmpty()) {
-      Toast.makeText(getContext(), "no food group selected", Toast.LENGTH_LONG).show();
+  private String extractString(TextInputLayout til) {
+    String s = til.getEditText().getText().toString();
+    if (s.isEmpty()) {
       return null;
     }
-    return selectedAmountUnit;
+    return s;
+  }
+
+  private Date extractDate(Button btnDatepicker) {
+    SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
+    try {
+      return formatter.parse(btnDatepicker.getText().toString());
+    } catch (ParseException e) {
+      Log.e(TAG, "unable to extract date from: " + btnDatepicker.getText().toString());
+      e.printStackTrace();
+      return null;
+    }
   }
 }
