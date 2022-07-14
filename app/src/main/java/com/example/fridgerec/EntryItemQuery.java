@@ -1,7 +1,6 @@
 package com.example.fridgerec;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.fridgerec.interfaces.DatasetViewModel;
 import com.example.fridgerec.model.EntryItem;
@@ -148,9 +147,10 @@ public class EntryItemQuery {
         Log.i(TAG, "entryItems deleted successfully");
       }
     });
-    // TODO: get checkedItems
-    // TODO: delete items
-      // TODO: toggle inDeleteMode
+  }
+
+  public static void saveNewEntry(EntryItem entryItem) {
+    Log.i(TAG, "saveNewEntry called");
   }
 
   //TODO: query distinct food groups
