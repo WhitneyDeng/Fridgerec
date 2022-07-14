@@ -8,12 +8,14 @@ import com.example.fridgerec.model.Food;
 import com.example.fridgerec.util.FoodNameComparator;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -150,8 +152,37 @@ public class EntryItemQuery {
   }
 
   public static void saveNewEntry(EntryItem entryItem) {
-    Log.i(TAG, "saveNewEntry called");
+    //TODO: wrapper method seems unnecessary but the method name is unintuitive
+    saveNewFood(entryItem);
   }
 
+  //TODO: make this private
+  public static void saveNewFood(EntryItem entryItem) {
+    Food food = entryItem.getFood();
+    ParseQuery<Food> apiIdQuery = new ParseQuery<Food>("Food");
+    ParseQuery<Food> foodNameQuery = new ParseQuery<Food>("Food");
+    ParseQuery<Food> compoundQuery = ParseQuery.or(Arrays.asList(apiIdQuery, foodNameQuery));
+
+    apiIdQuery.whereMatches(Food.KEY_API_ID, String.format("(%s)", food.getApiId()));
+    foodNameQuery.whereMatches(Food.KEY_FOOD_NAME, String.format("(%s)", food.getFoodName()), "i");
+
+    compoundQuery.getFirstInBackground(new GetCallback<Food>() {
+      @Override
+      public void done(Food existingFood, ParseException e) {
+        Log.i(TAG, String.format("check existing food in database: food: %s | exception: %s", existingFood, e));
+
+        if (e != null) {
+          food.saveInBackground(); //TODO: check does entryItem saving have to happen after this is saved?
+        } else {
+          entryItem.setFood(existingFood);
+        }
+        saveEntryItem(entryItem);
+      }
+    });
+  }
+
+  private static void saveEntryItem(EntryItem entryItem) {
+
+  }
   //TODO: query distinct food groups
 }

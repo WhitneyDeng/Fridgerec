@@ -28,17 +28,13 @@ import com.example.fridgerec.lithoSpecs.ListSection;
 import com.example.fridgerec.lithoSpecs.ListSectionSpec;
 import com.example.fridgerec.model.EntryItem;
 import com.example.fridgerec.EntryItemQuery;
+import com.example.fridgerec.model.Food;
 import com.example.fridgerec.model.viewmodel.InventoryViewModel;
 import com.facebook.litho.Component;
 import com.facebook.litho.ComponentContext;
 import com.facebook.litho.sections.SectionContext;
 import com.facebook.litho.sections.widget.RecyclerCollectionComponent;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -81,6 +77,8 @@ public class InventoryFragment extends Fragment {
     setupObservers();
 
     queryEntryItems();
+
+    testQuery();
   }
 
   private void queryEntryItems() {
@@ -240,25 +238,10 @@ public class InventoryFragment extends Fragment {
   //TODO: delete (this is for testing only)
   private void testQuery() {
 
-    ParseQuery<EntryItem> query = ParseQuery.getQuery(EntryItem.class);
-
-    ArrayList<EntryItem> entryItems = new ArrayList<>();
-    query.whereEqualTo(EntryItem.KEY_USER, ParseUser.getCurrentUser())
-        .whereEqualTo(EntryItem.KEY_CONTAINER_LIST, EntryItem.CONTAINER_LIST_INVENTORY)
-        .include(EntryItem.KEY_FOOD);   // include User data of each Post class in response
-
-    query.findInBackground(new FindCallback<EntryItem>() {
-      @Override
-      public void done(List<EntryItem> queryResult, ParseException e) {
-        if (e != null) {
-          Log.e(TAG, "Issue with post query", e);
-          return;
-        }
-        Log.i(TAG, "Post query success");
-        Log.i(TAG, "queryResult" + queryResult.toString());
-
-        entryItems.addAll(queryResult);
-      }
-    });
+    EntryItem entryItem = new EntryItem();
+    Food food = new Food();
+    food.setFoodName("pear");
+    entryItem.setFood(food);
+    EntryItemQuery.saveNewFood(entryItem);
   }
 }
