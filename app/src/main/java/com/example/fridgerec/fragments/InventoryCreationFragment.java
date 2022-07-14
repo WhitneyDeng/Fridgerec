@@ -167,6 +167,10 @@ public class InventoryCreationFragment extends Fragment {
 
     Date expireDate = extractDate(binding.btnExpireDate);
     if (expireDate != null) {
+      if (expireDate.before(sourceDate)) {
+        Toast.makeText(getContext(), "error: expire date must be after source date", Toast.LENGTH_LONG).show();
+        return false;
+      }
       entryItem.setExpireDate(expireDate);
     }
 
