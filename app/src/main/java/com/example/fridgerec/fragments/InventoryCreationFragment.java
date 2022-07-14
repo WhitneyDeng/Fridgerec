@@ -57,12 +57,35 @@ public class InventoryCreationFragment extends Fragment {
     setupToolbar();
     configExposedDropdownMenu(binding.actvFoodGroup, getResources().getStringArray(R.array.foodGroupStrings));
     configExposedDropdownMenu(binding.actvAmountUnit, getResources().getStringArray(R.array.amountUnitStrings));
+    onClickDatePickerBtn(binding.btnSourceDate);
+    onClickDatePickerBtn(binding.btnExpireDate);
     onClickToolbarItem();
   }
 
   private void configExposedDropdownMenu(AutoCompleteTextView actv, String[] optionStrings) {
     ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.item_dropdown_foodgroup, optionStrings);
     actv.setAdapter(arrayAdapter);
+  }
+
+  private void onClickDatePickerBtn(Button btn) {
+    MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
+        .setTitleText("Select Date")
+        .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+        .build();
+
+    btn.setOnClickListener((new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        datePicker.show(getChildFragmentManager(), "DATE_PICKER");
+      }
+    }));
+
+    datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
+      @Override
+      public void onPositiveButtonClick(Object selection) {
+        btn.setText(datePicker.getHeaderText());
+      }
+    });
   }
 
   private void setupToolbar() {
