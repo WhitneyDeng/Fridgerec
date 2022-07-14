@@ -11,9 +11,12 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.example.fridgerec.R;
 import com.example.fridgerec.databinding.FragmentInventoryCreationBinding;
@@ -24,6 +27,7 @@ import com.example.fridgerec.databinding.FragmentInventoryCreationBinding;
  * create an instance of this fragment.
  */
 public class InventoryCreationFragment extends Fragment {
+  public static final String TAG = "InventoryCreationFragmemt";
 
   private Toolbar toolbar;
   private NavController navController;
@@ -50,7 +54,13 @@ public class InventoryCreationFragment extends Fragment {
     toolbar = binding.toolbar;
 
     setupToolbar();
+    configExposedDropdownMenu();
     onClickToolbarItem();
+  }
+
+  private void configExposedDropdownMenu() {
+    ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.item_dropdown_foodgroup, getResources().getStringArray(R.array.amountUnitStrings));
+    binding.actvAmountUnit.setAdapter(arrayAdapter);
   }
 
   private void setupToolbar() {
@@ -62,12 +72,25 @@ public class InventoryCreationFragment extends Fragment {
     toolbar.setOnMenuItemClickListener( item -> {
       switch (item.getItemId()) {
         case R.id.miSave:
-          //TODO: save item
+          extractData();
           navController.navigate(R.id.action_inventoryCreationFragment_to_inventoryFragment);
           return true;
         default:
           return false;
       }
     });
+  }
+
+  private void extractData() {
+    Log.i(TAG, "amount unit: " + extractAmountUnitSelection());
+  }
+
+  private String extractAmountUnitSelection() {
+    String selectedAmountUnit = binding.tilAmountUnit.getEditText().getText().toString();
+    if (selectedAmountUnit.isEmpty()) {
+      Toast.makeText(getContext(), "no food group selected", Toast.LENGTH_LONG).show();
+      return null;
+    }
+    return selectedAmountUnit;
   }
 }
