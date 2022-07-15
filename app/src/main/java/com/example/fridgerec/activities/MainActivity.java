@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
   private NavController navController;
 
   private BottomNavigationView bottomNavigationBar;
-  private AppBarConfiguration appBarConfiguration;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +57,6 @@ public class MainActivity extends AppCompatActivity {
         }
       }
     });
-
-//    query();
   }
 
   private void setupBottomNav() {
@@ -89,8 +86,6 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void query() {
-//    Log.i(TAG, "User Notification time:" + ParseUser.getCurrentUser().getInt("notificationTime"));
-
     ParseQuery<EntryItem> query = ParseQuery.getQuery(EntryItem.class);
     query.findInBackground(new FindCallback<EntryItem>() {
       @Override
@@ -106,22 +101,5 @@ public class MainActivity extends AppCompatActivity {
         }
       }
     });
-
-//    ParseQuery<Food> query = ParseQuery.getQuery(Food.class);
-//    query.findInBackground(new FindCallback<Food>() {
-//      @Override
-//      public void done(List<Food> foods, ParseException e) {
-//        if (e != null)
-//        {
-//          Log.e(TAG, "Issue with getting posts", e);
-//          return;
-//        }
-//        for (Food food : foods)
-//        {
-//          Log.i(TAG, "Food: " + food.getItemName());
-//        }
-//        saveShoppingItem(foods);
-//      }
-//    });
   }
 }
