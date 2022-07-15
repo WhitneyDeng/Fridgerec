@@ -166,6 +166,8 @@ public class InventoryCreationFragment extends Fragment {
         throw new NumberFormatException();
       }
 
+      entryItem.setAmount(amount);
+
       String amountUnit = extractString(binding.tilAmountUnit);
       if (amountUnit == null) { // implicit: amount is nonempty
         Toast.makeText(getContext(), "error: missing unit", Toast.LENGTH_LONG).show();
