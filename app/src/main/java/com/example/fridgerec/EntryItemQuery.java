@@ -2,6 +2,8 @@ package com.example.fridgerec;
 
 import android.util.Log;
 
+import androidx.fragment.app.FragmentActivity;
+
 import com.example.fridgerec.interfaces.DatasetViewModel;
 import com.example.fridgerec.model.EntryItem;
 import com.example.fridgerec.model.Food;
@@ -13,6 +15,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -100,10 +103,10 @@ public class EntryItemQuery {
       @Override
       public void done(List<EntryItem> queryResult, ParseException e) {
         if (e != null) {
-          Log.e(TAG, "Issue with post query", e);
+          Log.e(TAG, "Issue with EntryItem query", e);
           return;
         }
-        Log.i(TAG, "Post query success");
+        Log.i(TAG, "EntryItem query success");
         Log.i(TAG, "queryResult" + queryResult.toString());
 
         postQueryProcess(queryResult);
@@ -151,38 +154,65 @@ public class EntryItemQuery {
     });
   }
 
-  public static void saveNewEntry(EntryItem entryItem) {
-    //TODO: wrapper method seems unnecessary but the method name is unintuitive
-    saveNewFood(entryItem);
+  public static void saveNewEntry(EntryItem entryItem, DatasetViewModel viewModel, FragmentActivity activity) {
+    Log.d(TAG, "saveNewEntry called");
+    saveNewFood(entryItem, viewModel);
+
+    //TODO: observe entry => return entry or DUMMY_ENTRY
   }
 
-  //TODO: make this private
-  public static void saveNewFood(EntryItem entryItem) {
+  private static void saveNewFood(EntryItem entryItem, DatasetViewModel viewModel) {
     Food food = entryItem.getFood();
-    ParseQuery<Food> apiIdQuery = new ParseQuery<Food>("Food");
-    ParseQuery<Food> foodNameQuery = new ParseQuery<Food>("Food");
+    ParseQuery<Food> apiIdQuery = new ParseQuery<>("Food");
+    ParseQuery<Food> foodNameQuery = new ParseQuery<>("Food");
     ParseQuery<Food> compoundQuery = ParseQuery.or(Arrays.asList(apiIdQuery, foodNameQuery));
 
     apiIdQuery.whereMatches(Food.KEY_API_ID, String.format("(%s)", food.getApiId()));
     foodNameQuery.whereMatches(Food.KEY_FOOD_NAME, String.format("(%s)", food.getFoodName()), "i");
 
+    Log.d(TAG, "saveNewFood called");
     compoundQuery.getFirstInBackground(new GetCallback<Food>() {
       @Override
       public void done(Food existingFood, ParseException e) {
         Log.i(TAG, String.format("check existing food in database: food: %s | exception: %s", existingFood, e));
 
         if (e != null) {
-          food.saveInBackground(); //TODO: check does entryItem saving have to happen after this is saved?
+          Log.e(TAG, "query existing food: " + e);
+          food.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+              if (e != null) {
+                Log.e(TAG, "new food save failed: " + e);
+                viewModel.setParseException(e);
+                viewModel.getParseOperationSuccess().setValue(false);
+                return;
+              }
+              entryItem.setFood(food);
+            }
+          });
         } else {
+          Log.i(TAG, "existing food found");
           entryItem.setFood(existingFood);
         }
-        saveEntryItem(entryItem);
+        saveEntryItem(entryItem, viewModel);
       }
     });
   }
 
-  private static void saveEntryItem(EntryItem entryItem) {
-
+  private static void saveEntryItem(EntryItem entryItem, DatasetViewModel viewModel) {
+    entryItem.saveInBackground(new SaveCallback() {
+      @Override
+      public void done(ParseException e) {
+        if (e != null) {
+          Log.i(TAG, "error: new entry item save failed: " + e);
+          viewModel.setParseException(e);
+          viewModel.getParseOperationSuccess().setValue(false);
+          return;
+        }
+        Log.i(TAG, "new entry item save success");
+        viewModel.getParseOperationSuccess().setValue(true);
+      }
+    });
   }
   //TODO: query distinct food groups
 }

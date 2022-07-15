@@ -2,12 +2,15 @@ package com.example.fridgerec.model.viewmodel;
 
 import android.util.Log;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.fridgerec.EntryItemQuery;
 import com.example.fridgerec.interfaces.DatasetViewModel;
 import com.example.fridgerec.model.EntryItem;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +27,9 @@ public class InventoryViewModel extends ViewModel implements DatasetViewModel {
   private MutableLiveData<Boolean> inDeleteMode;
   private List<EntryItem> checkedItemsList;
   private HashSet<EntryItem> checkedItemsSet;
+
+  private MutableLiveData<Boolean> parseOperationSuccess;
+  private ParseException parseException;
 
   public MutableLiveData<HashMap<EntryItemQuery.SortFilter, Object>> getSortFilterParams() {
     if (sortFilterParams == null) {
@@ -83,11 +89,33 @@ public class InventoryViewModel extends ViewModel implements DatasetViewModel {
   }
 
   public void refreshDataset() {
+    Log.i(TAG, "refreshing inventory dataset");
     EntryItemQuery.queryEntryItems(this,
         EntryItem.CONTAINER_LIST_INVENTORY);
   }
 
   public void deleteCheckedItems() {
     EntryItemQuery.deleteEntryItems(this);
+  }
+
+  public void saveEntryItem(EntryItem entryItem, FragmentActivity activity) {
+    entryItem.setContainerList(EntryItem.CONTAINER_LIST_INVENTORY);
+    entryItem.setUser(ParseUser.getCurrentUser());
+    EntryItemQuery.saveNewEntry(entryItem, this, activity);
+  }
+
+  public MutableLiveData<Boolean> getParseOperationSuccess() {
+    if (parseOperationSuccess == null) {
+      parseOperationSuccess = new MutableLiveData<>();
+    }
+    return parseOperationSuccess;
+  }
+
+  public ParseException getParseException() {
+    return parseException;
+  }
+
+  public void setParseException(ParseException e) {
+    parseException = e;
   }
 }
