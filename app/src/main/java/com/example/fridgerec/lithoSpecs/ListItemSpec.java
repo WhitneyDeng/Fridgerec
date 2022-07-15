@@ -117,6 +117,9 @@ public class ListItemSpec {
       }
       Log.i(TAG, "checkedItemsSet: " + viewModel.getCheckedItemsSet().toString());
       ListItem.toggleIsCheckedState(c);
+    } else {
+      viewModel.getSelectedEntryItem().setValue(entryItem);
+      Log.i(TAG, "selectedItem: " + viewModel.getSelectedEntryItem().getValue().toString());
     }
   }
 

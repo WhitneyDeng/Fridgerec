@@ -83,7 +83,23 @@ public class InventoryFragment extends Fragment {
     observeRecyclerDataset();
     observeSortFilterParams();
     observeInDeleteMode();
+    observeSelectedEntryItem();
     //TODO: add observer for refresh (to reload litho recycler)
+  }
+
+  private void observeSelectedEntryItem() {
+    final Observer<EntryItem> selectedEntryItemObserver = new Observer<EntryItem>() {
+      @Override
+      public void onChanged(EntryItem entryItem) {
+        if (entryItem != EntryItem.DUMMY_ENTRY_ITEM) {
+          Log.i(TAG, "item selected: " + entryItem.getFood().getFoodName());
+
+          model.setInEditMode(true);
+          navController.navigate(R.id.action_inventoryFragment_to_inventoryCreationFragment);
+        }
+      }
+    };
+    model.getSelectedEntryItem().observe(getViewLifecycleOwner(), selectedEntryItemObserver);
   }
 
   private void observeInDeleteMode() {
@@ -177,6 +193,7 @@ public class InventoryFragment extends Fragment {
     binding.fab.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+        model.setInEditMode(false);
         navController.navigate(R.id.action_inventoryFragment_to_inventoryCreationFragment);
       }
     });

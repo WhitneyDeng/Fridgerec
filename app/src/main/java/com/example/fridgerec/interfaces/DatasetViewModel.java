@@ -18,6 +18,10 @@ public interface DatasetViewModel {
   public List<EntryItem> getCheckedItemsList();
   public HashSet<EntryItem> getCheckedItemsSet();
   public MutableLiveData<Boolean> getParseOperationSuccess();
+  public MutableLiveData<EntryItem> getSelectedEntryItem();
+  public Boolean getInEditMode();
+  public void setInEditMode(Boolean b);
   public void setParseException(ParseException e);
   public void refreshDataset();
+
 }

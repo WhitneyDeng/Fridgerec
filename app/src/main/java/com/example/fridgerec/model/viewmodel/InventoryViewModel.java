@@ -31,6 +31,9 @@ public class InventoryViewModel extends ViewModel implements DatasetViewModel {
   private MutableLiveData<Boolean> parseOperationSuccess;
   private ParseException parseException;
 
+  private Boolean inEditMode;
+  private MutableLiveData<EntryItem> selectedEntryItem;
+
   public MutableLiveData<HashMap<EntryItemQuery.SortFilter, Object>> getSortFilterParams() {
     if (sortFilterParams == null) {
       sortFilterParams = new MutableLiveData<>();
@@ -92,6 +95,22 @@ public class InventoryViewModel extends ViewModel implements DatasetViewModel {
     Log.i(TAG, "refreshing inventory dataset");
     EntryItemQuery.queryEntryItems(this,
         EntryItem.CONTAINER_LIST_INVENTORY);
+  }
+
+  public MutableLiveData<EntryItem> getSelectedEntryItem() {
+    if (selectedEntryItem == null) {
+      selectedEntryItem = new MutableLiveData<>();
+      selectedEntryItem.setValue(EntryItem.DUMMY_ENTRY_ITEM);
+    }
+    return selectedEntryItem;
+  }
+
+  public Boolean getInEditMode() {
+    return inEditMode;
+  }
+
+  public void setInEditMode(Boolean b) {
+    inEditMode = b;
   }
 
   public void deleteCheckedItems() {
