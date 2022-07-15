@@ -117,6 +117,10 @@ public class ListItemSpec {
       }
       Log.i(TAG, "checkedItemsSet: " + viewModel.getCheckedItemsSet().toString());
       ListItem.toggleIsCheckedState(c);
+    } else {
+      viewModel.setSelectedEntryItem(entryItem);
+      viewModel.getInEditMode().setValue(true);
+      Log.i(TAG, "selectedItem: " + viewModel.getSelectedEntryItem().getFood().getFoodName());
     }
   }
 

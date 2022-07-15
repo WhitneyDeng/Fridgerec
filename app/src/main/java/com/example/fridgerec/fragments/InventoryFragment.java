@@ -83,7 +83,22 @@ public class InventoryFragment extends Fragment {
     observeRecyclerDataset();
     observeSortFilterParams();
     observeInDeleteMode();
-    //TODO: add observer for refresh (to reload litho recycler)
+    observeInEditMode();
+    //TODO: add observer ParseOperationSuccess?
+  }
+
+  private void observeInEditMode() {
+    final Observer<Boolean> inEditModeObserver = new Observer<Boolean>() {
+      @Override
+      public void onChanged(Boolean inEditMode) {
+        if (inEditMode) {
+          Log.i(TAG, "item selected: " + model.getSelectedEntryItem().getFood().getFoodName());
+
+          navController.navigate(R.id.action_inventoryFragment_to_inventoryCreationFragment);
+        }
+      }
+    };
+    model.getInEditMode().observe(getViewLifecycleOwner(), inEditModeObserver);
   }
 
   private void observeInDeleteMode() {
