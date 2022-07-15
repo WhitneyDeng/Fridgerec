@@ -122,7 +122,7 @@ public class InventoryFragment extends Fragment {
           case R.id.mi_check:
           case R.id.mi_delete:
             Toast.makeText(getContext(),"removing " + model.getCheckedItemsSet().size() + " item(s)", Toast.LENGTH_LONG).show();
-            EntryItemQuery.deleteEntryItems(model);
+            model.deleteCheckedItems();
             mode.finish();
             return true;
         }
@@ -234,6 +234,6 @@ public class InventoryFragment extends Fragment {
     Food food = new Food();
     food.setFoodName("pear");
     entryItem.setFood(food);
-    EntryItemQuery.saveNewFood(entryItem);
+//    EntryItemQuery.saveNewFood(entryItem, new QueryCallbackManager());
   }
 }

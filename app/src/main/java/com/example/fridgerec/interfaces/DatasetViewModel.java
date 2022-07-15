@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.fridgerec.model.EntryItem;
 import com.example.fridgerec.EntryItemQuery;
+import com.parse.ParseException;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,4 +17,7 @@ public interface DatasetViewModel {
   public MutableLiveData<Boolean> getInDeleteMode();
   public List<EntryItem> getCheckedItemsList();
   public HashSet<EntryItem> getCheckedItemsSet();
+  public MutableLiveData<Boolean> getParseOperationSuccess();
+  public void setParseException(ParseException e);
+  public void refreshDataset();
 }
