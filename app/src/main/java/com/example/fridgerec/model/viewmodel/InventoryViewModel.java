@@ -81,4 +81,9 @@ public class InventoryViewModel extends ViewModel implements DatasetViewModel {
     }
     return checkedItemsSet;
   }
+
+  public void refreshDataset() {
+    EntryItemQuery.queryEntryItems(this,
+        EntryItem.CONTAINER_LIST_INVENTORY);
+  }
 }

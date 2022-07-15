@@ -76,14 +76,7 @@ public class InventoryFragment extends Fragment {
 
     setupObservers();
 
-    queryEntryItems();
-
-    testQuery();
-  }
-
-  private void queryEntryItems() {
-    EntryItemQuery.queryEntryItems(model,
-        EntryItem.CONTAINER_LIST_INVENTORY);
+    model.refreshDataset();
   }
 
   private void setupObservers() {
@@ -101,7 +94,7 @@ public class InventoryFragment extends Fragment {
         if (inDeleteMode) {
           fragmentView.startActionMode(configContextualMenuCallback());
         } else {
-          queryEntryItems();
+          model.refreshDataset();
           //TODO: success or failed delete;
         }
       }
@@ -148,8 +141,7 @@ public class InventoryFragment extends Fragment {
     final Observer<HashMap<EntryItemQuery.SortFilter, Object>> sortFilterParamsObserver = new Observer<HashMap<EntryItemQuery.SortFilter, Object>>() {
       @Override
       public void onChanged(HashMap<EntryItemQuery.SortFilter, Object> sortFilterObjectHashMap) {
-        EntryItemQuery.queryEntryItems(model,
-            EntryItem.CONTAINER_LIST_INVENTORY);
+        model.refreshDataset();
 
         Log.i(TAG, "sort & filter params changed");
       }

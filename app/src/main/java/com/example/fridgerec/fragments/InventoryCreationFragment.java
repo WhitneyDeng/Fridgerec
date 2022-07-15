@@ -110,7 +110,7 @@ public class InventoryCreationFragment extends Fragment {
       switch (item.getItemId()) {
         case R.id.miSave:
           EntryItem entryItem = extractData();
-          if (entryItem != DATA_EXTRACTION_FAIL) {
+          if (entryItem != EntryItem.DUMMY_ENTRY_ITEM) {
             entryItem.setContainerList(EntryItem.CONTAINER_LIST_INVENTORY);
             EntryItemQuery.saveNewEntry(entryItem);
             navController.navigate(R.id.action_inventoryCreationFragment_to_inventoryFragment);
@@ -130,7 +130,7 @@ public class InventoryCreationFragment extends Fragment {
     String foodName = extractString(binding.tilFood);
     if (foodName == null) {
       Toast.makeText(getContext(), "error: must enter food", Toast.LENGTH_LONG).show();
-      return DATA_EXTRACTION_FAIL;
+      return EntryItem.DUMMY_ENTRY_ITEM;
     }
     food.setFoodName(foodName);
 
@@ -153,7 +153,7 @@ public class InventoryCreationFragment extends Fragment {
       String amountUnit = extractString(binding.tilAmountUnit);
       if (amountUnit == null) { // implicit: amount is nonempty
         Toast.makeText(getContext(), "error: missing unit", Toast.LENGTH_LONG).show();
-        return DATA_EXTRACTION_FAIL;
+        return EntryItem.DUMMY_ENTRY_ITEM;
       }
       entryItem.setAmountUnit(amountUnit);
 
@@ -174,7 +174,7 @@ public class InventoryCreationFragment extends Fragment {
     if (expireDate != null) {
       if (expireDate.before(sourceDate)) {
         Toast.makeText(getContext(), "error: expire date must be after source date", Toast.LENGTH_LONG).show();
-        return DATA_EXTRACTION_FAIL;
+        return EntryItem.DUMMY_ENTRY_ITEM;
       }
       entryItem.setExpireDate(expireDate);
     }
