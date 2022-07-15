@@ -68,16 +68,16 @@ public class InventoryCreationFragment extends Fragment {
 
     model = new ViewModelProvider(requireActivity()).get(InventoryViewModel.class);
 
+    if (Boolean.TRUE.equals(model.getInEditMode().getValue())) {
+      populateEntryItemDetail(model.getSelectedEntryItem());
+    }
+
     setupToolbar();
     configExposedDropdownMenu(binding.actvFoodGroup, getResources().getStringArray(R.array.foodGroupStrings));
     configExposedDropdownMenu(binding.actvAmountUnit, getResources().getStringArray(R.array.amountUnitStrings));
     onClickDatePickerBtn(binding.btnSourceDate);
     onClickDatePickerBtn(binding.btnExpireDate);
     onClickToolbarItem();
-
-    if (Boolean.TRUE.equals(model.getInEditMode().getValue())) {
-      populateEntryItemDetail(model.getSelectedEntryItem());
-    }
   }
 
   private void populateEntryItemDetail(EntryItem entryItem) {
@@ -145,6 +145,7 @@ public class InventoryCreationFragment extends Fragment {
               public void onChanged(Boolean success) {
                 if (success) {
                   Toast.makeText(getContext(), "item saved successfully", Toast.LENGTH_SHORT).show();
+                  model.getInEditMode().setValue(false);
                   navController.navigate(R.id.action_inventoryCreationFragment_to_inventoryFragment);
                 } else {
                   Toast.makeText(getContext(), "error: item saved unsuccessfully: " + model.getParseException(), Toast.LENGTH_SHORT).show();
@@ -164,7 +165,13 @@ public class InventoryCreationFragment extends Fragment {
   }
 
   private EntryItem extractData() {
-    EntryItem entryItem = new EntryItem();
+    EntryItem entryItem;
+    if (Boolean.TRUE.equals(model.getInEditMode().getValue())) {
+      entryItem = model.getSelectedEntryItem();
+    } else {
+      entryItem = new EntryItem();
+    }
+
     Food food = new Food();
     //TODO: save set food apiId upone autocomplete selection
 
