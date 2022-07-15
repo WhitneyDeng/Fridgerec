@@ -24,6 +24,8 @@ public class EntryItem extends ParseObject {
   public static final String CONTAINER_LIST_INVENTORY = "INVENTORY";
   public static final String CONTAINER_LIST_SHOPPING = "SHOPPING";
 
+  public static final EntryItem DUMMY_ENTRY_ITEM = null;
+
   public ParseUser getUser() {
     return getParseUser(KEY_USER);
   }
