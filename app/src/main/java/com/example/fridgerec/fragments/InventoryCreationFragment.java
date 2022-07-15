@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -42,8 +41,8 @@ import java.util.Date;
  */
 public class InventoryCreationFragment extends Fragment {
   public static final String TAG = "InventoryCreationFragmemt";
+  private final SimpleDateFormat datepickerFormatter = new SimpleDateFormat("MMM dd, yyyy");
 
-  private Toolbar toolbar;
   private NavController navController;
   private AppBarConfiguration appBarConfiguration;
 
@@ -58,6 +57,7 @@ public class InventoryCreationFragment extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     binding = FragmentInventoryCreationBinding.inflate(getLayoutInflater(), container, false);
+
     return binding.getRoot();
   }
 
@@ -68,14 +68,39 @@ public class InventoryCreationFragment extends Fragment {
 
     model = new ViewModelProvider(requireActivity()).get(InventoryViewModel.class);
 
-    toolbar = binding.toolbar;
-
     setupToolbar();
     configExposedDropdownMenu(binding.actvFoodGroup, getResources().getStringArray(R.array.foodGroupStrings));
     configExposedDropdownMenu(binding.actvAmountUnit, getResources().getStringArray(R.array.amountUnitStrings));
     onClickDatePickerBtn(binding.btnSourceDate);
     onClickDatePickerBtn(binding.btnExpireDate);
     onClickToolbarItem();
+
+    if (Boolean.TRUE.equals(model.getInEditMode().getValue())) {
+      populateEntryItemDetail(model.getSelectedEntryItem());
+    }
+  }
+
+  private void populateEntryItemDetail(EntryItem entryItem) {
+    populateString(entryItem.getFood().getFoodName(), binding.tilFood);
+    populateString(entryItem.getFood().getFoodGroup(), binding.tilFoodGroup);
+    populateString(Integer.toString(entryItem.getAmount()), binding.tilAmount);
+    populateString(entryItem.getAmountUnit(), binding.tilAmountUnit);
+    populateDate(entryItem.getSourceDate(), binding.btnSourceDate);
+    populateDate(entryItem.getExpireDate(), binding.btnExpireDate);
+
+    //TODO: Spoonacular integration: if entryItem has apiId, disable foodgroup selection
+  }
+
+  private void populateString(String s, TextInputLayout til) {
+    if (s != null) {
+      til.getEditText().setText(s);
+    }
+  }
+
+  private void populateDate(Date d, Button btn) {
+    if (d != null) {
+      btn.setText(datepickerFormatter.format(d));
+    }
   }
 
   private void configExposedDropdownMenu(AutoCompleteTextView actv, String[] optionStrings) {
@@ -106,11 +131,11 @@ public class InventoryCreationFragment extends Fragment {
 
   private void setupToolbar() {
     appBarConfiguration = new AppBarConfiguration.Builder(R.id.inventoryFragment, R.id.shoppingFragment, R.id.settingsFragment).build();
-    NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
+    NavigationUI.setupWithNavController(binding.toolbar, navController, appBarConfiguration);
   }
 
   private void onClickToolbarItem() {
-    toolbar.setOnMenuItemClickListener( item -> {
+    binding.toolbar.setOnMenuItemClickListener( item -> {
       switch (item.getItemId()) {
         case R.id.miSave:
           EntryItem entryItem = extractData();
@@ -212,9 +237,8 @@ public class InventoryCreationFragment extends Fragment {
   }
 
   private Date extractDate(Button btnDatepicker) {
-    SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
     try {
-      return formatter.parse(btnDatepicker.getText().toString());
+      return datepickerFormatter.parse(btnDatepicker.getText().toString());
     } catch (ParseException e) {
       Log.e(TAG, "unable to extract date from: " + btnDatepicker.getText().toString());
       e.printStackTrace();
