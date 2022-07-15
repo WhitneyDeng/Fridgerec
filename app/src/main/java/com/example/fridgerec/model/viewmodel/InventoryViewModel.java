@@ -86,4 +86,8 @@ public class InventoryViewModel extends ViewModel implements DatasetViewModel {
     EntryItemQuery.queryEntryItems(this,
         EntryItem.CONTAINER_LIST_INVENTORY);
   }
+
+  public void deleteCheckedItems() {
+    EntryItemQuery.deleteEntryItems(this);
+  }
 }
