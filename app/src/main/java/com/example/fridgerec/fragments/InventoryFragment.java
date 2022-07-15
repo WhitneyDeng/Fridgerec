@@ -69,6 +69,7 @@ public class InventoryFragment extends Fragment {
     fragmentView = view;
 
     model = new ViewModelProvider(requireActivity()).get(InventoryViewModel.class);
+    model.readMode();
 
     onClickFab();
     setupToolbar();
@@ -146,7 +147,7 @@ public class InventoryFragment extends Fragment {
 
       @Override
       public void onDestroyActionMode(ActionMode mode) {
-
+        model.getInDeleteMode().setValue(false);
       }
     };
   }
