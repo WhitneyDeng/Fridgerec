@@ -40,7 +40,6 @@ import java.util.Date;
  */
 public class InventoryCreationFragment extends Fragment {
   public static final String TAG = "InventoryCreationFragmemt";
-  public static final EntryItem DATA_EXTRACTION_FAIL = null;
 
   private Toolbar toolbar;
   private NavController navController;
