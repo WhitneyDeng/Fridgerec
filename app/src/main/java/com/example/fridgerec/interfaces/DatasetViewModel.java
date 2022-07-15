@@ -19,4 +19,5 @@ public interface DatasetViewModel {
   public HashSet<EntryItem> getCheckedItemsSet();
   public MutableLiveData<Boolean> getParseOperationSuccess();
   public void setParseException(ParseException e);
+  public void refreshDataset();
 }

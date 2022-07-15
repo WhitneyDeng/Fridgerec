@@ -121,7 +121,6 @@ public class InventoryCreationFragment extends Fragment {
                 if (success) {
                   Toast.makeText(getContext(), "item saved successfully", Toast.LENGTH_SHORT).show();
                   navController.navigate(R.id.action_inventoryCreationFragment_to_inventoryFragment);
-                  model.refreshDataset();
                 } else {
                   Toast.makeText(getContext(), "error: item saved unsuccessfully: " + model.getParseException(), Toast.LENGTH_SHORT).show();
                 }

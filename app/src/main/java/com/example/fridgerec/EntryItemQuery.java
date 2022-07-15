@@ -155,7 +155,6 @@ public class EntryItemQuery {
   }
 
   public static void saveNewEntry(EntryItem entryItem, DatasetViewModel viewModel, FragmentActivity activity) {
-    Log.d(TAG, "saveNewEntry called");
     saveNewFood(entryItem, viewModel);
 
     //TODO: observe entry => return entry or DUMMY_ENTRY
@@ -170,7 +169,6 @@ public class EntryItemQuery {
     apiIdQuery.whereMatches(Food.KEY_API_ID, String.format("(%s)", food.getApiId()));
     foodNameQuery.whereMatches(Food.KEY_FOOD_NAME, String.format("(%s)", food.getFoodName()), "i");
 
-    Log.d(TAG, "saveNewFood called");
     compoundQuery.getFirstInBackground(new GetCallback<Food>() {
       @Override
       public void done(Food existingFood, ParseException e) {
@@ -211,6 +209,7 @@ public class EntryItemQuery {
         }
         Log.i(TAG, "new entry item save success");
         viewModel.getParseOperationSuccess().setValue(true);
+        viewModel.refreshDataset();
       }
     });
   }
