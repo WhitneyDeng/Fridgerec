@@ -67,4 +67,9 @@ public class InventoryFragment extends ListBaseFragment {
   protected void navigateToCreation() {
     navController.navigate(R.id.action_inventoryFragment_to_inventoryCreationFragment);
   }
+
+  @Override
+  protected void onDeleteModeEnd() {
+    model.refreshDataset();
+  }
 }
