@@ -44,8 +44,7 @@ public class InventoryCreationFragment extends CreationFragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    navController = Navigation.findNavController(view);
-    model = new ViewModelProvider(requireActivity()).get(InventoryViewModel.class);
+    setupCreationFragment(new ViewModelProvider(requireActivity()).get(InventoryViewModel.class), view);
 
     onClickDatePickerBtn(binding.btnSourceDate);
     onClickDatePickerBtn(binding.btnExpireDate);
@@ -69,7 +68,6 @@ public class InventoryCreationFragment extends CreationFragment {
     populateString(entryItem.getAmountUnit(), binding.tilAmountUnit);
     populateDate(entryItem.getSourceDate(), binding.btnSourceDate);
     populateDate(entryItem.getExpireDate(), binding.btnExpireDate);
-
     //TODO: Spoonacular integration: if entryItem has apiId, disable foodgroup selection
   }
 
