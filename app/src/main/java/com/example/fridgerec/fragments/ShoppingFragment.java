@@ -39,7 +39,7 @@ public class ShoppingFragment extends ListBaseFragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    setupListFragment(new ViewModelProvider(requireActivity()).get(ShoppingViewModel.class), view);
+    setupBaseFragment(new ViewModelProvider(requireActivity()).get(ShoppingViewModel.class), view);
     model.enterReadMode();
 
     onClickFab(binding.fab);

@@ -40,7 +40,7 @@ public abstract class CreationBaseFragment extends Fragment {
   protected abstract EntryItem extractEntryItem();
   protected abstract void navigateAway();
 
-  protected void setupCreationFragment(DatasetViewModel viewModel, View view) {
+  protected void setupBaseFragment(DatasetViewModel viewModel, View view) {
     model = viewModel;
     navController = Navigation.findNavController(view);
   }
