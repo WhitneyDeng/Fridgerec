@@ -46,9 +46,6 @@ public class InventoryCreationFragment extends CreationBaseFragment {
     super.onViewCreated(view, savedInstanceState);
     setupBaseFragment(new ViewModelProvider(requireActivity()).get(InventoryViewModel.class), view);
 
-    onClickDatePickerBtn(binding.btnSourceDate);
-    onClickDatePickerBtn(binding.btnExpireDate);
-
     if (Boolean.TRUE.equals(model.getInEditMode().getValue())) {
       populateEntryItemDetail(model.getSelectedEntryItem());
     }
