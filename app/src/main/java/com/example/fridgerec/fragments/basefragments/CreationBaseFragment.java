@@ -1,4 +1,4 @@
-package com.example.fridgerec.fragments;
+package com.example.fridgerec.fragments.basefragments;
 
 import android.util.Log;
 import android.view.View;
@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
@@ -25,9 +26,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
 
-public abstract class CreationFragment extends Fragment {
+public abstract class CreationBaseFragment extends Fragment {
   public static final String TAG = "CreationFragment";
 
   protected final SimpleDateFormat datepickerFormatter = new SimpleDateFormat("MMM dd, yyyy");
@@ -38,6 +38,12 @@ public abstract class CreationFragment extends Fragment {
 
   protected abstract void populateEntryItemDetail(EntryItem entryItem);
   protected abstract EntryItem extractEntryItem();
+  protected abstract void navigateAway();
+
+  protected void setupCreationFragment(DatasetViewModel viewModel, View view) {
+    model = viewModel;
+    navController = Navigation.findNavController(view);
+  }
 
   protected void setupToolbar(Toolbar toolbar) {
     appBarConfiguration = new AppBarConfiguration.Builder(R.id.inventoryFragment, R.id.shoppingFragment, R.id.settingsFragment).build();
@@ -209,15 +215,5 @@ public abstract class CreationFragment extends Fragment {
       }
     };
     model.getParseOperationSuccess().observe(getViewLifecycleOwner(), parseOperationSuccessObserver);
-  }
-
-  private void navigateAway() {
-    if (Objects.equals(model.getContainerList(), EntryItem.CONTAINER_LIST_INVENTORY)) {
-      navController.navigate(R.id.action_inventoryCreationFragment_to_inventoryFragment);
-    } else if (Objects.equals(model.getContainerList(), EntryItem.CONTAINER_LIST_SHOPPING)) {
-      navController.navigate(R.id.action_shoppingCreationFragment_to_shoppingFragment);
-    } else {
-      navController.navigateUp();
-    }
   }
 }

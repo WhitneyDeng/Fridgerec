@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.fridgerec.R;
 import com.example.fridgerec.databinding.FragmentInventoryCreationBinding;
+import com.example.fridgerec.fragments.basefragments.CreationBaseFragment;
 import com.example.fridgerec.model.EntryItem;
 import com.example.fridgerec.model.Food;
 import com.example.fridgerec.model.viewmodel.InventoryViewModel;
@@ -23,7 +23,7 @@ import com.example.fridgerec.model.viewmodel.InventoryViewModel;
  * Use the {@link InventoryCreationFragment} factory method to
  * create an instance of this fragment.
  */
-public class InventoryCreationFragment extends CreationFragment {
+public class InventoryCreationFragment extends CreationBaseFragment {
   public static final String TAG = "InventoryCreationFragmemt";
 
   private FragmentInventoryCreationBinding binding;
@@ -44,8 +44,7 @@ public class InventoryCreationFragment extends CreationFragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    navController = Navigation.findNavController(view);
-    model = new ViewModelProvider(requireActivity()).get(InventoryViewModel.class);
+    setupCreationFragment(new ViewModelProvider(requireActivity()).get(InventoryViewModel.class), view);
 
     onClickDatePickerBtn(binding.btnSourceDate);
     onClickDatePickerBtn(binding.btnExpireDate);
@@ -69,7 +68,6 @@ public class InventoryCreationFragment extends CreationFragment {
     populateString(entryItem.getAmountUnit(), binding.tilAmountUnit);
     populateDate(entryItem.getSourceDate(), binding.btnSourceDate);
     populateDate(entryItem.getExpireDate(), binding.btnExpireDate);
-
     //TODO: Spoonacular integration: if entryItem has apiId, disable foodgroup selection
   }
 
@@ -89,5 +87,10 @@ public class InventoryCreationFragment extends CreationFragment {
     }
 
     return extractSourceExpireDates(entryItem, binding.btnSourceDate, binding.btnExpireDate);
+  }
+
+  @Override
+  protected void navigateAway() {
+    navController.navigate(R.id.action_inventoryCreationFragment_to_inventoryFragment);
   }
 }

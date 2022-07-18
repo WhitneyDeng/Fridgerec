@@ -17,10 +17,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-public class InventoryViewModel extends ViewModel implements DatasetViewModel {
-  public static final String TAG = "InventoryViewModel";
-  private MutableLiveData<List<EntryItem>> inventoryList;
-  private MutableLiveData<HashMap<String, List<EntryItem>>> inventoryMap;
+public class ShoppingViewModel extends ViewModel implements DatasetViewModel {
+  public static final String TAG = "ShoppingViewModel";
+  private MutableLiveData<List<EntryItem>> shoppingList;
+  private MutableLiveData<HashMap<String, List<EntryItem>>> shoppingMap;
   private MutableLiveData<HashMap<EntryItemQuery.SortFilter, Object>> sortFilterParams;
 
   private MutableLiveData<Boolean> inDeleteMode;
@@ -35,7 +35,7 @@ public class InventoryViewModel extends ViewModel implements DatasetViewModel {
 
   @Override
   public String getContainerList() {
-    return EntryItem.CONTAINER_LIST_INVENTORY;
+    return EntryItem.CONTAINER_LIST_SHOPPING;
   }
 
   public MutableLiveData<HashMap<EntryItemQuery.SortFilter, Object>> getSortFilterParams() {
@@ -50,19 +50,19 @@ public class InventoryViewModel extends ViewModel implements DatasetViewModel {
   }
 
   public MutableLiveData<List<EntryItem>> getList() {
-    if (inventoryList == null) {
-      inventoryList = new MutableLiveData<>();
-      inventoryList.setValue(new ArrayList<>());
+    if (shoppingList == null) {
+      shoppingList = new MutableLiveData<>();
+      shoppingList.setValue(new ArrayList<>());
     }
-    return inventoryList;
+    return shoppingList;
   }
 
   public MutableLiveData<HashMap<String, List<EntryItem>>> getMap() {
-    if (inventoryMap == null) {
-      inventoryMap = new MutableLiveData<>();
-      inventoryMap.setValue(new HashMap<>());
+    if (shoppingMap == null) {
+      shoppingMap = new MutableLiveData<>();
+      shoppingMap.setValue(new HashMap<>());
     }
-    return inventoryMap;
+    return shoppingMap;
   }
 
   public MutableLiveData<Boolean> getInDeleteMode() {
@@ -96,7 +96,7 @@ public class InventoryViewModel extends ViewModel implements DatasetViewModel {
   }
 
   public void refreshDataset() {
-    Log.i(TAG, "refreshing inventory dataset");
+    Log.i(TAG, "refreshing shopping dataset");
     EntryItemQuery.queryEntryItems(this);
   }
 
@@ -124,7 +124,7 @@ public class InventoryViewModel extends ViewModel implements DatasetViewModel {
   }
 
   public void saveEntryItem(EntryItem entryItem, FragmentActivity activity) {
-    entryItem.setContainerList(EntryItem.CONTAINER_LIST_INVENTORY);
+    entryItem.setContainerList(EntryItem.CONTAINER_LIST_SHOPPING);
     entryItem.setUser(ParseUser.getCurrentUser());
     EntryItemQuery.saveNewEntry(entryItem, this, activity);
   }
