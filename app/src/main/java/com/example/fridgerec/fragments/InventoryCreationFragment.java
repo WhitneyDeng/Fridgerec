@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -12,7 +13,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +30,6 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -39,15 +37,11 @@ import java.util.Date;
  * Use the {@link InventoryCreationFragment} factory method to
  * create an instance of this fragment.
  */
-public class InventoryCreationFragment extends Fragment {
+public class InventoryCreationFragment extends CreationFragment {
   public static final String TAG = "InventoryCreationFragmemt";
-  private final SimpleDateFormat datepickerFormatter = new SimpleDateFormat("MMM dd, yyyy");
-
-  private NavController navController;
-  private AppBarConfiguration appBarConfiguration;
 
   private FragmentInventoryCreationBinding binding;
-  private InventoryViewModel model;
+//  private InventoryViewModel model;
 
   public InventoryCreationFragment() {
     // Required empty public constructor
@@ -65,22 +59,24 @@ public class InventoryCreationFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     navController = Navigation.findNavController(view);
-
     model = new ViewModelProvider(requireActivity()).get(InventoryViewModel.class);
+
+    onClickDatePickerBtn(binding.btnSourceDate);
+    onClickDatePickerBtn(binding.btnExpireDate);
 
     if (Boolean.TRUE.equals(model.getInEditMode().getValue())) {
       populateEntryItemDetail(model.getSelectedEntryItem());
     }
 
-    setupToolbar();
+    setupToolbar(binding.toolbar);
     configExposedDropdownMenu(binding.actvFoodGroup, getResources().getStringArray(R.array.foodGroupStrings));
     configExposedDropdownMenu(binding.actvAmountUnit, getResources().getStringArray(R.array.amountUnitStrings));
     onClickDatePickerBtn(binding.btnSourceDate);
     onClickDatePickerBtn(binding.btnExpireDate);
-    onClickToolbarItem();
   }
 
-  private void populateEntryItemDetail(EntryItem entryItem) {
+  @Override
+  protected void populateEntryItemDetail(EntryItem entryItem) {
     populateString(entryItem.getFood().getFoodName(), binding.tilFood);
     populateString(entryItem.getFood().getFoodGroup(), binding.tilFoodGroup);
     populateString(Integer.toString(entryItem.getAmount()), binding.tilAmount);
@@ -91,165 +87,38 @@ public class InventoryCreationFragment extends Fragment {
     //TODO: Spoonacular integration: if entryItem has apiId, disable foodgroup selection
   }
 
-  private void populateString(String s, TextInputLayout til) {
-    if (s != null) {
-      til.getEditText().setText(s);
-    }
-  }
-
-  private void populateDate(Date d, Button btn) {
-    if (d != null) {
-      btn.setText(datepickerFormatter.format(d));
-    }
-  }
-
-  private void configExposedDropdownMenu(AutoCompleteTextView actv, String[] optionStrings) {
-    ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.item_dropdown_foodgroup, optionStrings);
-    actv.setAdapter(arrayAdapter);
-  }
-
-  private void onClickDatePickerBtn(Button btn) {
-    MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker()
-        .setTitleText("Select Date")
-        .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-        .build();
-
-    btn.setOnClickListener((new View.OnClickListener() {
+  @Override
+  protected void observeParseOperationSuccess() {
+    final Observer<Boolean> parseOperationSuccessObserver = new Observer<Boolean>() {
       @Override
-      public void onClick(View v) {
-        datePicker.show(getChildFragmentManager(), "DATE_PICKER");
+      public void onChanged(Boolean success) {
+        if (success) {
+          Toast.makeText(getContext(), "item saved successfully", Toast.LENGTH_SHORT).show();
+          model.getInEditMode().setValue(false);
+          navController.navigate(R.id.action_inventoryCreationFragment_to_inventoryFragment);
+        } else {
+          Toast.makeText(getContext(), "error: item saved unsuccessfully: " + model.getParseException(), Toast.LENGTH_SHORT).show();
+        }
       }
-    }));
-
-    datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
-      @Override
-      public void onPositiveButtonClick(Object selection) {
-        btn.setText(datePicker.getHeaderText());
-      }
-    });
+    };
+    model.getParseOperationSuccess().observe(getViewLifecycleOwner(), parseOperationSuccessObserver);
   }
 
-  private void setupToolbar() {
-    appBarConfiguration = new AppBarConfiguration.Builder(R.id.inventoryFragment, R.id.shoppingFragment, R.id.settingsFragment).build();
-    NavigationUI.setupWithNavController(binding.toolbar, navController, appBarConfiguration);
-  }
+  @Override
+  protected EntryItem extractData() {
+    EntryItem entryItem = getEntryItem();
 
-  private void onClickToolbarItem() {
-    binding.toolbar.setOnMenuItemClickListener( item -> {
-      switch (item.getItemId()) {
-        case R.id.miSave:
-          EntryItem entryItem = extractData();
-          if (entryItem != EntryItem.DUMMY_ENTRY_ITEM) {
-            final Observer<Boolean> parseOperationSuccessObserver = new Observer<Boolean>() {
-              @Override
-              public void onChanged(Boolean success) {
-                if (success) {
-                  Toast.makeText(getContext(), "item saved successfully", Toast.LENGTH_SHORT).show();
-                  model.getInEditMode().setValue(false);
-                  navController.navigate(R.id.action_inventoryCreationFragment_to_inventoryFragment);
-                } else {
-                  Toast.makeText(getContext(), "error: item saved unsuccessfully: " + model.getParseException(), Toast.LENGTH_SHORT).show();
-                }
-              }
-            };
-            model.getParseOperationSuccess().observe(getViewLifecycleOwner(), parseOperationSuccessObserver);
-
-            entryItem.setContainerList(EntryItem.CONTAINER_LIST_INVENTORY);
-            model.saveEntryItem(entryItem, requireActivity());
-          }
-          return true;
-        default:
-          return false;
-      }
-    });
-  }
-
-  private EntryItem extractData() {
-    EntryItem entryItem;
-    if (Boolean.TRUE.equals(model.getInEditMode().getValue())) {
-      entryItem = model.getSelectedEntryItem();
-    } else {
-      entryItem = new EntryItem();
-    }
-
-    Food food = new Food();
-    //TODO: save set food apiId upone autocomplete selection
-
-    String foodName = extractString(binding.tilFood);
-    if (foodName == null) {
-      Toast.makeText(getContext(), "error: must enter food", Toast.LENGTH_LONG).show();
+    Food food = extractFood(binding.tilFood, binding.tilFoodGroup);
+    if (food == Food.DUMMY_FOOD) {
       return EntryItem.DUMMY_ENTRY_ITEM;
     }
-    food.setFoodName(foodName);
-
-    String foodGroup = extractString(binding.tilFoodGroup);
-    if (foodGroup != null) {
-      food.setFoodGroup(foodGroup);
-    }
-    Log.i(TAG, "food group: " + foodGroup);
-
     entryItem.setFood(food);
 
-    try {
-      int amount = Integer.parseInt(extractString(binding.tilAmount));
-
-      if (amount < 0) {
-        Toast.makeText(getContext(), "error: amount must be non negative", Toast.LENGTH_LONG).show();
-        throw new NumberFormatException();
-      }
-
-      entryItem.setAmount(amount);
-
-      String amountUnit = extractString(binding.tilAmountUnit);
-      if (amountUnit == null) { // implicit: amount is nonempty
-        Toast.makeText(getContext(), "error: missing unit", Toast.LENGTH_LONG).show();
-        return EntryItem.DUMMY_ENTRY_ITEM;
-      }
-      entryItem.setAmountUnit(amountUnit);
-
-      Log.i(TAG, "amount: " + amount);
-      Log.i(TAG, "amount unit: " + amountUnit);
-    } catch (NumberFormatException e) {
-      Log.i(TAG, "no amount extracted");
-    }
-
-    Date sourceDate = extractDate(binding.btnSourceDate);
-    if (sourceDate == null) {
-      sourceDate = new Date(System.currentTimeMillis());
-      Toast.makeText(getContext(), "no source date selected (default to today)", Toast.LENGTH_SHORT).show();
-    }
-    entryItem.setSourceDate(sourceDate);
-
-    Date expireDate = extractDate(binding.btnExpireDate);
-    if (expireDate != null) {
-      if (expireDate.before(sourceDate)) {
-        Toast.makeText(getContext(), "error: expire date must be after source date", Toast.LENGTH_LONG).show();
-        return EntryItem.DUMMY_ENTRY_ITEM;
-      }
-      entryItem.setExpireDate(expireDate);
-    }
-
-    Log.i(TAG, "food group: " + foodGroup);
-    Log.i(TAG, "source date: " + sourceDate);
-    Log.i(TAG, "expire date: " + expireDate);
-    return entryItem;
-  }
-
-  private String extractString(TextInputLayout til) {
-    String s = til.getEditText().getText().toString();
-    if (s.isEmpty()) {
+    entryItem = extractAmountInfo(entryItem, binding.tilAmount, binding.tilAmountUnit);
+    if (entryItem == EntryItem.DUMMY_ENTRY_ITEM) {
       return null;
     }
-    return s;
-  }
 
-  private Date extractDate(Button btnDatepicker) {
-    try {
-      return datepickerFormatter.parse(btnDatepicker.getText().toString());
-    } catch (ParseException e) {
-      Log.e(TAG, "unable to extract date from: " + btnDatepicker.getText().toString());
-      e.printStackTrace();
-      return null;
-    }
+    return extractSourceExpireDates(entryItem, binding.btnSourceDate, binding.btnExpireDate);
   }
 }

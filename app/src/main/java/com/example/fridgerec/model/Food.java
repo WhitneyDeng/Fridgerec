@@ -12,6 +12,7 @@ public class Food extends ParseObject {
   public static final String KEY_FOOD_GROUP = "foodGroup";
   public static final String KEY_API_ID = "apiId";
   public static final String KEY_IMAGE = "image";
+  public static final Food DUMMY_FOOD = null;
 
   public String getFoodName() {
     return getString(KEY_FOOD_NAME);
