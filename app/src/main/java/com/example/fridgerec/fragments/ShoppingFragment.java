@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.example.fridgerec.R;
 import com.example.fridgerec.databinding.FragmentShoppingBinding;
+import com.example.fridgerec.fragments.basefragments.ListBaseFragment;
 import com.example.fridgerec.model.viewmodel.ShoppingViewModel;
 
 /**
@@ -22,7 +23,7 @@ import com.example.fridgerec.model.viewmodel.ShoppingViewModel;
  * Use the {@link ShoppingFragment} factory method to
  * create an instance of this fragment.
  */
-public class ShoppingFragment extends ListFragment {
+public class ShoppingFragment extends ListBaseFragment {
   private FragmentShoppingBinding binding;
 
   public ShoppingFragment() {

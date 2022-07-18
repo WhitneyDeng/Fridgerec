@@ -1,4 +1,4 @@
-package com.example.fridgerec.fragments;
+package com.example.fridgerec.fragments.basefragments;
 
 import android.util.Log;
 import android.view.View;
@@ -27,7 +27,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public abstract class CreationFragment extends Fragment {
+public abstract class CreationBaseFragment extends Fragment {
   public static final String TAG = "CreationFragment";
 
   protected final SimpleDateFormat datepickerFormatter = new SimpleDateFormat("MMM dd, yyyy");
