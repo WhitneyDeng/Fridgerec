@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.fridgerec.R;
 import com.example.fridgerec.databinding.FragmentInventoryBinding;
+import com.example.fridgerec.fragments.basefragments.ListBaseFragment;
 import com.example.fridgerec.model.viewmodel.InventoryViewModel;
 
 /**
@@ -23,7 +24,7 @@ import com.example.fridgerec.model.viewmodel.InventoryViewModel;
  * Use the {@link InventoryFragment} factory method to
  * create an instance of this fragment.
  */
-public class InventoryFragment extends ListFragment {
+public class InventoryFragment extends ListBaseFragment {
   public static final String TAG = "InventoryFragment";
   private FragmentInventoryBinding binding;
 

@@ -1,4 +1,4 @@
-package com.example.fridgerec.fragments;
+package com.example.fridgerec.fragments.basefragments;
 
 import android.util.Log;
 import android.view.ActionMode;
@@ -31,7 +31,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.HashMap;
 import java.util.List;
 
-public abstract class ListFragment extends Fragment {
+public abstract class ListBaseFragment extends Fragment {
   public static final String TAG = "ListFragment";
   protected DatasetViewModel model;
   protected NavController navController;
