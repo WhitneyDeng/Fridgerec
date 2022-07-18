@@ -31,8 +31,7 @@ public class ShoppingFragment extends ListBaseFragment {
   }
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                           Bundle savedInstanceState) {
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     binding = FragmentShoppingBinding.inflate(getLayoutInflater(), container, false);
     return binding.getRoot();
   }
@@ -43,8 +42,11 @@ public class ShoppingFragment extends ListBaseFragment {
     setupListFragment(new ViewModelProvider(requireActivity()).get(ShoppingViewModel.class), view);
     model.enterReadMode();
 
-    setupToolbar(binding.toolbar);
     onClickFab(binding.fab);
+    setupToolbar(binding.toolbar);
+    setupObservers(binding.lvShoppingList);
+
+    model.refreshDataset();
   }
 
   @Override
