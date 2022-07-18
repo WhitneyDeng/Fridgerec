@@ -84,7 +84,9 @@
         tools:layout="@layout/fragment_shopping_creation" >
         <action
             android:id="@+id/action_shoppingCreationFragment_to_shoppingFragment"
-            app:destination="@id/shoppingFragment" />
+            app:destination="@id/shoppingFragment"
+            app:enterAnim="@anim/slide_from_left"
+            app:exitAnim="@anim/slide_to_right" />
     </fragment>
     <dialog
         android:id="@+id/sortFilterPrefDialog"
