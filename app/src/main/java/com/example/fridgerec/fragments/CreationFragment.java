@@ -80,7 +80,6 @@ public abstract class CreationFragment extends Fragment {
           if (entryItem != EntryItem.DUMMY_ENTRY_ITEM) {
             observeSaveComplete();
 
-            entryItem.setContainerList(model.getContainerList());
             model.saveEntryItem(entryItem, requireActivity());
           }
           return true;
