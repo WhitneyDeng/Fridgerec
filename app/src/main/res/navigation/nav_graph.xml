@@ -48,7 +48,11 @@
         tools:layout="@layout/fragment_shopping" >
         <action
             android:id="@+id/action_shoppingFragment_to_shoppingCreationFragment"
-            app:destination="@id/shoppingCreationFragment" />
+            app:destination="@id/shoppingCreationFragment"
+            app:enterAnim="@anim/slide_from_right"
+            app:exitAnim="@anim/slide_to_left"
+            app:popEnterAnim="@anim/slide_from_left"
+            app:popExitAnim="@anim/slide_to_right" />
     </fragment>
     <fragment
         android:id="@+id/inventoryCreationFragment"
