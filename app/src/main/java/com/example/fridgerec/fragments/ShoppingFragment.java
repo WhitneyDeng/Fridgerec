@@ -2,27 +2,19 @@ package com.example.fridgerec.fragments;
 
 import android.os.Bundle;
 
-import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import android.view.ActionMode;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.fridgerec.R;
 import com.example.fridgerec.databinding.FragmentShoppingBinding;
-import com.example.fridgerec.model.viewmodel.InventoryViewModel;
 import com.example.fridgerec.model.viewmodel.ShoppingViewModel;
 
 /**
