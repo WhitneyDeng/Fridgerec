@@ -6,6 +6,7 @@ import com.facebook.litho.Row;
 import com.facebook.litho.annotations.FromEvent;
 import com.facebook.litho.annotations.OnEvent;
 import com.facebook.litho.annotations.Prop;
+import com.facebook.litho.annotations.PropDefault;
 import com.facebook.litho.sections.Children;
 import com.facebook.litho.sections.SectionContext;
 import com.facebook.litho.sections.annotations.GroupSectionSpec;
@@ -24,7 +25,10 @@ import java.util.List;
 
 @GroupSectionSpec
 public class ListSectionSpec {
-  public static final String NO_HEADER = "no food category";
+  public static final String NO_HEADER = "food group filter not selected";
+
+  @PropDefault
+  static final String foodCategoryHeaderTitle = NO_HEADER;
 
   @OnCreateChildren
   public static Children onCreateChildren(
