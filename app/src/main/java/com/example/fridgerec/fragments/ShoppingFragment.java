@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.fridgerec.R;
 import com.example.fridgerec.databinding.FragmentShoppingBinding;
@@ -51,6 +52,16 @@ public class ShoppingFragment extends ListBaseFragment {
 
   @Override
   protected boolean onContextualMenuItemClicked(ActionMode mode, MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.mi_check:
+        // TODO: implement
+        return true;
+      case R.id.mi_delete:
+        Toast.makeText(getContext(),"removing " + model.getCheckedItemsSet().size() + " item(s)", Toast.LENGTH_LONG).show();
+        model.deleteCheckedItems();
+        mode.finish();
+        return true;
+    }
     return false;
   }
 
