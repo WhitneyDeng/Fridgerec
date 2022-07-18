@@ -69,4 +69,10 @@ public class ShoppingFragment extends ListBaseFragment {
   protected void navigateToCreation() {
     navController.navigate(R.id.action_shoppingFragment_to_shoppingCreationFragment);
   }
+
+  @Override
+  protected void onDeleteModeEnd() {
+    model.refreshDataset();
+    inventoryViewModel.refreshDataset();
+  }
 }
