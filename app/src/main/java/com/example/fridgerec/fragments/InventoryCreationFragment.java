@@ -74,7 +74,7 @@ public class InventoryCreationFragment extends CreationFragment {
   }
 
   @Override
-  protected EntryItem extractData() {
+  protected EntryItem extractEntryItem() {
     EntryItem entryItem = getEntryItem();
 
     Food food = extractFood(binding.tilFood, binding.tilFoodGroup);

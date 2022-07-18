@@ -37,8 +37,7 @@ public abstract class CreationFragment extends Fragment {
   private AppBarConfiguration appBarConfiguration;
 
   protected abstract void populateEntryItemDetail(EntryItem entryItem);
-  protected abstract EntryItem extractData();
-  protected abstract void observeSaveComplete();
+  protected abstract EntryItem extractEntryItem();
 
   protected void setupToolbar(Toolbar toolbar) {
     appBarConfiguration = new AppBarConfiguration.Builder(R.id.inventoryFragment, R.id.shoppingFragment, R.id.settingsFragment).build();
@@ -77,7 +76,7 @@ public abstract class CreationFragment extends Fragment {
     toolbar.setOnMenuItemClickListener( item -> {
       switch (item.getItemId()) {
         case R.id.miSave:
-          EntryItem entryItem = extractData();
+          EntryItem entryItem = extractEntryItem();
           if (entryItem != EntryItem.DUMMY_ENTRY_ITEM) {
             observeSaveComplete();
 
