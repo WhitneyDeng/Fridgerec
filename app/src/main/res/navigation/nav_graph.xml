@@ -12,7 +12,11 @@
         tools:layout="@layout/fragment_inventory" >
         <action
             android:id="@+id/action_inventoryFragment_to_inventoryCreationFragment"
-            app:destination="@id/inventoryCreationFragment" />
+            app:destination="@id/inventoryCreationFragment"
+            app:enterAnim="@anim/slide_from_right"
+            app:exitAnim="@anim/slide_to_left"
+            app:popEnterAnim="@anim/slide_from_left"
+            app:popExitAnim="@anim/slide_to_right" />
         <action
             android:id="@+id/action_inventoryFragment_to_loginFragment"
             app:destination="@id/loginFragment"
@@ -53,7 +57,8 @@
         tools:layout="@layout/fragment_inventory_creation" >
         <action
             android:id="@+id/action_inventoryCreationFragment_to_inventoryFragment"
-            app:destination="@id/inventoryFragment" />
+            app:destination="@id/inventoryFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
