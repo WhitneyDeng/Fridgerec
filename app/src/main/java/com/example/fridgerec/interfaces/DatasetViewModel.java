@@ -27,4 +27,7 @@ public interface DatasetViewModel {
   public void setParseException(ParseException e);
   public void refreshDataset();
   public void saveEntryItem(EntryItem entryItem, FragmentActivity activity);
+  public void enterReadMode();
+
+  public void deleteCheckedItems();
 }
