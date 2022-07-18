@@ -54,7 +54,7 @@ public class ListItemSpec {
 
     String amountLeftString = nullCheckInt(entryItem.getAmount()) + " " + nullcheckString(entryItem.getAmountUnit());
 
-    return Row.create(c)
+    Row.Builder component = Row.create(c)
         .justifyContent(YogaJustify.SPACE_BETWEEN)
         .paddingDip(ALL, 16)
         .child(
@@ -69,18 +69,24 @@ public class ListItemSpec {
                 .child(
                     Text.create(c)
                         .text(amountLeftString)))
-        .child(
-            Column.create(c)
-                .child(
-                    Text.create(c)
-                        .text(expireDateString))
-                .child(
-                    Text.create(c)
-                        .text(sourceDateString)))
         .clickHandler(ListItem.onClick(c))
         .longClickHandler(ListItem.onLongClick(c))
-        .backgroundColor(isChecked ? Color.GRAY : Color.WHITE)
-        .build();
+        .backgroundColor(isChecked ? Color.GRAY : Color.WHITE);
+
+    if (viewModel.getContainerList() == EntryItem.CONTAINER_LIST_INVENTORY) {
+      return component.child(
+          Column.create(c)
+              .child(
+                  Text.create(c)
+                      .text(expireDateString))
+              .child(
+                  Text.create(c)
+                      .text(sourceDateString)))
+
+          .build();
+    } else {
+      return component.build();
+    }
   }
 
   private static String nullCheckInt(Integer i) {
