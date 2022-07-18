@@ -97,8 +97,7 @@ public class InventoryViewModel extends ViewModel implements DatasetViewModel {
 
   public void refreshDataset() {
     Log.i(TAG, "refreshing inventory dataset");
-    EntryItemQuery.queryEntryItems(this,
-        EntryItem.CONTAINER_LIST_INVENTORY);
+    EntryItemQuery.queryEntryItems(this);
   }
 
   public void setSelectedEntryItem(EntryItem e) {
