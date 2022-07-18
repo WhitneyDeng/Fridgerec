@@ -88,4 +88,9 @@ public class InventoryCreationFragment extends CreationFragment {
 
     return extractSourceExpireDates(entryItem, binding.btnSourceDate, binding.btnExpireDate);
   }
+
+  @Override
+  protected void navigateAway() {
+    navController.navigate(R.id.action_inventoryCreationFragment_to_inventoryFragment);
+  }
 }
