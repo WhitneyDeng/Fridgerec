@@ -144,7 +144,7 @@ public class InventoryViewModel extends ViewModel implements DatasetViewModel {
     parseException = e;
   }
 
-  public void readMode() {
+  public void enterReadMode() {
     getInEditMode().setValue(false);
     getInDeleteMode().setValue(false);
   }
