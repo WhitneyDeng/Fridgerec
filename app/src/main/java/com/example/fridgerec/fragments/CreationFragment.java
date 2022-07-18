@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -24,6 +25,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 public abstract class CreationFragment extends Fragment {
   public static final String TAG = "CreationFragment";
@@ -192,6 +194,32 @@ public abstract class CreationFragment extends Fragment {
       Log.e(TAG, "unable to extract date from: " + btnDatepicker.getText().toString());
       e.printStackTrace();
       return null;
+    }
+  }
+
+  private void observeSaveComplete() {
+    final Observer<Boolean> parseOperationSuccessObserver = new Observer<Boolean>() {
+      @Override
+      public void onChanged(Boolean success) {
+        if (success) {
+          Toast.makeText(getContext(), "item saved successfully", Toast.LENGTH_SHORT).show();
+          model.getInEditMode().setValue(false);
+          navigateAway();
+        } else {
+          Toast.makeText(getContext(), "error: item saved unsuccessfully: " + model.getParseException(), Toast.LENGTH_SHORT).show();
+        }
+      }
+    };
+    model.getParseOperationSuccess().observe(getViewLifecycleOwner(), parseOperationSuccessObserver);
+  }
+
+  private void navigateAway() {
+    if (Objects.equals(model.getContainerList(), EntryItem.CONTAINER_LIST_INVENTORY)) {
+      navController.navigate(R.id.action_inventoryCreationFragment_to_inventoryFragment);
+    } else if (Objects.equals(model.getContainerList(), EntryItem.CONTAINER_LIST_SHOPPING)) {
+      navController.navigate(R.id.action_shoppingCreationFragment_to_shoppingFragment);
+    } else {
+      navController.navigateUp();
     }
   }
 }
