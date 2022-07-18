@@ -58,6 +58,8 @@
         <action
             android:id="@+id/action_inventoryCreationFragment_to_inventoryFragment"
             app:destination="@id/inventoryFragment"
+            app:enterAnim="@anim/slide_from_left"
+            app:exitAnim="@anim/slide_to_right"
             app:popUpToInclusive="false" />
     </fragment>
     <fragment
@@ -86,11 +88,11 @@
         android:label="SortFilterPrefDialog" >
         <action
             android:id="@+id/action_sortFilterPrefDialog_to_inventoryFragment"
-            app:destination="@id/inventoryFragment" >
+            app:destination="@id/inventoryFragment">
             <argument
                 android:name="testString"
                 app:argType="string"
-                app:nullable="true"/>
+                app:nullable="true" />
         </action>
     </dialog>
 </navigation>
