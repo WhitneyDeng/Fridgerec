@@ -19,7 +19,6 @@ import java.util.List;
 
 public class InventoryViewModel extends ViewModel implements DatasetViewModel {
   public static final String TAG = "InventoryViewModel";
-  private MutableLiveData<Boolean> refresh;
   private MutableLiveData<List<EntryItem>> inventoryList;
   private MutableLiveData<HashMap<String, List<EntryItem>>> inventoryMap;
   private MutableLiveData<HashMap<EntryItemQuery.SortFilter, Object>> sortFilterParams;
@@ -33,6 +32,11 @@ public class InventoryViewModel extends ViewModel implements DatasetViewModel {
 
   private MutableLiveData<Boolean> inEditMode;
   private EntryItem selectedEntryItem;
+
+  @Override
+  public String getContainerList() {
+    return EntryItem.CONTAINER_LIST_INVENTORY;
+  }
 
   public MutableLiveData<HashMap<EntryItemQuery.SortFilter, Object>> getSortFilterParams() {
     if (sortFilterParams == null) {
