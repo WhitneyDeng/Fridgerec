@@ -38,9 +38,9 @@ public class EntryItemQuery {
   private static String containerList;
   private static DatasetViewModel viewModel;
 
-  public static void queryEntryItems(DatasetViewModel vm, String cl) {
+  public static void queryEntryItems(DatasetViewModel vm) {
     viewModel = vm;
-    containerList = cl;
+    containerList = vm.getContainerList();
     sortFilterParams = vm.getSortFilterParams().getValue();
 
     makeQuery(configParseQuery());
