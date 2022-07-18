@@ -216,14 +216,4 @@ public abstract class CreationFragment extends Fragment {
     };
     model.getParseOperationSuccess().observe(getViewLifecycleOwner(), parseOperationSuccessObserver);
   }
-
-  private void navigateAway() {
-    if (Objects.equals(model.getContainerList(), EntryItem.CONTAINER_LIST_INVENTORY)) {
-      navController.navigate(R.id.action_inventoryCreationFragment_to_inventoryFragment);
-    } else if (Objects.equals(model.getContainerList(), EntryItem.CONTAINER_LIST_SHOPPING)) {
-      navController.navigate(R.id.action_shoppingCreationFragment_to_shoppingFragment);
-    } else {
-      navController.navigateUp();
-    }
-  }
 }
