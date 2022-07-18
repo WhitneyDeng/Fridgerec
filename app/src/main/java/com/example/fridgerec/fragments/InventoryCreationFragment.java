@@ -5,14 +5,12 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.fridgerec.R;
 import com.example.fridgerec.databinding.FragmentInventoryCreationBinding;
@@ -76,7 +74,7 @@ public class InventoryCreationFragment extends CreationFragment {
   }
 
   @Override
-  protected EntryItem extractData() {
+  protected EntryItem extractEntryItem() {
     EntryItem entryItem = getEntryItem();
 
     Food food = extractFood(binding.tilFood, binding.tilFoodGroup);
@@ -92,22 +90,4 @@ public class InventoryCreationFragment extends CreationFragment {
 
     return extractSourceExpireDates(entryItem, binding.btnSourceDate, binding.btnExpireDate);
   }
-
-  @Override
-  protected void observeSaveComplete() {
-    final Observer<Boolean> parseOperationSuccessObserver = new Observer<Boolean>() {
-      @Override
-      public void onChanged(Boolean success) {
-        if (success) {
-          Toast.makeText(getContext(), "item saved successfully", Toast.LENGTH_SHORT).show();
-          model.getInEditMode().setValue(false);
-          navController.navigate(R.id.action_inventoryCreationFragment_to_inventoryFragment);
-        } else {
-          Toast.makeText(getContext(), "error: item saved unsuccessfully: " + model.getParseException(), Toast.LENGTH_SHORT).show();
-        }
-      }
-    };
-    model.getParseOperationSuccess().observe(getViewLifecycleOwner(), parseOperationSuccessObserver);
-  }
-
 }
