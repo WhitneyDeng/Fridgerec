@@ -41,7 +41,7 @@ public class InventoryFragment extends ListBaseFragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    setupListFragment(new ViewModelProvider(requireActivity()).get(InventoryViewModel.class), view);
+    setupBaseFragment(new ViewModelProvider(requireActivity()).get(InventoryViewModel.class), view);
     model.enterReadMode();
 
     onClickFab(binding.fab);

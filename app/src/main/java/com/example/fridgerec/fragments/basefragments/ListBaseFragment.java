@@ -40,7 +40,7 @@ public abstract class ListBaseFragment extends Fragment {
   protected abstract boolean onContextualMenuItemClicked(ActionMode mode, MenuItem item);
   protected abstract void navigateToCreation();
 
-  protected void setupListFragment(DatasetViewModel viewModel, View view) {
+  protected void setupBaseFragment(DatasetViewModel viewModel, View view) {
     this.model = viewModel;
     this.fragmentView = view;
     this.navController = Navigation.findNavController(view);

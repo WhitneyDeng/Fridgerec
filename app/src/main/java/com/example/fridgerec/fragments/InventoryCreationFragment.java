@@ -44,7 +44,7 @@ public class InventoryCreationFragment extends CreationBaseFragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    setupCreationFragment(new ViewModelProvider(requireActivity()).get(InventoryViewModel.class), view);
+    setupBaseFragment(new ViewModelProvider(requireActivity()).get(InventoryViewModel.class), view);
 
     onClickDatePickerBtn(binding.btnSourceDate);
     onClickDatePickerBtn(binding.btnExpireDate);

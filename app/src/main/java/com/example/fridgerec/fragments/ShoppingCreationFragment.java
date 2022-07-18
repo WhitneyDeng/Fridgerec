@@ -43,6 +43,7 @@ public class ShoppingCreationFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
     navController = Navigation.findNavController(view);
 
+
     setupToolbar();
     onClickToolbarItem();
 
