@@ -1,9 +1,5 @@
 package com.example.fridgerec.fragments;
 
-import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.renderscript.ScriptGroup;
-import android.service.autofill.Dataset;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -11,12 +7,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
@@ -34,6 +27,7 @@ import java.util.Date;
 
 public abstract class CreationFragment extends Fragment {
   public static final String TAG = "CreationFragment";
+
   protected final SimpleDateFormat datepickerFormatter = new SimpleDateFormat("MMM dd, yyyy");
 
   protected DatasetViewModel model;
@@ -41,8 +35,8 @@ public abstract class CreationFragment extends Fragment {
   private AppBarConfiguration appBarConfiguration;
 
   protected abstract void populateEntryItemDetail(EntryItem entryItem);
-  protected abstract void observeParseOperationSuccess();
   protected abstract EntryItem extractData();
+  protected abstract void observeSaveComplete();
 
   protected void setupToolbar(Toolbar toolbar) {
     appBarConfiguration = new AppBarConfiguration.Builder(R.id.inventoryFragment, R.id.shoppingFragment, R.id.settingsFragment).build();
@@ -83,7 +77,7 @@ public abstract class CreationFragment extends Fragment {
         case R.id.miSave:
           EntryItem entryItem = extractData();
           if (entryItem != EntryItem.DUMMY_ENTRY_ITEM) {
-            observeParseOperationSuccess();
+            observeSaveComplete();
 
             entryItem.setContainerList(EntryItem.CONTAINER_LIST_INVENTORY);
             model.saveEntryItem(entryItem, requireActivity());
