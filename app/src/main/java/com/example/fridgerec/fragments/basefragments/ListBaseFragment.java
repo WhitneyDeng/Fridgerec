@@ -153,7 +153,6 @@ public abstract class ListBaseFragment extends Fragment {
         .disablePTR(true)
         .section(
             ListSection.create(new SectionContext(c))
-                .foodCategoryHeaderTitle(ListSectionSpec.NO_HEADER) //TODO: take advantage of optional header
                 .entryItems(entryItems)
                 .viewModel(model)
                 .build())
