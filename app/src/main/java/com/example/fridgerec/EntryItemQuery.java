@@ -132,6 +132,7 @@ public class EntryItemQuery {
     HashMap<String, List<EntryItem>> foodGroupMap = new HashMap<>();
     for (EntryItem entryItem : entryItems) {
       String foodGroup = entryItem.getFood().getFoodGroup();
+      foodGroup = foodGroup == null ? Food.NO_FOOD_GROUP : foodGroup;
       List<EntryItem> foodGroupList = foodGroupMap.getOrDefault(foodGroup, new ArrayList<>());
       foodGroupList.add(entryItem);
       foodGroupMap.put(foodGroup, foodGroupList);
