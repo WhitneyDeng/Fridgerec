@@ -100,5 +100,8 @@
                 app:argType="string"
                 app:nullable="true" />
         </action>
+        <argument
+            android:name="containerList"
+            app:argType="string" />
     </dialog>
 </navigation>
