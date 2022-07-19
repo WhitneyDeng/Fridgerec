@@ -148,4 +148,8 @@ public class ShoppingViewModel extends ViewModel implements DatasetViewModel {
     getInEditMode().setValue(false);
     getInDeleteMode().setValue(false);
   }
+
+  public void transferCheckedItemsToInventory() {
+    EntryItemQuery.transferToInventory(this);
+  }
 }

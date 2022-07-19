@@ -155,6 +155,31 @@ public class EntryItemQuery {
     });
   }
 
+  public static void transferToInventory(DatasetViewModel viewModel) {
+    List<EntryItem> checkedItems = viewModel.getCheckedItemsList();
+
+    updateTransferredEntry(checkedItems);
+    EntryItem.saveAllInBackground(checkedItems, new SaveCallback() {
+      @Override
+      public void done(ParseException e) {
+        viewModel.getInDeleteMode().setValue(false);
+
+        if (e != null) {
+          Log.e(TAG, "error while transferring entryItems to inventory", e);
+          return;
+        }
+        Log.i(TAG, "entryItems transferred to inventory successfully");
+      }
+    });
+  }
+
+  private static void updateTransferredEntry(List<EntryItem> checkedItems) {
+    for (EntryItem checkedItem : checkedItems) {
+      checkedItem.setContainerList(EntryItem.CONTAINER_LIST_INVENTORY);
+      checkedItem.setSourceDate(new Date(System.currentTimeMillis()));
+    }
+  }
+
   public static void saveNewEntry(EntryItem entryItem, DatasetViewModel viewModel, FragmentActivity activity) {
     saveNewFood(entryItem, viewModel);
 
@@ -176,7 +201,7 @@ public class EntryItemQuery {
         Log.i(TAG, String.format("check existing food in database: food: %s | exception: %s", existingFood, e));
 
         if (e != null) {
-          Log.e(TAG, "query existing food: " + e);
+          Log.e(TAG, "no existing food: " + e);
           food.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -187,13 +212,14 @@ public class EntryItemQuery {
                 return;
               }
               entryItem.setFood(food);
+              saveEntryItem(entryItem, viewModel);
             }
           });
         } else {
           Log.i(TAG, "existing food found");
           entryItem.setFood(existingFood);
+          saveEntryItem(entryItem, viewModel);
         }
-        saveEntryItem(entryItem, viewModel);
       }
     });
   }

@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.fridgerec.R;
 import com.example.fridgerec.databinding.FragmentShoppingBinding;
 import com.example.fridgerec.fragments.basefragments.ListBaseFragment;
+import com.example.fridgerec.model.viewmodel.InventoryViewModel;
 import com.example.fridgerec.model.viewmodel.ShoppingViewModel;
 
 /**
@@ -54,6 +55,9 @@ public class ShoppingFragment extends ListBaseFragment {
   protected boolean onContextualMenuItemClicked(ActionMode mode, MenuItem item) {
     switch (item.getItemId()) {
       case R.id.mi_check:
+        Toast.makeText(getContext(),"transferring " + model.getCheckedItemsSet().size() + " item(s) to inventory", Toast.LENGTH_LONG).show();
+        ((ShoppingViewModel) model).transferCheckedItemsToInventory();
+        mode.finish();
         // TODO: implement
         return true;
       case R.id.mi_delete:
@@ -68,11 +72,5 @@ public class ShoppingFragment extends ListBaseFragment {
   @Override
   protected void navigateToCreation() {
     navController.navigate(R.id.action_shoppingFragment_to_shoppingCreationFragment);
-  }
-
-  @Override
-  protected void onDeleteModeEnd() {
-    model.refreshDataset();
-    inventoryViewModel.refreshDataset();
   }
 }
