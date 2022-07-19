@@ -53,6 +53,9 @@
             app:exitAnim="@anim/slide_to_left"
             app:popEnterAnim="@anim/slide_from_left"
             app:popExitAnim="@anim/slide_to_right" />
+        <action
+            android:id="@+id/action_shoppingFragment_to_sortFilterPrefDialog"
+            app:destination="@id/sortFilterPrefDialog" />
     </fragment>
     <fragment
         android:id="@+id/inventoryCreationFragment"
@@ -92,13 +95,8 @@
         android:id="@+id/sortFilterPrefDialog"
         android:name="com.example.fridgerec.dialogs.SortFilterParamsDialog"
         android:label="SortFilterPrefDialog" >
-        <action
-            android:id="@+id/action_sortFilterPrefDialog_to_inventoryFragment"
-            app:destination="@id/inventoryFragment">
-            <argument
-                android:name="testString"
-                app:argType="string"
-                app:nullable="true" />
-        </action>
+        <argument
+            android:name="containerList"
+            app:argType="string" />
     </dialog>
 </navigation>

@@ -81,6 +81,13 @@ public class InventoryFragment extends ListBaseFragment {
   }
 
   @Override
+  protected void navigateToSortFilterParamsDialog() {
+    InventoryFragmentDirections.ActionInventoryFragmentToSortFilterPrefDialog action = InventoryFragmentDirections.actionInventoryFragmentToSortFilterPrefDialog(
+        model.getContainerList());
+    navController.navigate(action);
+  }
+
+  @Override
   protected void navigateToCreation() {
     navController.navigate(R.id.action_inventoryFragment_to_inventoryCreationFragment);
   }

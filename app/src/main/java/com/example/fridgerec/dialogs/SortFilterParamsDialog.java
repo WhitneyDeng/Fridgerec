@@ -24,7 +24,10 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.fridgerec.EntryItemQuery;
 import com.example.fridgerec.R;
 import com.example.fridgerec.databinding.DialogSortFilterParamsBinding;
+import com.example.fridgerec.interfaces.DatasetViewModel;
+import com.example.fridgerec.model.EntryItem;
 import com.example.fridgerec.model.viewmodel.InventoryViewModel;
+import com.example.fridgerec.model.viewmodel.ShoppingViewModel;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
@@ -42,6 +45,7 @@ public class SortFilterParamsDialog extends DialogFragment{
 
   private DialogSortFilterParamsBinding binding;
   private NavController navController;
+  private DatasetViewModel model;
 
   @Nullable
   @Override
@@ -59,11 +63,28 @@ public class SortFilterParamsDialog extends DialogFragment{
     configExposedDropdownMenu();
     onClickToolbarItem();
     configFilterLayoutVisibility();
-    onClickDatePickerBtn(binding.btnExpireBefore);
-    onClickDatePickerBtn(binding.btnExpireAfter);
-    onClickDatePickerBtn(binding.btnSourcedBefore);
-    onClickDatePickerBtn(binding.btnSourcedAfter);
-    //TODO: toggle visibility of linear layouts
+
+    if (SortFilterParamsDialogArgs.fromBundle(getArguments()).getContainerList() == EntryItem.CONTAINER_LIST_INVENTORY) {
+      model = new ViewModelProvider(requireActivity()).get(InventoryViewModel.class);
+      onClickDatePickerBtn(binding.btnExpireBefore);
+      onClickDatePickerBtn(binding.btnExpireAfter);
+      onClickDatePickerBtn(binding.btnSourcedBefore);
+      onClickDatePickerBtn(binding.btnSourcedAfter);
+    } else {
+      model = new ViewModelProvider(requireActivity()).get(ShoppingViewModel.class);
+      // TODO: hide expire buttons
+    }
+  }
+
+  @Override
+  public void onStart() {
+    super.onStart();
+    Dialog dialog = getDialog();
+    if (dialog != null) {
+      int width = ViewGroup.LayoutParams.MATCH_PARENT;
+      int height = ViewGroup.LayoutParams.MATCH_PARENT;
+      dialog.getWindow().setLayout(width, height);
+    }
   }
 
   private void configExposedDropdownMenu() {
@@ -113,17 +134,6 @@ public class SortFilterParamsDialog extends DialogFragment{
     });
   }
 
-  @Override
-  public void onStart() {
-    super.onStart();
-    Dialog dialog = getDialog();
-    if (dialog != null) {
-      int width = ViewGroup.LayoutParams.MATCH_PARENT;
-      int height = ViewGroup.LayoutParams.MATCH_PARENT;
-      dialog.getWindow().setLayout(width, height);
-    }
-  }
-
   private void configToolbar() {
     AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.inventoryFragment, R.id.shoppingFragment, R.id.settingsFragment).build();
     NavigationUI.setupWithNavController(binding.toolbar, navController, appBarConfiguration);
@@ -140,7 +150,6 @@ public class SortFilterParamsDialog extends DialogFragment{
     binding.toolbar.setOnMenuItemClickListener(item -> {
       switch (item.getItemId()) {
         case R.id.miSave:
-          InventoryViewModel model = new ViewModelProvider(requireActivity()).get(InventoryViewModel.class);
           model.getSortFilterParams().setValue(getSelectedParams());
           navController.navigateUp();
           return true;
