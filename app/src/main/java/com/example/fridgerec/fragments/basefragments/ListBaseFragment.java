@@ -19,7 +19,6 @@ import com.example.fridgerec.R;
 import com.example.fridgerec.interfaces.DatasetViewModel;
 import com.example.fridgerec.lithoSpecs.FoodGroupsSection;
 import com.example.fridgerec.lithoSpecs.ListSection;
-import com.example.fridgerec.lithoSpecs.ListSectionSpec;
 import com.example.fridgerec.model.EntryItem;
 import com.facebook.litho.Component;
 import com.facebook.litho.ComponentContext;
@@ -38,6 +37,7 @@ public abstract class ListBaseFragment extends Fragment {
   protected View fragmentView;
 
   protected abstract boolean onContextualMenuItemClicked(ActionMode mode, MenuItem item);
+  protected abstract void navigateToSortFilterParamsDialog();
   protected abstract void navigateToCreation();
 
   protected void setupBaseFragment(DatasetViewModel viewModel, View view) {
@@ -165,7 +165,7 @@ public abstract class ListBaseFragment extends Fragment {
     toolbar.setOnMenuItemClickListener(item -> {
       switch (item.getItemId()) {
         case R.id.miSortFilter:
-          navController.navigate(R.id.sortFilterPrefDialog);
+          navigateToSortFilterParamsDialog();
           return true;
         default:
           return false;
