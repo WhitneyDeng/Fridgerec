@@ -58,7 +58,6 @@ public class ShoppingFragment extends ListBaseFragment {
         Toast.makeText(getContext(),"transferring " + model.getCheckedItemsSet().size() + " item(s) to inventory", Toast.LENGTH_LONG).show();
         ((ShoppingViewModel) model).transferCheckedItemsToInventory();
         mode.finish();
-        // TODO: implement
         return true;
       case R.id.mi_delete:
         Toast.makeText(getContext(),"removing " + model.getCheckedItemsSet().size() + " item(s)", Toast.LENGTH_LONG).show();
