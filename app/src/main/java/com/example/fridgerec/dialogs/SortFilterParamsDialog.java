@@ -62,7 +62,7 @@ public class SortFilterParamsDialog extends DialogFragment{
     configToolbar();
     configExposedDropdownMenu();
     onClickToolbarItem();
-    configFilterLayoutVisibility();
+    configToggleFilterLayoutVisibility();
 
     if (SortFilterParamsDialogArgs.fromBundle(getArguments()).getContainerList() == EntryItem.CONTAINER_LIST_INVENTORY) {
       model = new ViewModelProvider(requireActivity()).get(InventoryViewModel.class);
@@ -73,6 +73,12 @@ public class SortFilterParamsDialog extends DialogFragment{
     } else {
       model = new ViewModelProvider(requireActivity()).get(ShoppingViewModel.class);
       // TODO: hide expire buttons
+      hideChip(binding.cSortSourceDate);
+      hideChip(binding.cSortExpireDate);
+      hideChip(binding.cFilterSourceBefore);
+      hideChip(binding.cFilterSourceAfter);
+      hideChip(binding.cFilterExpireBefore);
+      hideChip(binding.cFilterExpireAfter);
     }
   }
 
@@ -87,12 +93,16 @@ public class SortFilterParamsDialog extends DialogFragment{
     }
   }
 
+  private void hideChip(Chip chip) {
+    chip.setVisibility(View.GONE);
+  }
+
   private void configExposedDropdownMenu() {
     ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.item_dropdown_foodgroup, getResources().getStringArray(R.array.foodGroupStrings));
     binding.actvFoodGroup.setAdapter(arrayAdapter);
   }
 
-  private void configFilterLayoutVisibility() {
+  private void configToggleFilterLayoutVisibility() {
     onChipCheckedChanged(binding.cFilterExpireBefore, binding.llFilterExpireBefore);
     onChipCheckedChanged(binding.cFilterExpireAfter, binding.llFilterExpireAfter);
     onChipCheckedChanged(binding.cFilterSourceBefore, binding.llFilterSourcedBefore);
