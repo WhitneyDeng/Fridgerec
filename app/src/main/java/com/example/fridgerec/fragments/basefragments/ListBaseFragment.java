@@ -39,7 +39,6 @@ public abstract class ListBaseFragment extends Fragment {
 
   protected abstract boolean onContextualMenuItemClicked(ActionMode mode, MenuItem item);
   protected abstract void navigateToCreation();
-  protected abstract void onDeleteModeEnd();
 
   protected void setupBaseFragment(DatasetViewModel viewModel, View view) {
     this.model = viewModel;
@@ -82,7 +81,7 @@ public abstract class ListBaseFragment extends Fragment {
         if (inDeleteMode) {
           fragmentView.startActionMode(configContextualMenuCallback());
         } else {
-          onDeleteModeEnd();
+          model.refreshDataset();
           //TODO: success or failed delete;
         }
       }
