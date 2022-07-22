@@ -28,6 +28,13 @@
         android:orientation="vertical"
         android:padding="20dp">
 
+        <com.google.android.material.chip.Chip
+            android:id="@+id/cFood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:closeIconEnabled="true"
+            android:visibility="gone"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilFood"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
