@@ -6,6 +6,6 @@ import com.example.fridgerec.model.Food;
 
 import java.util.List;
 
-public interface SetAutocompleteTextViewAdapterCallback {
+public interface FoodAutocompleteSearchCallback {
   public void setAutocompleteTextViewAdapter(AutoCompleteTextView actv, List<Food> suggestions);
 }

@@ -7,7 +7,7 @@ import android.widget.AutoCompleteTextView;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.RequestParams;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-import com.example.fridgerec.interfaces.SetAutocompleteTextViewAdapterCallback;
+import com.example.fridgerec.interfaces.FoodAutocompleteSearchCallback;
 import com.example.fridgerec.model.Food;
 
 import org.json.JSONArray;
@@ -19,7 +19,7 @@ public class SpoonacularClient {
   public static final String TAG = "SpoonacularClient";
   public static final String BASE_PATH = "https://api.spoonacular.com";
 
-  public static void getAutocompleteSuggestions(Context context, String query, AutoCompleteTextView actv, SetAutocompleteTextViewAdapterCallback view) {
+  public static void getAutocompleteSuggestions(Context context, String query, AutoCompleteTextView actv, FoodAutocompleteSearchCallback view) {
     String autocompleteEndptPath = "/food/ingredients/autocomplete";
 
     AsyncHttpClient client = new AsyncHttpClient();
