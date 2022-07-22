@@ -20,6 +20,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.fridgerec.R;
 import com.example.fridgerec.SpoonacularClient;
 import com.example.fridgerec.interfaces.DatasetViewModel;
+import com.example.fridgerec.interfaces.SetAutocompleteTextViewAdapterCallback;
 import com.example.fridgerec.model.EntryItem;
 import com.example.fridgerec.model.Food;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -29,6 +30,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public abstract class CreationBaseFragment extends Fragment implements SetAutocompleteTextViewAdapterCallback {
   public static final String TAG = "CreationFragment";
@@ -113,12 +115,9 @@ public abstract class CreationBaseFragment extends Fragment implements SetAutoco
       @Override
       public void afterTextChanged(Editable s) {
         Log.i(TAG, "autocomplete text input: " + s.toString());
-
-        SpoonacularClient.getAutocompleteSuggestions(getContext(), s.toString(), actv);
+        SpoonacularClient.getAutocompleteSuggestions(getContext(), s.toString(), actv, CreationBaseFragment.this);
       }
     });
-
-
   }
 
   public void setAutocompleteTextViewAdapter(AutoCompleteTextView actv, List<Food> suggestions) {
