@@ -1,5 +1,7 @@
 package com.example.fridgerec.fragments.basefragments;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -93,6 +95,27 @@ public abstract class CreationBaseFragment extends Fragment {
           return false;
       }
     });
+  }
+
+  //TODO: invoke this function on the actv
+  protected void configFoodActv(AutoCompleteTextView actv) {
+    actv.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+        Log.i(TAG, "autocomplete text input: " + s.toString());
+      }
+    });
+
+
   }
 
   protected void populateString(String s, TextInputLayout til) {
