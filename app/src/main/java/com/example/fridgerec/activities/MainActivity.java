@@ -6,27 +6,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.fridgerec.R;
-import com.example.fridgerec.model.Food;
-import com.example.fridgerec.model.EntryItem;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.soloader.SoLoader;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     SoLoader.init(this, false);
+    Fresco.initialize(this);
     setContentView(R.layout.activity_main);
 
     setupBottomNav();
@@ -64,42 +53,5 @@ public class MainActivity extends AppCompatActivity {
     navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
     navController = navHostFragment.getNavController();
     NavigationUI.setupWithNavController(bottomNavigationBar, navController);
-  }
-
-  private void saveShoppingItem(List<Food> foods) {
-
-    EntryItem shoppingItem = new EntryItem();
-    shoppingItem.setFood(foods.get(0));
-    shoppingItem.setUser(ParseUser.getCurrentUser());
-
-    shoppingItem.saveInBackground(new SaveCallback() {
-      @Override
-      public void done(ParseException e) {
-        if (e != null) {
-          Log.e(TAG, "error while saving shopping item", e);
-          Toast.makeText(MainActivity.this, "error while saving shopping item", Toast.LENGTH_SHORT).show();
-          return; //note: not in tutorial (remove this line to clear interface even on failure to save post)
-        }
-        Log.i(TAG, "shopping item saved successfully");
-      }
-    });
-  }
-
-  private void query() {
-    ParseQuery<EntryItem> query = ParseQuery.getQuery(EntryItem.class);
-    query.findInBackground(new FindCallback<EntryItem>() {
-      @Override
-      public void done(List<EntryItem> entryItems, ParseException e) {
-        if (e != null)
-        {
-          Log.e(TAG, "Issue with getting users", e);
-          return;
-        }
-        for (EntryItem entryItem : entryItems)
-        {
-          Log.i(TAG, "entry Item expiration date: " + entryItem.getExpireDate());
-        }
-      }
-    });
   }
 }

@@ -3,6 +3,7 @@ package com.example.fridgerec.lithoSpecs;
 import static com.facebook.yoga.YogaEdge.ALL;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.View;
 
@@ -10,6 +11,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.fridgerec.interfaces.DatasetViewModel;
 import com.example.fridgerec.model.EntryItem;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.drawable.ScalingUtils;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.litho.ClickEvent;
 import com.facebook.litho.Column;
 import com.facebook.litho.Component;
@@ -25,6 +29,7 @@ import com.facebook.litho.annotations.OnEvent;
 import com.facebook.litho.annotations.OnUpdateState;
 import com.facebook.litho.annotations.Prop;
 import com.facebook.litho.annotations.State;
+import com.facebook.litho.fresco.FrescoImage;
 import com.facebook.litho.widget.Text;
 import com.facebook.yoga.YogaJustify;
 
@@ -46,11 +51,14 @@ public class ListItemSpec {
 
     Log.i(TAG, "rendering: " + entryItem + " " + entryItem.getFood().getFoodName());
 
+    String imageUrl = entryItem.getFood().getImageUrl();
+    imageUrl = imageUrl == null ? "https://upload.wikimedia.org/wikipedia/commons/5/55/Question_Mark.svg" : imageUrl;
+
     Date expireDate = entryItem.getExpireDate();
     Date sourceDate = entryItem.getSourceDate();
 
-    String expireDateString = EXPIRE_DATE_DESC + (expireDate == null ? EMPTY : formatDate(expireDate));
-    String sourceDateString = SOURCE_DATE_DESC + (sourceDate == null ? EMPTY : formatDate(sourceDate));
+    String expireDateString = expireDate == null ? EMPTY : formatDate(expireDate);
+    String sourceDateString = sourceDate == null ? EMPTY : formatDate(sourceDate);
 
     String amountLeftString = nullCheckInt(entryItem.getAmount()) + " " + nullcheckString(entryItem.getAmountUnit());
 
@@ -58,17 +66,30 @@ public class ListItemSpec {
         .justifyContent(YogaJustify.SPACE_BETWEEN)
         .paddingDip(ALL, 16)
         .child(
-            Text.create(c)
-                .text(entryItem.getFood().getFoodName())
-                .textSizeSp(20))
-        .child(
-            Column.create(c)
+            Row.create(c)
+                .justifyContent(YogaJustify.FLEX_START)
                 .child(
-                    Text.create(c)
-                        .text(AMOUNT_LEFT_DESC))
+                    FrescoImage.create(c)
+                        .controller(getImageController(c, imageUrl))
+                        .maxWidthPx(200)
+                        .actualImageScaleType(ScalingUtils.ScaleType.FIT_START)
+                )
                 .child(
-                    Text.create(c)
-                        .text(amountLeftString)))
+                    Column.create(c)
+                        .child(
+                            Text.create(c)
+                                .text(entryItem.getFood().getFoodName())
+                                .textSizeSp(30)
+                                .textStyle(Typeface.BOLD)
+                        )
+                        .child(
+                            getDescriptionTextComponent(c, AMOUNT_LEFT_DESC)
+                        )
+                        .child(
+                            Text.create(c)
+                                .text(amountLeftString))
+                )
+        )
         .clickHandler(ListItem.onClick(c))
         .longClickHandler(ListItem.onLongClick(c))
         .backgroundColor(isChecked ? Color.GRAY : Color.WHITE);
@@ -77,12 +98,20 @@ public class ListItemSpec {
       return component.child(
           Column.create(c)
               .child(
-                  Text.create(c)
-                      .text(expireDateString))
+                  getDescriptionTextComponent(c, EXPIRE_DATE_DESC)
+              )
               .child(
                   Text.create(c)
-                      .text(sourceDateString)))
-
+                      .text(expireDateString)
+              )
+              .child(
+                  getDescriptionTextComponent(c, SOURCE_DATE_DESC)
+              )
+              .child(
+                  Text.create(c)
+                      .text(sourceDateString)
+              )
+          )
           .build();
     } else {
       return component.build();
@@ -148,5 +177,19 @@ public class ListItemSpec {
     String pattern = "dd MMMM yyyy";
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
     return simpleDateFormat.format(date);
+  }
+
+  private static DraweeController getImageController(ComponentContext c, String imageUrl) {
+    return Fresco
+        .newDraweeControllerBuilder()
+        .setUri(imageUrl)
+        .build();
+  }
+
+  private static Text.Builder getDescriptionTextComponent(ComponentContext c, String string) {
+    return Text.create(c)
+        .text(string)
+        .textStyle(Typeface.ITALIC)
+        .textColor(Color.GRAY);
   }
 }
