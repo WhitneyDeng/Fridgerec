@@ -30,7 +30,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public abstract class CreationBaseFragment extends Fragment {
+public abstract class CreationBaseFragment extends Fragment implements SetAutocompleteTextViewAdapterCallback {
   public static final String TAG = "CreationFragment";
 
   protected final SimpleDateFormat datepickerFormatter = new SimpleDateFormat("MMM dd, yyyy");
@@ -119,6 +119,11 @@ public abstract class CreationBaseFragment extends Fragment {
     });
 
 
+  }
+
+  public void setAutocompleteTextViewAdapter(AutoCompleteTextView actv, List<Food> suggestions) {
+    ArrayAdapter<Food> foodAdapter = new ArrayAdapter<>(requireContext(), R.layout.item_dropdown, suggestions);
+    actv.setAdapter(foodAdapter);
   }
 
   protected void populateString(String s, TextInputLayout til) {
