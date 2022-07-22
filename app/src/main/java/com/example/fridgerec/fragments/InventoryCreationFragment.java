@@ -60,12 +60,12 @@ public class InventoryCreationFragment extends CreationBaseFragment {
 
   @Override
   protected void populateEntryItemDetail(EntryItem entryItem) {
-    populateString(entryItem.getFood().getFoodName(), binding.tilFood);
-    populateString(entryItem.getFood().getFoodGroup(), binding.tilFoodGroup);
-    populateString(Integer.toString(entryItem.getAmount()), binding.tilAmount);
-    populateString(entryItem.getAmountUnit(), binding.tilAmountUnit);
-    populateDate(entryItem.getSourceDate(), binding.btnSourceDate);
-    populateDate(entryItem.getExpireDate(), binding.btnExpireDate);
+    populateTextInputLayout(entryItem.getFood().getFoodName(), binding.tilFood);
+    populateTextInputLayout(entryItem.getFood().getFoodGroup(), binding.tilFoodGroup);
+    populateTextInputLayout(Integer.toString(entryItem.getAmount()), binding.tilAmount);
+    populateTextInputLayout(entryItem.getAmountUnit(), binding.tilAmountUnit);
+    populateDateButton(entryItem.getSourceDate(), binding.btnSourceDate);
+    populateDateButton(entryItem.getExpireDate(), binding.btnExpireDate);
     //TODO: Spoonacular integration: if entryItem has apiId, disable foodgroup selection
   }
 

@@ -57,10 +57,10 @@ public class ShoppingCreationFragment extends CreationBaseFragment {
 
   @Override
   protected void populateEntryItemDetail(EntryItem entryItem) {
-    populateString(entryItem.getFood().getFoodName(), binding.tilFood);
-    populateString(entryItem.getFood().getFoodGroup(), binding.tilFoodGroup);
-    populateString(Integer.toString(entryItem.getAmount()), binding.tilAmount);
-    populateString(entryItem.getAmountUnit(), binding.tilAmountUnit);
+    populateTextInputLayout(entryItem.getFood().getFoodName(), binding.tilFood);
+    populateTextInputLayout(entryItem.getFood().getFoodGroup(), binding.tilFoodGroup);
+    populateTextInputLayout(Integer.toString(entryItem.getAmount()), binding.tilAmount);
+    populateTextInputLayout(entryItem.getAmountUnit(), binding.tilAmountUnit);
   }
 
   @Override

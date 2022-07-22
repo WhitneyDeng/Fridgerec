@@ -125,13 +125,13 @@ public abstract class CreationBaseFragment extends Fragment implements SetAutoco
     actv.setAdapter(foodAdapter);
   }
 
-  protected void populateString(String s, TextInputLayout til) {
+  protected void populateTextInputLayout(String s, TextInputLayout til) {
     if (s != null) {
       til.getEditText().setText(s);
     }
   }
 
-  protected void populateDate(Date d, Button btn) {
+  protected void populateDateButton(Date d, Button btn) {
     if (d != null) {
       btn.setText(datepickerFormatter.format(d));
     }
