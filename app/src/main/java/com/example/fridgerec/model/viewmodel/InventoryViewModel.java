@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.fridgerec.EntryItemQuery;
 import com.example.fridgerec.interfaces.DatasetViewModel;
 import com.example.fridgerec.model.EntryItem;
+import com.example.fridgerec.model.Food;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
@@ -32,6 +33,8 @@ public class InventoryViewModel extends ViewModel implements DatasetViewModel {
 
   private MutableLiveData<Boolean> inEditMode;
   private EntryItem selectedEntryItem;
+
+  private Food selectedFoodSuggestion;
 
   @Override
   public String getContainerList() {
@@ -121,6 +124,19 @@ public class InventoryViewModel extends ViewModel implements DatasetViewModel {
 
   public void deleteCheckedItems() {
     EntryItemQuery.deleteEntryItems(this);
+  }
+
+  @Override
+  public Food getSelectedFoodSuggestion() {
+    if (selectedFoodSuggestion == null) {
+      selectedFoodSuggestion = Food.DUMMY_FOOD;
+    }
+    return selectedFoodSuggestion;
+  }
+
+  @Override
+  public void setSelectedFoodSuggestion(Food food) {
+    selectedFoodSuggestion = food;
   }
 
   public void saveEntryItem(EntryItem entryItem, FragmentActivity activity) {

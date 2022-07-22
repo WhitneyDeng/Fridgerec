@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.fridgerec.model.EntryItem;
 import com.example.fridgerec.EntryItemQuery;
+import com.example.fridgerec.model.Food;
 import com.parse.ParseException;
 
 import java.util.HashMap;
@@ -29,4 +30,6 @@ public interface DatasetViewModel {
   public void saveEntryItem(EntryItem entryItem, FragmentActivity activity);
   public void enterReadMode();
   public void deleteCheckedItems();
+  public Food getSelectedFoodSuggestion();
+  public void setSelectedFoodSuggestion(Food food);
 }

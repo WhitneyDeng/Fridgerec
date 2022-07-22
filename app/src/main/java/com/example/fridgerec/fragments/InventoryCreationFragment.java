@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,11 +95,11 @@ public class InventoryCreationFragment extends CreationBaseFragment {
 
   @Override
   public void onSuggestionSelected(Food selectedFood) {
-    //TODO: populate food group & set dropdown to unclickable
     populateTextInputLayout(selectedFood.getFoodGroup(), binding.tilFoodGroup);
     binding.tilFoodGroup.setEnabled(false);
+
+    model.setSelectedFoodSuggestion(selectedFood);
     //TODO: create chip in food actv
     //TODO: disable food actv
-    //TODO: save food to view model
   }
 }
