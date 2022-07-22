@@ -7,10 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.text.Editable;
-import android.text.Spanned;
-import android.text.style.ImageSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +17,6 @@ import com.example.fridgerec.fragments.basefragments.CreationBaseFragment;
 import com.example.fridgerec.model.EntryItem;
 import com.example.fridgerec.model.Food;
 import com.example.fridgerec.model.viewmodel.InventoryViewModel;
-import com.google.android.material.chip.ChipDrawable;
-
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
