@@ -18,6 +18,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.fridgerec.R;
+import com.example.fridgerec.SpoonacularClient;
 import com.example.fridgerec.interfaces.DatasetViewModel;
 import com.example.fridgerec.model.EntryItem;
 import com.example.fridgerec.model.Food;
@@ -112,6 +113,8 @@ public abstract class CreationBaseFragment extends Fragment {
       @Override
       public void afterTextChanged(Editable s) {
         Log.i(TAG, "autocomplete text input: " + s.toString());
+
+        SpoonacularClient.getAutocompleteSuggestions(getContext(), s.toString(), actv);
       }
     });
 

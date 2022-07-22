@@ -17,7 +17,7 @@ public class SpoonacularClient {
   public static final String BASE_PATH = "https://api.spoonacular.com";
 
 
-  public static void setAutocompleteAdapter(Context context, String query, AutoCompleteTextView actv) {
+  public static void getAutocompleteSuggestions(Context context, String query, AutoCompleteTextView actv) {
     String autocompleteEndptPath = "/food/ingredients/autocomplete";
 
     AsyncHttpClient client = new AsyncHttpClient();
