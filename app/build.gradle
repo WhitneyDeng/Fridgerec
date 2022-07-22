@@ -49,8 +49,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.6.1'
 
     //FOR: Navigation Component
-    implementation 'androidx.navigation:navigation-fragment:2.4.2'
-    implementation 'androidx.navigation:navigation-ui:2.4.2'
+    implementation 'androidx.navigation:navigation-fragment:2.5.0'
+    implementation 'androidx.navigation:navigation-ui:2.5.0'
 
     //FOR: Litho
     implementation 'com.facebook.litho:litho-core:0.41.2'
