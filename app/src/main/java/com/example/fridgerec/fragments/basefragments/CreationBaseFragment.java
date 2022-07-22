@@ -114,7 +114,6 @@ public abstract class CreationBaseFragment extends Fragment implements FoodAutoc
     });
   }
 
-  //TODO: invoke this function on the actv
   protected void configFoodActv(AutoCompleteTextView actv) {
     actv.addTextChangedListener(new TextWatcher() {
       @Override
@@ -177,22 +176,11 @@ public abstract class CreationBaseFragment extends Fragment implements FoodAutoc
   }
 
   protected Food extractFood(TextInputLayout tilFood, TextInputLayout tilFoodGroup) {
-    Food food = new Food();
-    //TODO: save set food apiId upone autocomplete selection
-
-    String foodName = extractString(tilFood);
-    if (foodName == null) {
+    Food food = model.getSelectedFoodSuggestion();
+    if (food == Food.DUMMY_FOOD) {
       Toast.makeText(getContext(), "error: must enter food", Toast.LENGTH_LONG).show();
       return Food.DUMMY_FOOD;
     }
-    food.setFoodName(foodName);
-
-    String foodGroup = extractString(tilFoodGroup);
-    if (foodGroup != null) {
-      food.setFoodGroup(foodGroup);
-    }
-    Log.i(TAG, "food group: " + foodGroup);
-
     return food;
   }
 
