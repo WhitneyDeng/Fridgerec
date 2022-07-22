@@ -7,7 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,6 +98,11 @@ public class InventoryCreationFragment extends CreationBaseFragment {
     binding.tilFoodGroup.setEnabled(false);
 
     model.setSelectedFoodSuggestion(selectedFood);
+
+    binding.cFood.setText(selectedFood.getFoodName());
+    binding.cFood.setVisibility(View.VISIBLE);
+    binding.tilFood.setVisibility(View.GONE);
+
     //TODO: create chip in food actv
     //TODO: disable food actv
   }
