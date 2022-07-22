@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface FoodAutocompleteSearchCallback {
   public void setAutocompleteTextViewAdapter(AutoCompleteTextView actv, List<Food> suggestions);
+  public void onSuggestionSelected(Food selectedFood);
 }
