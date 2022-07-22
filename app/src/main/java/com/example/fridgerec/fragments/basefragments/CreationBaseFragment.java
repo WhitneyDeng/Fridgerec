@@ -4,6 +4,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -20,7 +21,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.fridgerec.R;
 import com.example.fridgerec.SpoonacularClient;
 import com.example.fridgerec.interfaces.DatasetViewModel;
-import com.example.fridgerec.interfaces.SetAutocompleteTextViewAdapterCallback;
+import com.example.fridgerec.interfaces.FoodAutocompleteSearchCallback;
 import com.example.fridgerec.model.EntryItem;
 import com.example.fridgerec.model.Food;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -32,7 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public abstract class CreationBaseFragment extends Fragment implements SetAutocompleteTextViewAdapterCallback {
+public abstract class CreationBaseFragment extends Fragment implements FoodAutocompleteSearchCallback {
   public static final String TAG = "CreationFragment";
 
   protected final SimpleDateFormat datepickerFormatter = new SimpleDateFormat("MMM dd, yyyy");
@@ -118,6 +119,11 @@ public abstract class CreationBaseFragment extends Fragment implements SetAutoco
         SpoonacularClient.getAutocompleteSuggestions(getContext(), s.toString(), actv, CreationBaseFragment.this);
       }
     });
+
+    FoodSuggestionSelectedListener selectedListener = new FoodSuggestionSelectedListener();
+    actv.setOnItemSelectedListener(selectedListener);
+    actv.setOnItemClickListener(selectedListener);
+    actv.setOnFocusChangeListener(selectedListener);
   }
 
   public void setAutocompleteTextViewAdapter(AutoCompleteTextView actv, List<Food> suggestions) {
@@ -138,6 +144,7 @@ public abstract class CreationBaseFragment extends Fragment implements SetAutoco
   }
 
   protected EntryItem getEntryItem() {
+
     if (Boolean.TRUE.equals(model.getInEditMode().getValue())) {
       return model.getSelectedEntryItem();
     } else {
@@ -245,5 +252,31 @@ public abstract class CreationBaseFragment extends Fragment implements SetAutoco
       }
     };
     model.getParseOperationSuccess().observe(getViewLifecycleOwner(), parseOperationSuccessObserver);
+  }
+
+  class FoodSuggestionSelectedListener implements AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener, View.OnFocusChangeListener {
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+      Log.i(TAG, "onFocusChange");
+      //TODO: implement
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long row) {
+      Log.i(TAG, "onItemClick");
+      Food selectedFoodSuggestion = (Food) parent.getAdapter().getItem(position);
+      onSuggestionSelected(selectedFoodSuggestion);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long row) {
+      Log.i(TAG, "onItemSelected");
+      Food selectedFoodSuggestion = (Food) parent.getAdapter().getItem(position);
+      onSuggestionSelected(selectedFoodSuggestion);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
   }
 }
