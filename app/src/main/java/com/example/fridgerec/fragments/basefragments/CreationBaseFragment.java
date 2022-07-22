@@ -56,7 +56,7 @@ public abstract class CreationBaseFragment extends Fragment {
   }
 
   protected void configExposedDropdownMenu(AutoCompleteTextView actv, String[] optionStrings) {
-    ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.item_dropdown_foodgroup, optionStrings);
+    ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.item_dropdown, optionStrings);
     actv.setAdapter(arrayAdapter);
   }
 
