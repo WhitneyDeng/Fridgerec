@@ -51,6 +51,7 @@ public class ShoppingCreationFragment extends CreationBaseFragment {
     }
 
     setupToolbar(binding.toolbar);
+    onClickFoodChipCloseIcon(binding.cFood, binding.tilFood, binding.tilFoodGroup);
     configExposedDropdownMenu(binding.actvFoodGroup, getResources().getStringArray(R.array.foodGroupStrings));
     configExposedDropdownMenu(binding.actvAmountUnit, getResources().getStringArray(R.array.amountUnitStrings));
     configFoodActv(binding.actvFood);

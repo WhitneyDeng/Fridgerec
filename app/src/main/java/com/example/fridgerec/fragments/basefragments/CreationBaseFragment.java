@@ -102,6 +102,18 @@ public abstract class CreationBaseFragment extends Fragment implements FoodAutoc
     });
   }
 
+  protected void onClickFoodChipCloseIcon(Chip cFood, TextInputLayout tilFood, TextInputLayout tilFoodGroup) {
+    cFood.setOnCloseIconClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        cFood.setVisibility(View.GONE);
+        tilFood.setVisibility(View.VISIBLE);
+        tilFoodGroup.setEnabled(true);
+        model.setSelectedFoodSuggestion(Food.DUMMY_FOOD);
+      }
+    });
+  }
+
   //TODO: invoke this function on the actv
   protected void configFoodActv(AutoCompleteTextView actv) {
     actv.addTextChangedListener(new TextWatcher() {
@@ -136,11 +148,11 @@ public abstract class CreationBaseFragment extends Fragment implements FoodAutoc
     populateTextInputLayout(selectedFood.getFoodGroup(), tilFoodGroup);
     tilFoodGroup.setEnabled(false);
 
-    model.setSelectedFoodSuggestion(selectedFood);
-
     cFood.setText(selectedFood.getFoodName());
     cFood.setVisibility(View.VISIBLE);
     tilFood.setVisibility(View.GONE);
+
+    model.setSelectedFoodSuggestion(selectedFood);
   }
 
   protected void populateTextInputLayout(String s, TextInputLayout til) {
