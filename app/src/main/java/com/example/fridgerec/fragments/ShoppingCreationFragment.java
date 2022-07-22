@@ -53,6 +53,7 @@ public class ShoppingCreationFragment extends CreationBaseFragment {
     setupToolbar(binding.toolbar);
     configExposedDropdownMenu(binding.actvFoodGroup, getResources().getStringArray(R.array.foodGroupStrings));
     configExposedDropdownMenu(binding.actvAmountUnit, getResources().getStringArray(R.array.amountUnitStrings));
+    configFoodActv(binding.actvFood);
   }
 
   @Override
