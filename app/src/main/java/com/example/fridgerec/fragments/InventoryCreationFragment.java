@@ -55,6 +55,7 @@ public class InventoryCreationFragment extends CreationBaseFragment {
     configExposedDropdownMenu(binding.actvAmountUnit, getResources().getStringArray(R.array.amountUnitStrings));
     onClickDatePickerBtn(binding.btnSourceDate);
     onClickDatePickerBtn(binding.btnExpireDate);
+    configFoodActv(binding.actvFood);
   }
 
   @Override
