@@ -98,7 +98,7 @@ public class SortFilterParamsDialog extends DialogFragment{
   }
 
   private void configExposedDropdownMenu() {
-    ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.item_dropdown_foodgroup, getResources().getStringArray(R.array.foodGroupStrings));
+    ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.item_dropdown, getResources().getStringArray(R.array.foodGroupStrings));
     binding.actvFoodGroup.setAdapter(arrayAdapter);
   }
 
