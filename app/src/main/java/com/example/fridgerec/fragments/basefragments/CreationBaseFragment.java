@@ -24,6 +24,7 @@ import com.example.fridgerec.interfaces.DatasetViewModel;
 import com.example.fridgerec.interfaces.FoodAutocompleteSearchCallback;
 import com.example.fridgerec.model.EntryItem;
 import com.example.fridgerec.model.Food;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputLayout;
@@ -129,6 +130,17 @@ public abstract class CreationBaseFragment extends Fragment implements FoodAutoc
   public void setAutocompleteTextViewAdapter(AutoCompleteTextView actv, List<Food> suggestions) {
     ArrayAdapter<Food> foodAdapter = new ArrayAdapter<>(requireContext(), R.layout.item_dropdown, suggestions);
     actv.setAdapter(foodAdapter);
+  }
+
+  protected void onSuggestionSelected(Food selectedFood, TextInputLayout tilFoodGroup, Chip cFood, TextInputLayout tilFood) {
+    populateTextInputLayout(selectedFood.getFoodGroup(), tilFoodGroup);
+    tilFoodGroup.setEnabled(false);
+
+    model.setSelectedFoodSuggestion(selectedFood);
+
+    cFood.setText(selectedFood.getFoodName());
+    cFood.setVisibility(View.VISIBLE);
+    tilFood.setVisibility(View.GONE);
   }
 
   protected void populateTextInputLayout(String s, TextInputLayout til) {

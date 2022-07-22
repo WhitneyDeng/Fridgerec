@@ -94,16 +94,6 @@ public class InventoryCreationFragment extends CreationBaseFragment {
 
   @Override
   public void onSuggestionSelected(Food selectedFood) {
-    populateTextInputLayout(selectedFood.getFoodGroup(), binding.tilFoodGroup);
-    binding.tilFoodGroup.setEnabled(false);
-
-    model.setSelectedFoodSuggestion(selectedFood);
-
-    binding.cFood.setText(selectedFood.getFoodName());
-    binding.cFood.setVisibility(View.VISIBLE);
-    binding.tilFood.setVisibility(View.GONE);
-
-    //TODO: create chip in food actv
-    //TODO: disable food actv
+    onSuggestionSelected(selectedFood, binding.tilFoodGroup, binding.cFood, binding.tilFood);
   }
 }

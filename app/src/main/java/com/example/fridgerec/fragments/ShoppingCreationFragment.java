@@ -84,11 +84,6 @@ public class ShoppingCreationFragment extends CreationBaseFragment {
 
   @Override
   public void onSuggestionSelected(Food selectedFood) {
-    //TODO: populate food group & set dropdown to unclickable
-    populateTextInputLayout(selectedFood.getFoodGroup(), binding.tilFoodGroup);
-    binding.tilFoodGroup.setEnabled(false);
-    //TODO: create chip in food actv
-    //TODO: disable food actv
-    //TODO: save food to view model
+    onSuggestionSelected(selectedFood, binding.tilFoodGroup, binding.cFood, binding.tilFood);
   }
 }
