@@ -131,11 +131,14 @@ public class EntryItemQuery {
   private static HashMap<String, List<EntryItem>> filterFoodGroup(List<EntryItem> entryItems)  {
     HashMap<String, List<EntryItem>> foodGroupMap = new HashMap<>();
     for (EntryItem entryItem : entryItems) {
-      String foodGroup = entryItem.getFood().getFoodGroup();
-      foodGroup = foodGroup == null ? Food.NO_FOOD_GROUP : foodGroup;
-      List<EntryItem> foodGroupList = foodGroupMap.getOrDefault(foodGroup, new ArrayList<>());
-      foodGroupList.add(entryItem);
-      foodGroupMap.put(foodGroup, foodGroupList);
+      String foodGroupString = entryItem.getFood().getFoodGroup();
+      foodGroupString = foodGroupString == null ? Food.NO_FOOD_GROUP : foodGroupString;
+      String[] foodGroups = foodGroupString.split(";");
+      for (String foodGroup : foodGroups) {
+        List<EntryItem> foodGroupList = foodGroupMap.getOrDefault(foodGroup, new ArrayList<>());
+        foodGroupList.add(entryItem);
+        foodGroupMap.put(foodGroup, foodGroupList);
+      }
     }
     return foodGroupMap;
   }
