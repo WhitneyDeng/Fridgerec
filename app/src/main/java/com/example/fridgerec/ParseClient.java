@@ -5,8 +5,10 @@ import android.util.Log;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.fridgerec.interfaces.DatasetViewModel;
+import com.example.fridgerec.interfaces.ParseCallback;
 import com.example.fridgerec.model.EntryItem;
 import com.example.fridgerec.model.Food;
+import com.example.fridgerec.model.Settings;
 import com.example.fridgerec.util.FoodNameComparator;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
@@ -32,11 +34,37 @@ public class ParseClient {
     FILTER_FOOD_GROUP, FILTER_EXPIRE_BEFORE, FILTER_EXPIRE_AFTER, FILTER_SOURCED_BEFORE, FILTER_SOURCED_AFTER
   }
 
-  public static final String TAG = "EntryItemQuery";
+  public static final String TAG = "ParseClient";
 
   private static HashMap<SortFilter, Object> sortFilterParams;
   private static String containerList;
   private static DatasetViewModel viewModel;
+
+  public static Settings getCurrentUserSettings() {
+    ParseQuery<Settings> query = new ParseQuery<Settings>(Settings.class);
+
+    query.whereEqualTo(Settings.KEY_USER, ParseUser.getCurrentUser());
+
+    try {
+      return query.getFirst();
+    } catch (ParseException e) {
+      e.printStackTrace();
+      return Settings.getDefaultSettings();
+    }
+  }
+
+  public static void saveCurrentUserSettings(Settings settings, ParseCallback settingsViewModel) {
+    settings.saveInBackground(new SaveCallback() {
+      @Override
+      public void done(ParseException e) {
+        if (e != null) {
+          Log.e(TAG, "save current user setting failed: " + e);
+          settingsViewModel.setParseException(e);
+        }
+        settingsViewModel.getParseOperationSuccess().setValue(e == null);
+      }
+    });
+  }
 
   public static void queryEntryItems(DatasetViewModel vm) {
     viewModel = vm;
