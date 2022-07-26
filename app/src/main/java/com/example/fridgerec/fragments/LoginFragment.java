@@ -97,9 +97,9 @@ public class LoginFragment extends Fragment {
         Toast.makeText(getActivity(), "Signup Success", Toast.LENGTH_SHORT).show(); //TODO: change to Snackbar
       }
     });
+
+    //TODO: create Settings entry for user
   }
-
-
 
   private void loginUser(String username, String password) {
     Log.i(TAG, "Attempting to login user " + username);

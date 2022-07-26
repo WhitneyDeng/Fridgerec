@@ -35,7 +35,6 @@ public class SettingsFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    setHasOptionsMenu(true);
     binding = FragmentSettingsBinding.inflate(getLayoutInflater(), container, false);
     return binding.getRoot();
   }
@@ -64,17 +63,5 @@ public class SettingsFragment extends Fragment {
   private void logout() {
     ParseUser.logOut();
     Toast.makeText(getActivity(), "logout success", Toast.LENGTH_SHORT).show();
-  }
-
-  private void onClickToolbarItem() {
-    binding.toolbar.setOnMenuItemClickListener(item -> {
-      switch (item.getItemId()) {
-        case R.id.miSave:
-          //TODO: save preferences
-          return true;
-        default:
-          return false;
-      }
-    });
   }
 }
