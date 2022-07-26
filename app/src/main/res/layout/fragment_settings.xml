@@ -35,78 +35,93 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
+            <com.google.android.material.switchmaterial.SwitchMaterial
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Source Date"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                android:layout_height="match_parent"
+                android:checked="false"
+                android:text="Enable Reminder"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <EditText
-                android:id="@+id/etSourceDateOffset"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="Notify # days before"
-                android:inputType="number" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llReminderSettings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Expiration Date"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                android:orientation="horizontal">
 
-            <Space
-                android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilSourceDateOffset"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:hint="remind me of items sourced # days ago">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="numberSigned"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/etExpirationDateOffset"
-                android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilExpireDateOffset"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:hint="remind me of items expiring in # days">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="numberSigned"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="Notify # days before"
-                android:inputType="number"
-                tools:ignore="TouchTargetSizeCheck" />
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Deliver notification at:"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Deliver notification at:"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                <Button
+                    android:id="@+id/btnTimePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Set Time"
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                    style="@style/Widget.MaterialComponents.Button"/>
 
-            <Button
-                android:id="@+id/btnTimePicker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Button" />
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -114,7 +129,8 @@
             android:id="@+id/btnLogout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Logout" />
+            android:text="Logout"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
     </LinearLayout>
 
     <!-- TODO: Update blank fragment layout -->
