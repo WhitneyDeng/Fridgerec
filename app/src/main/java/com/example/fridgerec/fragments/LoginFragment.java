@@ -89,12 +89,11 @@ public class LoginFragment extends Fragment {
         if (e != null) {
           Log.e(TAG, "Issue with signup", e);
 
-          Toast.makeText(getActivity(), "Issue with Signup: " + e.getMessage(), Toast.LENGTH_SHORT).show(); //TODO: change to Snackbar
+          Toast.makeText(getActivity(), "Issue with Signup: " + e.getMessage(), Toast.LENGTH_SHORT).show();
           return;
         }
-        //TODO: create Settings object for new user
         goMainActivity();
-        Toast.makeText(getActivity(), "Signup Success", Toast.LENGTH_SHORT).show(); //TODO: change to Snackbar
+        Toast.makeText(getActivity(), "Signup Success", Toast.LENGTH_SHORT).show();
       }
     });
 
@@ -109,11 +108,11 @@ public class LoginFragment extends Fragment {
         if (e != null) {
           Log.e(TAG, "Issue with login", e);
 
-          Toast.makeText(getActivity(), "Issue with Login: " + e.getMessage(), Toast.LENGTH_SHORT).show(); //TODO: change to Snackbar
+          Toast.makeText(getActivity(), "Issue with Login: " + e.getMessage(), Toast.LENGTH_SHORT).show();
           return;
         }
         goMainActivity();
-        Toast.makeText(getActivity(), "Login Success", Toast.LENGTH_SHORT).show(); //TODO: change to Snackbar
+        Toast.makeText(getActivity(), "Login Success", Toast.LENGTH_SHORT).show();
       }
     });
   }
