@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.example.fridgerec.R;
 import com.example.fridgerec.databinding.FragmentSettingsBinding;
+import com.example.fridgerec.model.Settings;
+import com.example.fridgerec.model.viewmodel.SettingsViewModel;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 import com.parse.ParseUser;
@@ -32,6 +34,7 @@ public class SettingsFragment extends Fragment {
   private NavController navController;
   private AppBarConfiguration appBarConfiguration;
   private FragmentSettingsBinding binding;
+  private SettingsViewModel model;
 
   private static final String TIME_PICKER_BUTTON_DIVIDER = ":";
 
@@ -48,6 +51,7 @@ public class SettingsFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
     navController = Navigation.findNavController(view);
+    model = new ViewModelProvider(requireActivity()).get(SettingsViewModel.class);
 
     setupToolbar();
     onClickTimePickerBtn(binding.btnTimePicker);
