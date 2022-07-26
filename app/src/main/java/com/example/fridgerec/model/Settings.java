@@ -40,7 +40,12 @@ public class Settings extends ParseObject {
   }
 
   private int getNotificationTime() {
-    return getInt(KEY_NOTIFICATION_TIME);
+    int time = getInt(KEY_NOTIFICATION_TIME);
+    if (time > 2359) {
+      Log.e(TAG, "invalid format of retrieved notification time: (must be < 2359)" + time);
+      return DEFAULT_NOTIFICATION_HOUR * 100 + DEFAULT_NOTIFICATION_MINUTE;
+    }
+    return time;
   }
 
   public int getNotificationHour() {
