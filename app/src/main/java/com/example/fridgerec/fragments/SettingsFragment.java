@@ -81,10 +81,14 @@ public class SettingsFragment extends Fragment {
     timePicker.addOnPositiveButtonClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        String buttonText = timePicker.getHour() + TIME_PICKER_BUTTON_DIVIDER + timePicker.getMinute();
+        String buttonText = configTimePickerBtnString(timePicker.getHour(), timePicker.getMinute());
         btnTimePicker.setText(buttonText);
       }
     });
+  }
+
+  private String configTimePickerBtnString(int hour, int minute) {
+    return String.format("%02d%s%02d", hour, TIME_PICKER_BUTTON_DIVIDER, minute);
   }
 
   private void setupToolbar() {
