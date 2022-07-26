@@ -16,12 +16,18 @@ public class Settings extends ParseObject {
   public static final String KEY_NOTIFICATION_SOURCE_DATE_OFFSET = "notificationSourceDateOffset";
   public static final String KEY_NOTIFICATION_ENABLED = "notificationEnabled";
 
+  public static final int DEFAULT_NOTIFICATION_HOUR = 8;
+  public static final int DEFAULT_NOTIFICATION_MINUTE = 0;
+  public static final int DEFAULT_NOTIFICATION_DATE_OFFSET = 7;
+  public static final boolean DEFAULT_NOTIFICATION_ENABLED = false;
+
   public static Settings getDefaultSettings() {
     Settings settings = new Settings();
-    settings.setNotificationTime(8,0);
-    settings.setNotificationExpireDateOffset(7);
-    settings.setNotificationSourceDateOffset(7);
-    settings.setNotificationEnabled(false);
+    settings.setUser(ParseUser.getCurrentUser());
+    settings.setNotificationTime(DEFAULT_NOTIFICATION_HOUR,DEFAULT_NOTIFICATION_MINUTE);
+    settings.setNotificationExpireDateOffset(DEFAULT_NOTIFICATION_DATE_OFFSET);
+    settings.setNotificationSourceDateOffset(DEFAULT_NOTIFICATION_DATE_OFFSET);
+    settings.setNotificationEnabled(DEFAULT_NOTIFICATION_ENABLED);
     return settings;
   }
 
