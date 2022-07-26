@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -14,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.example.fridgerec.R;
@@ -49,26 +52,72 @@ public class SettingsFragment extends Fragment {
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
     navController = Navigation.findNavController(view);
     model = new ViewModelProvider(requireActivity()).get(SettingsViewModel.class);
 
     setupToolbar();
+    reminderEnabledSwitchCheckListener();
+    checkReminderEnabled();
     onClickTimePickerBtn(binding.btnTimePicker);
+    onClickSaveReminderSettingsBtn(binding.btnSaveReminderSettings);
+    onClickLogoutBtn(binding.btnLogout);
+  }
 
-    binding.btnLogout.setOnClickListener(new View.OnClickListener() {
+  private void checkReminderEnabled() {
+    if (model.getUserSettings().getNotificationEnabled()) {
+      binding.swReminderEnabled.setChecked(true);
+    }
+  }
+
+  private void reminderEnabledSwitchCheckListener() {
+    binding.swReminderEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
       @Override
-      public void onClick(View v) {
-        logout();
-        navController.navigate(R.id.action_settingsFragment_to_loginFragment);
+      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+          binding.llReminderSettings.setVisibility(View.VISIBLE);
+          populateReminderPreferences();
+
+          model.getUserSettings().setNotificationEnabled(true);
+        } else {
+          binding.llReminderSettings.setVisibility(View.GONE);
+
+          model.getUserSettings().setNotificationEnabled(false);
+        }
+        saveUserSettings();
       }
     });
+  }
+
+  private void populateReminderPreferences() {
+    Settings settings = model.getUserSettings();
+    binding.tilExpireDateOffset.getEditText().setText(
+        Integer.toString(settings.getNotificationExpireDateOffset()));
+    binding.tilSourceDateOffset.getEditText().setText(
+        Integer.toString(settings.getNotificationSourceDateOffset()));
+    binding.btnTimePicker.setText(configTimePickerBtnString(settings.getNotificationHour(), settings.getNotificationMinute()));
+  }
+
+  private void saveUserSettings() {
+    model.saveUserSettings();
+
+    final Observer<Boolean> parseOperationSuccessObserver = new Observer<Boolean>() {
+      @Override
+      public void onChanged(Boolean success) {
+        if (success) {
+          Toast.makeText(getContext(), "reminder preference saved successfully", Toast.LENGTH_SHORT).show();
+        }
+        model.getParseOperationSuccess().removeObserver(this);
+      }
+    };
+    model.getParseOperationSuccess().observe(getViewLifecycleOwner(), parseOperationSuccessObserver);
   }
 
   private void onClickTimePickerBtn(Button btnTimePicker) {
     MaterialTimePicker timePicker = new MaterialTimePicker.Builder()
         .setTitleText("Select Notification Time")
         .setTimeFormat(TimeFormat.CLOCK_24H)
+        .setHour(model.getUserSettings().getNotificationHour())
+        .setMinute(model.getUserSettings().getNotificationMinute())
         .build();
 
     btnTimePicker.setOnClickListener(new View.OnClickListener() {
@@ -83,12 +132,36 @@ public class SettingsFragment extends Fragment {
       public void onClick(View v) {
         String buttonText = configTimePickerBtnString(timePicker.getHour(), timePicker.getMinute());
         btnTimePicker.setText(buttonText);
+
+        model.getUserSettings().setNotificationTime(timePicker.getHour(), timePicker.getMinute());
       }
     });
   }
 
   private String configTimePickerBtnString(int hour, int minute) {
     return String.format("%02d%s%02d", hour, TIME_PICKER_BUTTON_DIVIDER, minute);
+  }
+
+  private void onClickSaveReminderSettingsBtn(Button btnSaveReminderSettings) {
+    btnSaveReminderSettings.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Settings settings = model.getUserSettings();
+        settings.setNotificationExpireDateOffset(Integer.parseInt(binding.tilExpireDateOffset.getEditText().getText().toString()));
+        settings.setNotificationSourceDateOffset(Integer.parseInt(binding.tilSourceDateOffset.getEditText().getText().toString()));
+        saveUserSettings();
+      }
+    });
+  }
+
+  private void onClickLogoutBtn(Button btnLogout) {
+    btnLogout.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        logout();
+        navController.navigate(R.id.action_settingsFragment_to_loginFragment);
+      }
+    });
   }
 
   private void setupToolbar() {
