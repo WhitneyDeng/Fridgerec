@@ -105,6 +105,8 @@ public class SettingsFragment extends Fragment {
       public void onChanged(Boolean success) {
         if (success) {
           Toast.makeText(getContext(), "reminder preference saved successfully", Toast.LENGTH_SHORT).show();
+        } else {
+          Toast.makeText(getContext(), "error: reminder preference save failed: " + model.getParseException(), Toast.LENGTH_SHORT).show();
         }
         model.getParseOperationSuccess().removeObserver(this);
       }
