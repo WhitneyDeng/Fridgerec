@@ -21,7 +21,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.fridgerec.EntryItemQuery;
+import com.example.fridgerec.ParseClient;
 import com.example.fridgerec.R;
 import com.example.fridgerec.databinding.DialogSortFilterParamsBinding;
 import com.example.fridgerec.interfaces.DatasetViewModel;
@@ -40,8 +40,8 @@ import java.util.HashMap;
 public class SortFilterParamsDialog extends DialogFragment{
   public static final String TAG = "SortFilterParamsDialog";
 
-  private HashMap<Integer, EntryItemQuery.SortFilter> sortChipParamMap;
-  private HashMap<Integer, EntryItemQuery.SortFilter> filterChipParamMap;
+  private HashMap<Integer, ParseClient.SortFilter> sortChipParamMap;
+  private HashMap<Integer, ParseClient.SortFilter> filterChipParamMap;
 
   private DialogSortFilterParamsBinding binding;
   private NavController navController;
@@ -169,16 +169,16 @@ public class SortFilterParamsDialog extends DialogFragment{
     });
   }
 
-  private HashMap<EntryItemQuery.SortFilter, Object> getSelectedParams() {
+  private HashMap<ParseClient.SortFilter, Object> getSelectedParams() {
     configChipMaps();
-    HashMap<EntryItemQuery.SortFilter, Object> sortFilterParams = new HashMap<>();
+    HashMap<ParseClient.SortFilter, Object> sortFilterParams = new HashMap<>();
 
     for (Integer id : binding.cgSort.getCheckedChipIds()) {
       sortFilterParams.put(sortChipParamMap.get(id), null);
     }
 
     for (Integer id : binding.cgFilter.getCheckedChipIds()) {
-      EntryItemQuery.SortFilter sortFilterParam = filterChipParamMap.get(id);
+      ParseClient.SortFilter sortFilterParam = filterChipParamMap.get(id);
 
       Object val = null;
       switch (sortFilterParam) {
@@ -233,16 +233,16 @@ public class SortFilterParamsDialog extends DialogFragment{
 
   private void configChipMaps() {
     sortChipParamMap = new HashMap<>();
-    sortChipParamMap.put(R.id.cSortFoodName, EntryItemQuery.SortFilter.SORT_FOOD_NAME);
-    sortChipParamMap.put(R.id.cSortFoodGroup, EntryItemQuery.SortFilter.SORT_FOOD_GROUP);
-    sortChipParamMap.put(R.id.cSortSourceDate, EntryItemQuery.SortFilter.SORT_SOURCE_DATE);
-    sortChipParamMap.put(R.id.cSortExpireDate, EntryItemQuery.SortFilter.SORT_EXPIRE_DATE);
+    sortChipParamMap.put(R.id.cSortFoodName, ParseClient.SortFilter.SORT_FOOD_NAME);
+    sortChipParamMap.put(R.id.cSortFoodGroup, ParseClient.SortFilter.SORT_FOOD_GROUP);
+    sortChipParamMap.put(R.id.cSortSourceDate, ParseClient.SortFilter.SORT_SOURCE_DATE);
+    sortChipParamMap.put(R.id.cSortExpireDate, ParseClient.SortFilter.SORT_EXPIRE_DATE);
 
     filterChipParamMap = new HashMap<>();
-    filterChipParamMap.put(R.id.cFilterExpireBefore, EntryItemQuery.SortFilter.FILTER_EXPIRE_BEFORE);
-    filterChipParamMap.put(R.id.cFilterExpireAfter, EntryItemQuery.SortFilter.FILTER_EXPIRE_AFTER);
-    filterChipParamMap.put(R.id.cFilterSourceBefore, EntryItemQuery.SortFilter.FILTER_SOURCED_BEFORE);
-    filterChipParamMap.put(R.id.cFilterSourceAfter, EntryItemQuery.SortFilter.FILTER_SOURCED_AFTER);
-    filterChipParamMap.put(R.id.cFilterFoodGroup, EntryItemQuery.SortFilter.FILTER_FOOD_GROUP);
+    filterChipParamMap.put(R.id.cFilterExpireBefore, ParseClient.SortFilter.FILTER_EXPIRE_BEFORE);
+    filterChipParamMap.put(R.id.cFilterExpireAfter, ParseClient.SortFilter.FILTER_EXPIRE_AFTER);
+    filterChipParamMap.put(R.id.cFilterSourceBefore, ParseClient.SortFilter.FILTER_SOURCED_BEFORE);
+    filterChipParamMap.put(R.id.cFilterSourceAfter, ParseClient.SortFilter.FILTER_SOURCED_AFTER);
+    filterChipParamMap.put(R.id.cFilterFoodGroup, ParseClient.SortFilter.FILTER_FOOD_GROUP);
   }
 }
