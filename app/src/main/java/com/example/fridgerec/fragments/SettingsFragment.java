@@ -13,10 +13,13 @@ import androidx.navigation.ui.NavigationUI;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.fridgerec.R;
 import com.example.fridgerec.databinding.FragmentSettingsBinding;
+import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
 import com.parse.ParseUser;
 
 /**
@@ -29,6 +32,8 @@ public class SettingsFragment extends Fragment {
   private NavController navController;
   private AppBarConfiguration appBarConfiguration;
   private FragmentSettingsBinding binding;
+
+  private static final String TIME_PICKER_BUTTON_DIVIDER = ":";
 
   public SettingsFragment(){ }
 
@@ -45,12 +50,35 @@ public class SettingsFragment extends Fragment {
     navController = Navigation.findNavController(view);
 
     setupToolbar();
+    onClickTimePickerBtn(binding.btnTimePicker);
 
     binding.btnLogout.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         logout();
         navController.navigate(R.id.action_settingsFragment_to_loginFragment);
+      }
+    });
+  }
+
+  private void onClickTimePickerBtn(Button btnTimePicker) {
+    MaterialTimePicker timePicker = new MaterialTimePicker.Builder()
+        .setTitleText("Select Notification Time")
+        .setTimeFormat(TimeFormat.CLOCK_24H)
+        .build();
+
+    btnTimePicker.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        timePicker.show(getChildFragmentManager(), "TIME_PICKER");
+      }
+    });
+
+    timePicker.addOnPositiveButtonClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        String buttonText = timePicker.getHour() + TIME_PICKER_BUTTON_DIVIDER + timePicker.getMinute();
+        btnTimePicker.setText(buttonText);
       }
     });
   }
