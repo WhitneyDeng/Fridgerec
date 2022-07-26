@@ -79,13 +79,14 @@ public class SettingsFragment extends Fragment {
 
           if (!model.getUserSettings().getNotificationEnabled()) {
             model.getUserSettings().setNotificationEnabled(true);
+            saveUserSettings();
           }
         } else {
           binding.llReminderSettings.setVisibility(View.GONE);
 
           model.getUserSettings().setNotificationEnabled(false);
+          saveUserSettings();
         }
-        saveUserSettings();
       }
     });
   }
