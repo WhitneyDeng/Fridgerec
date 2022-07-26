@@ -14,7 +14,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.fridgerec.EntryItemQuery;
+import com.example.fridgerec.ParseClient;
 import com.example.fridgerec.R;
 import com.example.fridgerec.interfaces.DatasetViewModel;
 import com.example.fridgerec.lithoSpecs.FoodGroupsSection;
@@ -90,9 +90,9 @@ public abstract class ListBaseFragment extends Fragment {
   }
 
   private void observeSortFilterParams() {
-    final Observer<HashMap<EntryItemQuery.SortFilter, Object>> sortFilterParamsObserver = new Observer<HashMap<EntryItemQuery.SortFilter, Object>>() {
+    final Observer<HashMap<ParseClient.SortFilter, Object>> sortFilterParamsObserver = new Observer<HashMap<ParseClient.SortFilter, Object>>() {
       @Override
-      public void onChanged(HashMap<EntryItemQuery.SortFilter, Object> sortFilterObjectHashMap) {
+      public void onChanged(HashMap<ParseClient.SortFilter, Object> sortFilterObjectHashMap) {
         model.refreshDataset();
 
         Log.i(TAG, "sort & filter params changed");

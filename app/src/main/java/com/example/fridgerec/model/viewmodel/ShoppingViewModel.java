@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.fridgerec.EntryItemQuery;
+import com.example.fridgerec.ParseClient;
 import com.example.fridgerec.interfaces.DatasetViewModel;
 import com.example.fridgerec.model.EntryItem;
 import com.example.fridgerec.model.Food;
@@ -22,7 +22,7 @@ public class ShoppingViewModel extends ViewModel implements DatasetViewModel {
   public static final String TAG = "ShoppingViewModel";
   private MutableLiveData<List<EntryItem>> shoppingList;
   private MutableLiveData<HashMap<String, List<EntryItem>>> shoppingMap;
-  private MutableLiveData<HashMap<EntryItemQuery.SortFilter, Object>> sortFilterParams;
+  private MutableLiveData<HashMap<ParseClient.SortFilter, Object>> sortFilterParams;
 
   private MutableLiveData<Boolean> inDeleteMode;
   private List<EntryItem> checkedItemsList;
@@ -41,12 +41,12 @@ public class ShoppingViewModel extends ViewModel implements DatasetViewModel {
     return EntryItem.CONTAINER_LIST_SHOPPING;
   }
 
-  public MutableLiveData<HashMap<EntryItemQuery.SortFilter, Object>> getSortFilterParams() {
+  public MutableLiveData<HashMap<ParseClient.SortFilter, Object>> getSortFilterParams() {
     if (sortFilterParams == null) {
       sortFilterParams = new MutableLiveData<>();
 
-      HashMap<EntryItemQuery.SortFilter, Object> map = new HashMap<>();
-      map.put(EntryItemQuery.SortFilter.NONE, null);
+      HashMap<ParseClient.SortFilter, Object> map = new HashMap<>();
+      map.put(ParseClient.SortFilter.NONE, null);
       sortFilterParams.setValue(map);
     }
     return sortFilterParams;
@@ -100,7 +100,7 @@ public class ShoppingViewModel extends ViewModel implements DatasetViewModel {
 
   public void refreshDataset() {
     Log.i(TAG, "refreshing shopping dataset");
-    EntryItemQuery.queryEntryItems(this);
+    ParseClient.queryEntryItems(this);
   }
 
   public void setSelectedEntryItem(EntryItem e) {
@@ -123,7 +123,7 @@ public class ShoppingViewModel extends ViewModel implements DatasetViewModel {
   }
 
   public void deleteCheckedItems() {
-    EntryItemQuery.deleteEntryItems(this);
+    ParseClient.deleteEntryItems(this);
   }
 
   @Override
@@ -142,7 +142,7 @@ public class ShoppingViewModel extends ViewModel implements DatasetViewModel {
   public void saveEntryItem(EntryItem entryItem, FragmentActivity activity) {
     entryItem.setContainerList(EntryItem.CONTAINER_LIST_SHOPPING);
     entryItem.setUser(ParseUser.getCurrentUser());
-    EntryItemQuery.saveNewEntry(entryItem, this, activity);
+    ParseClient.saveNewEntry(entryItem, this, activity);
   }
 
   public MutableLiveData<Boolean> getParseOperationSuccess() {
@@ -166,6 +166,6 @@ public class ShoppingViewModel extends ViewModel implements DatasetViewModel {
   }
 
   public void transferCheckedItemsToInventory() {
-    EntryItemQuery.transferToInventory(this);
+    ParseClient.transferToInventory(this);
   }
 }
