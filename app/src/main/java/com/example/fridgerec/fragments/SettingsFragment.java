@@ -77,13 +77,16 @@ public class SettingsFragment extends Fragment {
           binding.llReminderSettings.setVisibility(View.VISIBLE);
           populateReminderPreferences();
 
-          model.getUserSettings().setNotificationEnabled(true);
+          if (!model.getUserSettings().getNotificationEnabled()) {
+            model.getUserSettings().setNotificationEnabled(true);
+            saveUserSettings();
+          }
         } else {
           binding.llReminderSettings.setVisibility(View.GONE);
 
           model.getUserSettings().setNotificationEnabled(false);
+          saveUserSettings();
         }
-        saveUserSettings();
       }
     });
   }
