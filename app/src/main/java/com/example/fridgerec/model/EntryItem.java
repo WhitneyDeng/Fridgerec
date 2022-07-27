@@ -19,7 +19,6 @@ public class EntryItem extends ParseObject {
   public static final String KEY_AMOUNT_UNIT = "amountUnit";
   public static final String KEY_EXPIRE_DATE = "expireDate";
   public static final String KEY_SOURCE_DATE = "sourceDate";
-  public static final String KEY_MAIN_FRESHNESS_METRIC = "mainFreshnessMetric";
   public static final String KEY_CONTAINER_LIST = "containerList";
 
   public static final String CONTAINER_LIST_INVENTORY = "INVENTORY";
@@ -74,14 +73,6 @@ public class EntryItem extends ParseObject {
 
   public void setSourceDate(Date date) {
     put(KEY_SOURCE_DATE, date);
-  }
-
-  public String getMainFreshnessMetric() {
-    return getString(KEY_MAIN_FRESHNESS_METRIC);
-  }
-
-  public void setMainFreshnessMetric(String mainFreshnessMetric) {
-    put(KEY_MAIN_FRESHNESS_METRIC, mainFreshnessMetric);
   }
 
   public String getContainerList() {
