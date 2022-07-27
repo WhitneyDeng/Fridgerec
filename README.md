@@ -73,7 +73,7 @@ Nice to have: Convenient grocery/food logging with UPC (optional: barcode scanne
 ##### Add ons
 - [ ] modal overlay (are you sure) when navigate away from Creation item with filled components
 - [ ] settings: if edit text changed => modal overlay (are you sure)
-- [ ] Group grocery stock list by food categories
+- [x] Group grocery stock list by food categories
 - [ ] show amount of grocery in inventory in Shopping List Creation view
 - [ ] expand back4App & ParseObject models
 - [ ] add field to Creation views
@@ -81,10 +81,10 @@ Nice to have: Convenient grocery/food logging with UPC (optional: barcode scanne
 - [ ] User can choose to log current grocery & keep logging OR exit logging
 - [ ] add custom item to grocery inventory list
   - [ ] leftovers or e.g. custommade sauces
-- [ ] sort and filter in dialog fragment instead
-- [ ] not let source date exceed expire date
-- [ ] allow user to filter multiple food groups (programmatically add chips)
-- [ ] remember prev sort & filter choices + check previously selected sort/filter preferences
+- [x] sort and filter in dialog fragment instead
+- [x] not let source date exceed expire date
+- [x] allow user to filter multiple food groups (programmatically add chips)
+- [x] remember prev sort & filter choices + check previously selected sort/filter preferences
 - [ ] constraint source date filter selection to before today
 
 ##### Optional Stretches
