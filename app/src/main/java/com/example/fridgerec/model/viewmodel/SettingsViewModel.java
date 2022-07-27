@@ -59,6 +59,9 @@ public class SettingsViewModel extends ViewModel implements ParseCallback {
     notificationTime.set(Calendar.MINUTE, getUserSettings().getNotificationMinute());
 
     Intent consumptionReminder = new Intent(context, ReminderReceiver.class);
+    consumptionReminder.putExtra(Settings.KEY_NOTIFICATION_EXPIRE_DATE_OFFSET, getUserSettings().getNotificationExpireDateOffset());
+    consumptionReminder.putExtra(Settings.KEY_NOTIFICATION_SOURCE_DATE_OFFSET, getUserSettings().getNotificationSourceDateOffset());
+
     PendingIntent recurringConsumptionReminder = PendingIntent.getBroadcast(context, ReminderReceiver.REMINDER_NOTIFICATION_ID, consumptionReminder, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_CANCEL_CURRENT);
     AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     alarmManager.setInexactRepeating(AlarmManager.RTC, notificationTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, recurringConsumptionReminder);
