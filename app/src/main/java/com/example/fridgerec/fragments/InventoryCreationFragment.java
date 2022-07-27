@@ -74,7 +74,7 @@ public class InventoryCreationFragment extends CreationBaseFragment {
   protected EntryItem extractEntryItem() {
     EntryItem entryItem = getEntryItem();
 
-    Food food = extractFood(binding.tilFood, binding.tilFoodGroup);
+    Food food = extractFood();
     if (food == Food.DUMMY_FOOD) {
       return EntryItem.DUMMY_ENTRY_ITEM;
     }
