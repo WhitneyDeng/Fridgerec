@@ -53,25 +53,34 @@ public class SettingsViewModel extends ViewModel implements ParseCallback {
   }
 
   public void setRecurringReminder(Context context) {
-    Calendar notificationTime = Calendar.getInstance();
-    notificationTime.setTimeZone(TimeZone.getDefault());
-    notificationTime.set(Calendar.HOUR_OF_DAY, getUserSettings().getNotificationHour());
-    notificationTime.set(Calendar.MINUTE, getUserSettings().getNotificationMinute());
-
-    Intent consumptionReminder = new Intent(context, ReminderReceiver.class);
-    consumptionReminder.putExtra(Settings.KEY_NOTIFICATION_EXPIRE_DATE_OFFSET, getUserSettings().getNotificationExpireDateOffset());
-    consumptionReminder.putExtra(Settings.KEY_NOTIFICATION_SOURCE_DATE_OFFSET, getUserSettings().getNotificationSourceDateOffset());
-
-    PendingIntent recurringConsumptionReminder = PendingIntent.getBroadcast(context, ReminderReceiver.REMINDER_NOTIFICATION_ID, consumptionReminder, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_CANCEL_CURRENT);
     AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-    alarmManager.setInexactRepeating(AlarmManager.RTC, notificationTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, recurringConsumptionReminder);
+    alarmManager.setInexactRepeating(AlarmManager.RTC, getNotificationTimeInMillis(), AlarmManager.INTERVAL_DAY, getReminderPendingIntent(context));
 
     Toast.makeText(context, "food consumption reminder set", Toast.LENGTH_SHORT).show();
   }
 
   public void cancelRecurringReminder(Context context) {
+    AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+    alarmManager.cancel(getReminderPendingIntent(context));
 
-    //TODO cancel reminder here
     Toast.makeText(context, "food consumption reminder cancelled", Toast.LENGTH_SHORT).show();
+  }
+
+  private PendingIntent getReminderPendingIntent(Context context) {
+    Intent consumptionReminder = new Intent(context, ReminderReceiver.class);
+    consumptionReminder.putExtra(Settings.KEY_NOTIFICATION_EXPIRE_DATE_OFFSET, getUserSettings().getNotificationExpireDateOffset());
+    consumptionReminder.putExtra(Settings.KEY_NOTIFICATION_SOURCE_DATE_OFFSET, getUserSettings().getNotificationSourceDateOffset());
+
+    PendingIntent recurringConsumptionReminder = PendingIntent.getBroadcast(context, ReminderReceiver.REMINDER_NOTIFICATION_ID, consumptionReminder, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_CANCEL_CURRENT);
+    return recurringConsumptionReminder;
+  }
+
+  private long getNotificationTimeInMillis() {
+    Calendar notificationTime = Calendar.getInstance();
+    notificationTime.setTimeZone(TimeZone.getDefault());
+    notificationTime.set(Calendar.HOUR_OF_DAY, getUserSettings().getNotificationHour());
+    notificationTime.set(Calendar.MINUTE, getUserSettings().getNotificationMinute());
+
+    return notificationTime.getTimeInMillis();
   }
 }
