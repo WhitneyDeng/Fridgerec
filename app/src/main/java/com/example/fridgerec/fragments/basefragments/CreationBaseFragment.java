@@ -175,8 +175,8 @@ public abstract class CreationBaseFragment extends Fragment implements FoodAutoc
     }
   }
 
-  protected Food extractFood(TextInputLayout tilFood, TextInputLayout tilFoodGroup) {
-    Food food = model.getSelectedFoodSuggestion();
+  protected Food extractFood() {
+    Food food = Boolean.TRUE.equals(model.getInEditMode().getValue()) ? model.getSelectedEntryItem().getFood() : model.getSelectedFoodSuggestion();
     if (food == Food.DUMMY_FOOD) {
       Toast.makeText(getContext(), "error: must enter food", Toast.LENGTH_LONG).show();
       return Food.DUMMY_FOOD;
