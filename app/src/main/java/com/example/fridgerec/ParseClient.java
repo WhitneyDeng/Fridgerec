@@ -21,6 +21,7 @@ import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -272,4 +273,51 @@ public class ParseClient {
     });
   }
   //TODO: query distinct food groups
+
+  public static List<EntryItem> queryExpireSoonEntryItems(int expireDateOffset) {
+    ParseQuery<EntryItem> query = new ParseQuery<EntryItem>(EntryItem.class);
+
+    query.include(EntryItem.KEY_FOOD);
+    query.whereEqualTo(EntryItem.KEY_USER, ParseUser.getCurrentUser());
+    query.whereEqualTo(EntryItem.KEY_CONTAINER_LIST, EntryItem.CONTAINER_LIST_INVENTORY);
+
+    query.whereExists(EntryItem.KEY_EXPIRE_DATE);
+    query.whereLessThanOrEqualTo(EntryItem.KEY_EXPIRE_DATE, offsetDateFromToday(expireDateOffset));
+    query.whereGreaterThanOrEqualTo(EntryItem.KEY_EXPIRE_DATE, offsetDateFromToday(0));
+
+    try {
+      return query.find();
+    } catch (ParseException e) {
+      Log.e(TAG, "query failed: " + e);
+      return EntryItem.DUMMY_ENTRY_ITEM_LIST;
+    }
+  }
+
+  public static List<EntryItem> querySourceLongAgoEntryItems(int sourceDateOffset) {
+    ParseQuery<EntryItem> query = new ParseQuery<EntryItem>(EntryItem.class);
+
+    query.include(EntryItem.KEY_FOOD);
+    query.whereEqualTo(EntryItem.KEY_USER, ParseUser.getCurrentUser());
+    query.whereEqualTo(EntryItem.KEY_CONTAINER_LIST, EntryItem.CONTAINER_LIST_INVENTORY);
+
+    query.whereDoesNotExist(EntryItem.KEY_EXPIRE_DATE);
+    query.whereLessThanOrEqualTo(EntryItem.KEY_SOURCE_DATE, offsetDateFromToday(-1 * sourceDateOffset));
+    try {
+      return query.find();
+    } catch (ParseException e) {
+      Log.e(TAG, "query failed: " + e);
+      return EntryItem.DUMMY_ENTRY_ITEM_LIST;
+    }
+  }
+
+  public static List<EntryItem> queryExpiredEntryItems() {
+    ParseQuery<EntryItem> query = new ParseQuery<EntryItem>(EntryItem.class);
+
+  }
+
+  private static Date offsetDateFromToday(int offset) {
+    Calendar offsetDate = Calendar.getInstance();
+    offsetDate.add(Calendar.DATE, offset);
+    return offsetDate.getTime();
+  }
 }
