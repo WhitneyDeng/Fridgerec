@@ -1,10 +1,14 @@
 package com.example.fridgerec.model;
 
+import androidx.annotation.NonNull;
+
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @ParseClassName("EntryItem")
@@ -18,13 +22,11 @@ public class EntryItem extends ParseObject {
   public static final String KEY_MAIN_FRESHNESS_METRIC = "mainFreshnessMetric";
   public static final String KEY_CONTAINER_LIST = "containerList";
 
-  public static final String MAIN_FRESHNESS_METRIC_EXPIRE_DATE = "EXPIRE_DATE";
-  public static final String MAIN_FRESHNESS_METRIC_SOURCE_DATE = "SOURCE_DATE";
-
   public static final String CONTAINER_LIST_INVENTORY = "INVENTORY";
   public static final String CONTAINER_LIST_SHOPPING = "SHOPPING";
 
-  public static final EntryItem DUMMY_ENTRY_ITEM = null;
+  public static final EntryItem DUMMY_ENTRY_ITEM = new EntryItem();
+  public static final List<EntryItem> DUMMY_ENTRY_ITEM_LIST = new ArrayList<>();
 
   public ParseUser getUser() {
     return getParseUser(KEY_USER);
@@ -97,5 +99,11 @@ public class EntryItem extends ParseObject {
         && Objects.equals(p.getExpireDate(), n.getExpireDate())
         && Objects.equals(p.getSourceDate(), n.getSourceDate())
         && Objects.equals(p.getContainerList(), n.getContainerList());
+  }
+
+  @NonNull
+  @Override
+  public String toString() {
+    return String.format("\n\nfood name: %s \nfood group: %s \n expire date: %s \n source date: %s", getFood().getFoodName(), getFood().getFoodGroup(), getExpireDate(), getSourceDate());
   }
 }
