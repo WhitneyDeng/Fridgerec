@@ -313,6 +313,18 @@ public class ParseClient {
   public static List<EntryItem> queryExpiredEntryItems() {
     ParseQuery<EntryItem> query = new ParseQuery<EntryItem>(EntryItem.class);
 
+    query.include(EntryItem.KEY_FOOD);
+    query.whereEqualTo(EntryItem.KEY_USER, ParseUser.getCurrentUser());
+    query.whereEqualTo(EntryItem.KEY_CONTAINER_LIST, EntryItem.CONTAINER_LIST_INVENTORY);
+    query.whereExists(EntryItem.KEY_EXPIRE_DATE);
+    query.whereLessThan(EntryItem.KEY_EXPIRE_DATE, offsetDateFromToday(0));
+
+    try {
+      return query.find();
+    } catch (ParseException e) {
+      Log.d(TAG, "query failed: " + e);
+      return EntryItem.DUMMY_ENTRY_ITEM_LIST;
+    }
   }
 
   private static Date offsetDateFromToday(int offset) {
