@@ -79,6 +79,7 @@ public class SettingsFragment extends Fragment {
 
           if (!model.getUserSettings().getNotificationEnabled()) {
             model.getUserSettings().setNotificationEnabled(true);
+            model.setRecurringReminder(getContext());
             saveUserSettings();
           }
         } else {
@@ -86,6 +87,8 @@ public class SettingsFragment extends Fragment {
 
           model.getUserSettings().setNotificationEnabled(false);
           saveUserSettings();
+
+          model.cancelRecurringReminder(getContext());
         }
       }
     });
@@ -154,6 +157,7 @@ public class SettingsFragment extends Fragment {
         Settings settings = model.getUserSettings();
         settings.setNotificationExpireDateOffset(Integer.parseInt(binding.tilExpireDateOffset.getEditText().getText().toString()));
         settings.setNotificationSourceDateOffset(Integer.parseInt(binding.tilSourceDateOffset.getEditText().getText().toString()));
+        model.setRecurringReminder(getContext());
         saveUserSettings();
       }
     });

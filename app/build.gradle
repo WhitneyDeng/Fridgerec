@@ -69,4 +69,7 @@ dependencies {
 
     //FOR: Async Http Client
     implementation 'com.codepath.libraries:asynchttpclient:2.2.0'
+
+    //FOR: Notification
+    implementation 'androidx.core:core:1.8.0'
 }
