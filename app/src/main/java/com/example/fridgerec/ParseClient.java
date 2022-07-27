@@ -272,4 +272,37 @@ public class ParseClient {
     });
   }
   //TODO: query distinct food groups
+
+  public static List<EntryItem> queryExpireSoonEntryItems(int expireDateOffset) {
+    ParseQuery<EntryItem> query = new ParseQuery<EntryItem>(EntryItem.class);
+
+    // TODO: include food if needed
+    query.include(EntryItem.KEY_FOOD);
+    query.whereEqualTo(EntryItem.KEY_USER, ParseUser.getCurrentUser());
+    query.whereEqualTo(EntryItem.KEY_CONTAINER_LIST, EntryItem.CONTAINER_LIST_INVENTORY);
+    query.whereExists(EntryItem.KEY_EXPIRE_DATE);
+    query.whereLessThanOrEqualTo(EntryItem.KEY_EXPIRE_DATE, offsetDateFromToday(expireDateOffset));
+    query.whereGreaterThan(EntryItem.KEY_EXPIRE_DATE, offsetDateFromToday(0));
+
+    try {
+      return query.find();
+    } catch (ParseException e) {
+      Log.d(TAG, "query failed: " + e);
+      return EntryItem.DUMMY_ENTRY_ITEM_LIST;
+    }
+  }
+
+  public static List<EntryItem> querySourceLongAgoEntryItems(int sourceDateOffset) {
+
+  }
+
+  public static void queryExpiredEntryItems(ParseUser currentUser) {
+
+  }
+
+  private static Date offsetDateFromToday(int offset) {
+    Calendar offsetDate = Calendar.getInstance();
+    offsetDate.add(Calendar.DATE, offset);
+    return offsetDate.getTime();
+  }
 }
