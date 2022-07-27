@@ -34,42 +34,39 @@ Nice to have: Convenient grocery/food logging with UPC (optional: barcode scanne
 > [Back4App or should I look into SQL?]
 - [x] User can login
 - [x] User can create a new account
-- [ ] User can record grocery inventory
-- [ ] User can log grocery
-    - [ ] Toast when grocery successfully logged
-- [ ] User can delete grocery
-- [ ] User can edit grocery
-- [ ] User can view a list of stocked grocery
-    - [ ] User can view name, expiration date, amount left
+- [x] User can record grocery inventory
+- [x] User can log grocery
+    - [x] Toast when grocery successfully logged
+- [x] User can delete grocery
+- [x] User can edit grocery
+- [x] User can view a list of stocked grocery
+    - [x] User can view name, expiration date, amount left
   - [x] [technical problem] Filtering: Sort grocery stock list by:
     - [x] expire date: expiring within # days, expired
     - [x] source date: bought ≥# days ago
     - [x] none
     - [x] food groups
     - [x] food names
-      - [x] RSC: [sectioning RecyclerView](https://www.youtube.com/watch?v=q8WumgNQqrU)
->     if no sourcedate or expire date, put them last
-- [ ] User can compile shopping list
-- [ ] User can add shopping item
-- [ ] User can delete (tick) shopping item
-- [ ] User can edit shopping item
-- [ ] User can check off shopping item [checked box in recycler view](https://blog.oziomaogbe.com/2017/10/18/android-handling-checkbox-state-in-recycler-views.html)
-- [ ] checked shopping list item transfer to inventory
-- [ ] [technical problem] push notification for when grocery expire
-- [ ] ≥1 gesture: pull to refresh; swipe to delete [ref1](https://www.journaldev.com/23164/android-recyclerview-swipe-to-delete-undo#:~:text=Android%20Swipe%20To%20Delete,use%20the%20ItemTouchHelper%20utility%20class.) [ref2](https://www.geeksforgeeks.org/swipe-to-delete-and-undo-in-android-recyclerview/)
+- [x] User can compile shopping list
+- [x] User can add shopping item
+- [x] User can delete (tick) shopping item
+- [x] User can edit shopping item
+- [x] User can check off shopping item 
+- [x] checked shopping list item transfer to inventory
+- [x] [technical problem] using Litho instead of native RecyclerView
+- [x] ≥1 gesture: long press to delete
 - [x] ≥1 external library to add visual polish
     - [x] Material Design: floating button
-- [ ] ≥1 animation: animate transition bn Create & Stream
+- [x] ≥1 animation: animate transition bn Create & Stream
 
 #### *Optional Nice-to-have Stories*
 
 ##### Priority Stretches
-- [ ] autocomplete search when adding item (Creation views) [src](http://ramannanda.blogspot.com/2014/10/android-searchview-integration-with.html)
-- [ ] Convenient grocery logging with UPC
+- [x] autocomplete search when adding item (Creation views) [src](http://ramannanda.blogspot.com/2014/10/android-searchview-integration-with.html)
 - [ ] optional: barcode scanning [Google ML Barcode](https://developers.google.com/ml-kit/vision/barcode-scanning/android#java)
-- [ ] Settings page
-    - [ ] notify user of food expiring in X days
-    - [ ] when to deliver push notification for when food is expiring
+- [x] Settings page
+    - [x] notify user of food expiring in X days
+    - [x] when to deliver push notification for when food is expiring
 - [ ] same grocery item, diff batches/products
 - [ ] add button allow user to choose between adding custom product or search ingredient from database
 
