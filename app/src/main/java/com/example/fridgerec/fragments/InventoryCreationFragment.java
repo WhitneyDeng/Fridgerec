@@ -82,7 +82,7 @@ public class InventoryCreationFragment extends CreationBaseFragment {
 
     entryItem = extractAmountInfo(entryItem, binding.tilAmount, binding.tilAmountUnit);
     if (entryItem == EntryItem.DUMMY_ENTRY_ITEM) {
-      return null;
+      return EntryItem.DUMMY_ENTRY_ITEM;
     }
 
     return extractSourceExpireDates(entryItem, binding.btnSourceDate, binding.btnExpireDate);
