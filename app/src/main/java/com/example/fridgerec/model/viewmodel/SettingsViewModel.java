@@ -1,12 +1,22 @@
 package com.example.fridgerec.model.viewmodel;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.widget.Toast;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.fridgerec.ParseClient;
+import com.example.fridgerec.ReminderReceiver;
 import com.example.fridgerec.interfaces.ParseCallback;
 import com.example.fridgerec.model.Settings;
 import com.parse.ParseException;
+
+import java.util.Calendar;
+import java.util.TimeZone;
 
 public class SettingsViewModel extends ViewModel implements ParseCallback {
   private Settings userSettings;
@@ -40,5 +50,25 @@ public class SettingsViewModel extends ViewModel implements ParseCallback {
   @Override
   public void setParseException(ParseException e) {
     parseException = e;
+  }
+
+  public void setRecurringReminder(Context context) {
+    Calendar notificationTime = Calendar.getInstance();
+    notificationTime.setTimeZone(TimeZone.getDefault());
+    notificationTime.set(Calendar.HOUR_OF_DAY, getUserSettings().getNotificationHour());
+    notificationTime.set(Calendar.MINUTE, getUserSettings().getNotificationMinute());
+
+    Intent consumptionReminder = new Intent(context, ReminderReceiver.class);
+    PendingIntent recurringConsumptionReminder = PendingIntent.getBroadcast(context, ReminderReceiver.REMINDER_NOTIFICATION_ID, consumptionReminder, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_CANCEL_CURRENT);
+    AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+    alarmManager.setInexactRepeating(AlarmManager.RTC, notificationTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, recurringConsumptionReminder);
+
+    Toast.makeText(context, "food consumption reminder set", Toast.LENGTH_SHORT).show();
+  }
+
+  public void cancelRecurringReminder(Context context) {
+
+    //TODO cancel reminder here
+    Toast.makeText(context, "food consumption reminder cancelled", Toast.LENGTH_SHORT).show();
   }
 }
