@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 public class SettingsViewModel extends ViewModel implements ParseCallback {
+  public static final String TAG = "SettingsViewModel";
   private Settings userSettings;
   private MutableLiveData<Boolean> parseOperationSuccess;
   private ParseException parseException;
