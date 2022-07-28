@@ -3,16 +3,19 @@
     <item
         android:title="inventory"
         android:id="@+id/inventoryFragment"
-        android:enabled="true">
+        android:enabled="true"
+        android:icon="@drawable/ic_kitchen">
     </item>
     <item
         android:title="shopping"
         android:id="@+id/shoppingFragment"
-        android:enabled="true">
+        android:enabled="true"
+        android:icon="@drawable/ic_shopping_cart">
     </item>
     <item
         android:title="settings"
         android:id="@+id/settingsFragment"
-        android:enabled="true">
+        android:enabled="true"
+        android:icon="@drawable/ic_settings">
     </item>
 </menu>
