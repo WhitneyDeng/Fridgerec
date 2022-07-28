@@ -61,8 +61,7 @@ public class InventoryCreationFragment extends CreationBaseFragment {
 
   @Override
   protected void populateEntryItemDetail(EntryItem entryItem) {
-    populateTextInputLayout(entryItem.getFood().getFoodName(), binding.tilFood);
-    populateTextInputLayout(entryItem.getFood().getFoodGroup(), binding.tilFoodGroup);
+    onSuggestionSelected(entryItem.getFood(), binding.tilFoodGroup, binding.cFood, binding.tilFood);
     populateTextInputLayout(Integer.toString(entryItem.getAmount()), binding.tilAmount);
     populateTextInputLayout(entryItem.getAmountUnit(), binding.tilAmountUnit);
     populateDateButton(entryItem.getSourceDate(), binding.btnSourceDate);
