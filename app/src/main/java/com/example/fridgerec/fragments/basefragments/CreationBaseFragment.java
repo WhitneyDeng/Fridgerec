@@ -155,7 +155,7 @@ public abstract class CreationBaseFragment extends Fragment implements FoodAutoc
   }
 
   protected void populateTextInputLayout(String s, TextInputLayout til) {
-    if (s != null) {
+    if (s != null && !s.equals("0")) {
       til.getEditText().setText(s);
     }
   }
