@@ -57,16 +57,28 @@ public class SettingsFragment extends Fragment {
 
     setupToolbar();
     reminderEnabledSwitchCheckListener();
-    checkReminderEnabled();
     onClickTimePickerBtn(binding.btnTimePicker);
     onClickSaveReminderSettingsBtn(binding.btnSaveReminderSettings);
     onClickLogoutBtn(binding.btnLogout);
+    checkReminderEnabled();
   }
 
   private void checkReminderEnabled() {
-    if (model.getUserSettings().getNotificationEnabled()) {
-      binding.swReminderEnabled.setChecked(true);
-    }
+    Runnable populateUI = new Runnable() {
+      @Override
+      public void run() {
+        getActivity().runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+            if (model.getUserSettings().getNotificationEnabled()) {
+              binding.swReminderEnabled.setChecked(true);
+            }
+          }
+        });
+      }
+    };
+    Thread populateUIThread = new Thread(populateUI);
+    populateUIThread.start();
   }
 
   private void reminderEnabledSwitchCheckListener() {
